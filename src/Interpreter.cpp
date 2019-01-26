@@ -1,0 +1,68 @@
+/*
+	Copyright (c) 2019, Electrux
+	All rights reserved.
+	Using the BSD 3-Clause license for the project,
+	main LICENSE file resides in project's root directory.
+
+	Please read that file and understand the license terms
+	before using or altering the project.
+*/
+
+#include <iostream>
+
+#include "../include/Errors.hpp"
+#include "../include/FS.hpp"
+#include "../include/IO.hpp"
+#include "../include/DynLib.hpp"
+#include "../include/Parser.hpp"
+#include "../include/Interpreter/Block.hpp"
+#include "../include/Interpreter/Loops.hpp"
+#include "../include/Interpreter/FuncCall.hpp"
+#include "../include/Interpreter/Conditional.hpp"
+#include "../include/Interpreter.hpp"
+
+int Interpreter::Interpret( const Parser::ParseTree & ps, const std::string & file_dir, const std::string & file_name,
+			const int depth, const bool enable_internal_display )
+{
+	IO::colout.Enable( enable_internal_display );
+	IO::colout << "Entering [{c}" << file_dir << ( file_name.empty() ? "" : "/" + file_name ) << "{0}]...\n";
+	int res = OK;
+	auto cwd = FS::GetCurrentDir();
+	FS::SetCurrentDir( file_dir );
+	for( auto & stmt : ps.GetStmts() ) {
+		if( stmt->GetType() == Parser::FNCALL ) {
+			res = Interpreter::FuncCall( static_cast< const Parser::FnCallStmt * >( stmt ), depth + 1 );
+		} else if( stmt->GetType() == Parser::BLOCK ) {
+			res = Interpreter::Block( static_cast< const Parser::BlockStmt * >( stmt ), depth + 1 );
+		} else if( stmt->GetType() == Parser::COND ) {
+			res = Interpreter::Conditional( static_cast< const Parser::CondStmt * >( stmt ), depth + 1 );
+		} else if( stmt->GetType() == Parser::LOOP ) {
+			res = Interpreter::LoopCall( static_cast< const Parser::LoopStmt * >( stmt ), depth + 1 );
+		} else if( stmt->GetType() == Parser::LOOP_IN_VAR ) {
+			res = Interpreter::LoopInVarCall( static_cast< const Parser::LoopInVarStmt * >( stmt ), depth + 1 );
+		} else {
+			IO::colout << "Interpret[" << depth << "] {r}error{0}: Unrecognized object type with value: " << stmt->GetType() << "\n";
+			res = UNKNOWN_OBJ_TYPE;
+			break;
+		}
+		if( res != OK ) {
+			if( res != FAIL_FN_CALLED ) {
+				IO::colout << "Interpret[" << depth << "] {r}error{0}: Failed to interpret object "
+					<< stmt->GetType() << ", look at error above!\n";
+			}
+			break;
+		}
+	}
+	FS::SetCurrentDir( cwd );
+
+	if( res != FAIL_FN_CALLED ) {
+		IO::colout << "Exiting [{c}" << file_dir << ( file_name.empty() ? "" : "/" + file_name ) << "{0}]! ";
+		if( res != OK ) {
+			IO::colout << "Errors encountered!\n";
+		} else {
+			IO::colout << "No errors encountered!\n";
+		}
+	}
+	DynLib::Deinit();
+	return res;
+}

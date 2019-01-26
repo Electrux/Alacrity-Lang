@@ -1,2 +1,2 @@
-# Alacrity-Lang
-A programming language, highly based on modules and running separate programs for various functionality
+# Build-System
+Electrux Build System for C/C++

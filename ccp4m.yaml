@@ -1,0 +1,69 @@
+name: Electrux Build System
+version: 0.0.1
+lang: c++
+std: 17
+compile_flags: -O2 -fPIC
+vars:
+  []
+license: bsd3
+author:
+  name: Electrux
+  email: ElectruxRedsworth@gmail.com
+libs:
+  - name: filesystem
+    version: 0
+    inc_flags: ""
+    lib_flags: -L/usr/local/opt/llvm/lib -lc++fs
+  - name: libdl
+    version: 0
+    inc_flags: ""
+    lib_flags: -ldl
+builds:
+  - name: ebs
+    type: bin
+    inc_flags: ""
+    lib_flags: ""
+    pre_exec: ""
+    main_src: src/main.cpp
+    other_src:
+      - src/(.*).cpp
+    exclude:
+      - src/Interpreter/Functions/(.*).cpp
+  - name: core
+    type: lib
+    build_type: ""
+    inc_flags: ""
+    lib_flags: ""
+    pre_exec: ""
+    main_src: src/Interpreter/Functions/core.cpp
+    other_src:
+      - src/(.*).cpp
+    exclude:
+      - src/Interpreter/Functions/.([^\\/]*).cpp
+      - src/main.cpp
+  - name: project
+    type: lib
+    build_type: ""
+    inc_flags: ""
+    lib_flags: ""
+    pre_exec: ""
+    main_src: src/Interpreter/Functions/project.cpp
+    other_src:
+      - src/(.*).cpp
+    exclude:
+      - src/Interpreter/Functions/(.*).cpp
+      - src/main.cpp
+  - name: builds
+    type: lib
+    build_type: ""
+    inc_flags: ""
+    lib_flags: ""
+    pre_exec: ""
+    main_src: src/Interpreter/Functions/builds.cpp
+    other_src:
+      - src/(.*).cpp
+    exclude:
+      - src/Interpreter/Functions/(.*).cpp
+      - src/main.cpp
+env:
+  []
