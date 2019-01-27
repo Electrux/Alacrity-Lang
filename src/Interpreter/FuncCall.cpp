@@ -92,7 +92,7 @@ int Interpreter::FuncCall( const Parser::FnCallStmt * fncall, const size_t depth
 	}
 
 	if( fncall->GetBlock() != nullptr ) {
-		if( !func_info->use_block && res != LOOP_BREAK_ENCOUNTERED && res != LOOP_CONTINUE_ENCOUNTERED )
+		if( !func_info->used_block && res != LOOP_BREAK_ENCOUNTERED && res != LOOP_CONTINUE_ENCOUNTERED )
 			res = Interpreter::Block( fncall->GetBlock(), depth );
 		if( !func_info->persist_env ) Env::Restore();
 	}

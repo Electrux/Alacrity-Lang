@@ -15,7 +15,7 @@
 
 namespace Interpreter
 {
-int Interpret( const Parser::ParseTree & ps, const std::string & file_dir, const std::string & file_name,
+int Interpret( const Parser::ParseTree & ps, const std::string & file_path,
 		const int depth = 0, const bool enable_internal_display = true );
 }
 

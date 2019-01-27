@@ -228,7 +228,7 @@ void Str::RemoveAllPathsWithRegex( std::vector< std::string > & vec, const std::
 	const std::vector< std::string > & except )
 {
 	if( regex_str.empty() ) return;
-	std::regex regex( Env::GetExactRegexPath( regex_str ) );
+	std::regex regex( regex_str );
 	for( auto it = vec.begin(); it != vec.end(); ) {
 		if( std::regex_match( * it, regex ) && Core::LocInVec( except, * it ) == -1 ) it = vec.erase( it );
 		else ++it;

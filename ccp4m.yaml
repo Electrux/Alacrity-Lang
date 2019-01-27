@@ -1,4 +1,4 @@
-name: Electrux Build System
+name: Alacrity Language
 version: 0.0.1
 lang: c++
 std: 17
@@ -19,7 +19,7 @@ libs:
     inc_flags: ""
     lib_flags: -ldl
 builds:
-  - name: ebs
+  - name: al
     type: bin
     inc_flags: ""
     lib_flags: ""
@@ -28,42 +28,18 @@ builds:
     other_src:
       - src/(.*).cpp
     exclude:
-      - src/Interpreter/Functions/(.*).cpp
+      - src/Functions/(.*).cpp
   - name: core
     type: lib
     build_type: ""
     inc_flags: ""
     lib_flags: ""
     pre_exec: ""
-    main_src: src/Interpreter/Functions/core.cpp
+    main_src: src/Functions/core.cpp
     other_src:
       - src/(.*).cpp
     exclude:
-      - src/Interpreter/Functions/.([^\\/]*).cpp
-      - src/main.cpp
-  - name: project
-    type: lib
-    build_type: ""
-    inc_flags: ""
-    lib_flags: ""
-    pre_exec: ""
-    main_src: src/Interpreter/Functions/project.cpp
-    other_src:
-      - src/(.*).cpp
-    exclude:
-      - src/Interpreter/Functions/(.*).cpp
-      - src/main.cpp
-  - name: builds
-    type: lib
-    build_type: ""
-    inc_flags: ""
-    lib_flags: ""
-    pre_exec: ""
-    main_src: src/Interpreter/Functions/builds.cpp
-    other_src:
-      - src/(.*).cpp
-    exclude:
-      - src/Interpreter/Functions/(.*).cpp
+      - src/Functions/.([^\\/]*).cpp
       - src/main.cpp
 env:
   []

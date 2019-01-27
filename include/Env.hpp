@@ -49,12 +49,6 @@ void Append( const std::string & var, const std::string & val, const char delim 
 void Prepend( const std::string & var, const std::string & val, const char delim = ':' );
 void Reset( const std::string & var );
 void Remove( const std::string & var, const std::string & val, const char delim = ':' );
-
-/* Prepend current directory to loc */
-std::string AddCurrDir( std::string loc );
-
-/* Fetch full path from regex string str */
-std::string GetExactRegexPath( const std::string & str );
 }
 
 #endif // ENV_HPP

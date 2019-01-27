@@ -65,39 +65,6 @@ std::variant< int, std::string > FS::ReadFile( const std::string & file_name )
 	return data;
 }
 
-std::vector< std::string > FS::GetFilesFromRegex( const std::string & regex_str )
-{
-	if( regex_str.empty() ) return {};
-	bool reverse_regex = false;
-	std::string src_dir = GetCurrentDir();
-
-	if( * regex_str.begin() == '-' ) {
-		reverse_regex = true;
-	}
-
-	if( src_dir.empty() ) {
-		std::cerr << "Location from regex: " << regex_str << " returned empty!\n";
-		return {};
-	}
-	if( !LocExists( src_dir ) ) {
-		std::cerr << "Location: " << src_dir << " (from regex: " << regex_str << ") doesn't exist!\n";
-		return {};
-	}
-
-	std::vector< std::string > res;
-
-	std::regex regex( Env::GetExactRegexPath( regex_str ) );
-	for( auto & p : std::filesystem::recursive_directory_iterator( src_dir ) ) {
-		if( reverse_regex ) {
-			if( !std::regex_match( p.path().string(), regex ) ) res.push_back( p.path() );
-		} else {
-			if( std::regex_match( p.path().string(), regex ) ) res.push_back( p.path() );
-		}
-	}
-
-	return res;
-}
-
 bool FS::CreateDirectoriesForFile( const std::string & file )
 {
 	auto dir = Env::GetDirPart( file );

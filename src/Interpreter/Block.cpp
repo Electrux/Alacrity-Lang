@@ -13,6 +13,9 @@
 #include "../../include/Errors.hpp"
 #include "../../include/IO.hpp"
 #include "../../include/Parser.hpp"
+#include "../../include/Parser/CondStmt.hpp"
+#include "../../include/Parser/LoopStmt.hpp"
+#include "../../include/Parser/FnCallStmt.hpp"
 #include "../../include/Parser/BlockStmt.hpp"
 #include "../../include/Interpreter/FuncCall.hpp"
 #include "../../include/Interpreter/Conditional.hpp"
@@ -30,7 +33,8 @@ int Interpreter::Block( const Parser::BlockStmt * blk, const size_t depth )
 
 	IO::colout << "Block[" << depth << "]: Entering...\n";
 
-	for( auto & stmt : blk->GetStmts() ) {
+	for( auto it = blk->GetStmts().begin(); it != blk->GetStmts().end(); ++it ) {
+		auto & stmt = * it;
 		if( stmt->GetType() == Parser::FNCALL ) {
 			res = Interpreter::FuncCall( static_cast< const Parser::FnCallStmt * >( stmt ), depth + 1 );
 		} else if( stmt->GetType() == Parser::BLOCK ) {

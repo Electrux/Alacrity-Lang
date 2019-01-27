@@ -11,6 +11,7 @@
 #include <iostream>
 
 #include "../include/Errors.hpp"
+#include "../include/Env.hpp"
 #include "../include/FS.hpp"
 #include "../include/IO.hpp"
 #include "../include/DynLib.hpp"
@@ -21,15 +22,21 @@
 #include "../include/Interpreter/Conditional.hpp"
 #include "../include/Interpreter.hpp"
 
-int Interpreter::Interpret( const Parser::ParseTree & ps, const std::string & file_dir, const std::string & file_name,
+int Interpreter::Interpret( const Parser::ParseTree & ps, const std::string & file_path,
 			const int depth, const bool enable_internal_display )
 {
 	IO::colout.Enable( enable_internal_display );
-	IO::colout << "Entering [{c}" << file_dir << ( file_name.empty() ? "" : "/" + file_name ) << "{0}]...\n";
+	IO::colout << "Entering [{c}" << file_path << "{0}]...\n";
 	int res = OK;
+
 	auto cwd = FS::GetCurrentDir();
-	FS::SetCurrentDir( file_dir );
-	for( auto & stmt : ps.GetStmts() ) {
+	auto srcpath = Env::GetDirPart( file_path );
+	if( srcpath != "." ) {
+		FS::SetCurrentDir( srcpath );
+	}
+
+	for( auto it = ps.GetStmts().begin(); it != ps.GetStmts().end(); ++it ) {
+		auto & stmt = * it;
 		if( stmt->GetType() == Parser::FNCALL ) {
 			res = Interpreter::FuncCall( static_cast< const Parser::FnCallStmt * >( stmt ), depth + 1 );
 		} else if( stmt->GetType() == Parser::BLOCK ) {
@@ -56,7 +63,7 @@ int Interpreter::Interpret( const Parser::ParseTree & ps, const std::string & fi
 	FS::SetCurrentDir( cwd );
 
 	if( res != FAIL_FN_CALLED ) {
-		IO::colout << "Exiting [{c}" << file_dir << ( file_name.empty() ? "" : "/" + file_name ) << "{0}]! ";
+		IO::colout << "Exited [{c}" << file_path << "{0}]! ";
 		if( res != OK ) {
 			IO::colout << "Errors encountered!\n";
 		} else {

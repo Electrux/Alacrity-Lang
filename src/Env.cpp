@@ -191,36 +191,3 @@ void Env::Remove( const std::string & var, const std::string & val, const char d
 	}
 	Env::SetVar( var, p1 + p2 );
 }
-
-std::string Env::AddCurrDir( std::string loc )
-{
-	if( loc.empty() ) {
-		return "";
-	}
-	if( loc.size() > 1 && loc[ 0 ] == '.' && loc[ 1 ] == '/' ) {
-		loc.erase( 0, 2 );
-	}
-	if( loc[ 0 ] >= 'a' && loc[ 0 ] <= 'z' ) {
-		loc = FS::GetCurrentDir() + "/" + loc;
-	}
-	return loc;
-}
-
-std::string Env::GetExactRegexPath( const std::string & str )
-{
-	if( str.empty() ) return "";
-	std::string loc = str;
-	if( * loc.begin() == '~' ) {
-		loc.erase( loc.begin() );
-		loc = Home() + "/" + loc;
-	}
-	if( * loc.begin() == '.' ) {
-		loc.erase( loc.begin() );
-		if( loc.size() > 0 && loc[ 0 ] == '/' ) loc.erase( loc.begin() );
-		if( loc.empty() ) return "";
-	}
-	if( * loc.begin() != '/' && * loc.begin() != '.' ) {
-		loc = FS::GetCurrentDir() + "/" + loc;
-	}
-	return loc;
-}

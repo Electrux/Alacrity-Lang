@@ -1,9 +1,8 @@
-disable_internal_display()
 set( num, 8 )
 set( isprime, true )
-set( sqnum, "%{echo \"sqrt(${num}) + 1\" | bc}" )
+set( sqrnum, "%{echo \"sqrt(${num}) + 1\" | bc}" )
 
-foreach( x, 2, "${sqnum}" ) {
+foreach( x, 2, "${sqrnum}" ) {
 	set( tmp, "%{echo ${num} % ${x} | bc}" )
 	if( "${tmp}" == 0 ) {
 		set( isprime, false )
@@ -16,5 +15,3 @@ if( "${isprime}" == true ) {
 } else {
 	print( "${num} is not prime\n" )
 }
-
-#enable_internal_display()

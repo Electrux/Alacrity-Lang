@@ -22,14 +22,11 @@
 
 int main( int argc, char ** argv )
 {
-	std::string file;
 	if( argc < 2 ) {
-		file = "build.ebs";
-	} else {
-		file = argv[ 1 ];
+		std::cerr << "Error: No source file provided!\n";
+		return -1;
 	}
-
-	auto file_data_var = FS::ReadFile( file );
+	auto file_data_var = FS::ReadFile( argv[ 1 ] );
 	if( std::holds_alternative< int >( file_data_var ) ) return std::get< int >( file_data_var );
 	std::string file_data = std::get< std::string >( file_data_var );
 
@@ -68,11 +65,5 @@ int main( int argc, char ** argv )
 	res = Core::Init();
 	if( res != OK ) return res;
 
-	std::string curr_dir = FS::GetCurrentDir() + "/" + Env::GetDirPart( file );
-	if( curr_dir.size() > 1 && curr_dir[ curr_dir.size() - 1 ] == '.' ) {
-		curr_dir.erase( curr_dir.end() - 1 );
-		if( curr_dir[ curr_dir.size() - 1 ] == '/' ) curr_dir.erase( curr_dir.end() - 1 );
-	}
-	Env::SetVar( "INTERNAL_BUILD_PATH", curr_dir );
-	return Interpreter::Interpret( parse_syms, curr_dir, Env::GetFilePart( file ) );
+	return Interpreter::Interpret( parse_syms, argv[ 1 ], 0, false );
 }

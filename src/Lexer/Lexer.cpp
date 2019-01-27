@@ -45,6 +45,8 @@ const std::vector< std::string > Lex::KeywStrs = {
 	"foreach",
 	"foreach_in_var",
 
+	"goto",
+
 	"+",
 };
 
@@ -207,6 +209,13 @@ std::variant< int, Syms > Lex::Tokenize( const std::string & data )
 	for( auto it = data.begin(); it != data.end(); ++it ) {
 		if( * it == SeparChars[ COMMENT ] ) {
 			while( it != data.end() && * it != SeparChars[ NEWL ] ) ++it;
+		}
+		if( it == data.end() ) break;
+		// Multiline comment
+		if( * it == '/' && it + 1 != data.end() && * ( it + 1 ) == '*' ) {
+			while( * it != '*' || it + 1 == data.end() || * ( it + 1 ) != '/' ) ++it;
+			if( it != data.end() && * it == '*' ) ++it;
+			if( it != data.end() && * it == '/' ) ++it;
 		}
 		if( it == data.end() ) break;
 

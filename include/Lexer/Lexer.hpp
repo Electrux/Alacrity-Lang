@@ -46,6 +46,8 @@ namespace Lex
 		FOREACH,
 		FOREACH_IN_VAR,
 
+		GOTO,
+
 		CONCAT,
 	};
 

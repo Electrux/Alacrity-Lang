@@ -24,8 +24,6 @@ void SetCurrentDir( const std::string & path );
 
 std::variant< int, std::string > ReadFile( const std::string & file_name );
 
-std::vector< std::string > GetFilesFromRegex( const std::string & regex_str );
-
 bool CreateDirectoriesForFile( const std::string & file );
 }
 
