@@ -57,7 +57,6 @@ AL_FUNC_FIX_ARG( input, 2, false, false )
 	std::cout << op;
 	std::cout.flush();
 	std::string tmp;
-	std::cin.ignore( std::numeric_limits< std::streamsize >::max(), '\n' );
 	std::getline( std::cin, tmp );
 	Env::SetVar( args[ 0 ], tmp );
 	return res;
@@ -72,7 +71,6 @@ AL_FUNC_FIX_ARG( input_num, 2, false, false )
 	std::string tmp;
 	std::cout << op;
 	std::cout.flush();
-	std::cin.ignore( std::numeric_limits< std::streamsize >::max(), '\n' );
 	while( tmp.empty() ) {
 		std::getline( std::cin, tmp );
 		if( !Str::IsNum( tmp ) ) {
