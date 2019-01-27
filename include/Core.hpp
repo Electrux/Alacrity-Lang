@@ -28,7 +28,7 @@ int LocInVec( const std::vector< T > & vec, const T & element )
 
 /* Core defaults/static variables wrapped in functions */
 constexpr char PathDelim = ':';
-std::string BSFuncPaths();
+std::string ALLibPaths();
 std::string FuncLibFile( const std::string & func_name );
 
 /* Required for Interpreter */

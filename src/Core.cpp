@@ -17,9 +17,9 @@
 #include "../include/DynLib.hpp"
 #include "../include/Core.hpp"
 
-std::string Core::BSFuncPaths()
+std::string Core::ALLibPaths()
 {
-	return "BS_FUNC_PATHS";
+	return "AL_LIB_PATHS";
 }
 
 std::string Core::FuncLibFile( const std::string & func_name )
@@ -31,8 +31,8 @@ int Core::Init()
 {
 	int res = OK;
 
-	if( !Env::SetVar( BSFuncPaths(), "lib" ) ) {
-		std::cout << "Core::Init() failed: Unable to set core BS_FUNC_PATHS env var!\n";
+	if( !Env::SetVar( ALLibPaths(), "lib" ) ) {
+		std::cout << "Core::Init() failed: Unable to set core AL_LIB_PATHS env var!\n";
 		return ENV_SETVAR_FAILED;
 	}
 

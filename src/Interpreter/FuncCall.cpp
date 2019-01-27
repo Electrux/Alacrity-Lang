@@ -112,9 +112,9 @@ static int GetFuncFileLoc( const std::string & fn_name, const std::string & fn_l
 {
 	int res = OK;
 	std::string err;
-	std::string func_search_paths = Env::GetVar( Core::BSFuncPaths() );
+	std::string func_search_paths = Env::GetVar( Core::ALLibPaths() );
 	if( func_search_paths.empty() ) {
-		err = "The env variable: " + Core::BSFuncPaths() + " is empty";
+		err = "The env variable: " + Core::ALLibPaths() + " is empty";
 		res = ENV_VAR_EMPTY;
 		goto error;
 	}

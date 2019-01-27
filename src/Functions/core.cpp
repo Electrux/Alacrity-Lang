@@ -14,13 +14,8 @@
 
 #include "../../include/Errors.hpp"
 #include "../../include/Core.hpp"
-#include "../../include/IO.hpp"
 #include "../../include/String.hpp"
 #include "../../include/Env.hpp"
-#include "../../include/FS.hpp"
-#include "../../include/Lexer/Lexer.hpp"
-#include "../../include/Parser.hpp"
-#include "../../include/Interpreter.hpp"
 #include "../../include/Interpreter/Block.hpp"
 #include "../../include/Interpreter/FnBase.hpp"
 
@@ -100,8 +95,9 @@ AL_FUNC_FIX_ARG( set, 2, false, false )
 
 AL_FUNC_VAR_ARG( prepend, 2, -1, false, false )
 {
-	std::string var = args[ 0 ];
+	std::string var;
 	int res = OK;
+	EVAL_AND_CHECK( "prepend", res, args[ 0 ], var );
 	for( auto arg = args.begin() + 1; arg != args.end(); ++arg ) {
 		std::string farg;
 		EVAL_AND_CHECK( "prepend", res, * arg, farg );
@@ -112,8 +108,9 @@ AL_FUNC_VAR_ARG( prepend, 2, -1, false, false )
 
 AL_FUNC_VAR_ARG( append, 2, -1, false, false )
 {
-	std::string var = args[ 0 ];
+	std::string var;
 	int res = OK;
+	EVAL_AND_CHECK( "append", res, args[ 0 ], var );
 	for( auto arg = args.begin() + 1; arg != args.end(); ++arg ) {
 		std::string farg;
 		EVAL_AND_CHECK( "append", res, * arg, farg );
@@ -124,8 +121,9 @@ AL_FUNC_VAR_ARG( append, 2, -1, false, false )
 
 AL_FUNC_VAR_ARG( remove, 2, -1, false, false )
 {
-	std::string var = args[ 0 ];
+	std::string var;
 	int res = OK;
+	EVAL_AND_CHECK( "remove", res, args[ 0 ], var );
 	for( auto arg = args.begin() + 1; arg != args.end(); ++arg ) {
 		std::string farg;
 		EVAL_AND_CHECK( "remove", res, * arg, farg );
@@ -136,8 +134,23 @@ AL_FUNC_VAR_ARG( remove, 2, -1, false, false )
 
 AL_FUNC_FIX_ARG( reset, 1, false, false )
 {
-	Env::Reset( args[ 0 ] );
-	return OK;
+	int res = OK;
+	std::string var;
+	EVAL_AND_CHECK( "reset", res, args[ 0 ], var );
+	Env::Reset( var );
+	return res;
+}
+
+AL_FUNC_VAR_ARG( bs_add_lib_paths, 1, -1, false, false )
+{
+	std::string var = Core::ALLibPaths();
+	int res = OK;
+	for( auto arg = args.begin(); arg != args.end(); ++arg ) {
+		std::string farg;
+		EVAL_AND_CHECK( "bs_add_lib_paths", res, * arg, farg );
+		Env::Append( var, farg );
+	}
+	return res;
 }
 
 AL_FUNC_FIX_ARG( exec, 1, false, false )
