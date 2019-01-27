@@ -15,6 +15,3 @@ if( "${isprime}" == true ) {
 } else {
 	print( "${num} is not prime\n" )
 }
-
-math.inc( num )
-print( "${num}\n" )
