@@ -24,7 +24,7 @@ if( val.empty() || !Str::IsNum( val ) ) {					\
 	return EXPECTED_NUM_VAL;						\
 }
 
-AL_FUNC_FIX_ARG( inc, 2, false, false )
+AL_FUNC_FIX_ARG( inc, 1, false, false )
 {
 	int res = OK;
 	std::string op;
@@ -38,7 +38,7 @@ AL_FUNC_FIX_ARG( inc, 2, false, false )
 }
 
 
-AL_FUNC_FIX_ARG( dec, 2, false, false )
+AL_FUNC_FIX_ARG( dec, 1, false, false )
 {
 	int res = OK;
 	std::string op;

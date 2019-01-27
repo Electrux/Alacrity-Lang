@@ -39,7 +39,19 @@ builds:
     other_src:
       - src/(.*).cpp
     exclude:
-      - src/Functions/.([^\\/]*).cpp
+      - src/Functions/(.*).cpp
+      - src/main.cpp
+  - name: math
+    type: lib
+    build_type: ""
+    inc_flags: ""
+    lib_flags: ""
+    pre_exec: ""
+    main_src: src/Functions/math.cpp
+    other_src:
+      - src/(.*).cpp
+    exclude:
+      - src/Functions/(.*).cpp
       - src/main.cpp
 env:
   []
