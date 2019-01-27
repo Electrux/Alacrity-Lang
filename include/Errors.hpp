@@ -55,6 +55,8 @@ enum Errors
 	// Builder errors
 	BUILDS_INVALID_TYPE,
 	BUILDS_LIB_TYPE_WHEN_NON_LIB,
+
+	EXPECTED_NUM_VAL,
 };
 
 inline void err( const std::string & msg, const int line = -1, const int col = -1 )

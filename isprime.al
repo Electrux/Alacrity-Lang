@@ -1,4 +1,4 @@
-set( num, 8 )
+input_num( num, "Enter a number: " )
 set( isprime, true )
 set( sqrnum, "%{echo \"sqrt(${num}) + 1\" | bc}" )
 

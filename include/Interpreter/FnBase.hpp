@@ -16,6 +16,7 @@
 
 #include "../Parser.hpp"
 #include "../Parser/BlockStmt.hpp"
+#include "../String.hpp"
 
 struct FnInfo
 {
@@ -26,7 +27,7 @@ struct FnInfo
 	const bool used_block;
 };
 
-#define EBS_FUNC_VAR_ARG( fn_name, fn_min_args, fn_max_args,				\
+#define AL_FUNC_VAR_ARG( fn_name, fn_min_args, fn_max_args,				\
 			fn_persist_env, fn_used_block )					\
 static_assert( fn_min_args >= 0 && ( fn_max_args > fn_min_args || fn_max_args == -1 ),	\
 	"Min args must be >= zero and not equal to Max args, or Max must be == -1 " );	\
@@ -41,7 +42,7 @@ extern "C" int fn_##fn_name( const std::vector< std::string > & args, const int 
 				const Parser::BlockStmt * block,			\
 				const bool internal_display_enabled )
 
-#define EBS_FUNC_FIX_ARG( fn_name, fn_arg_count, fn_persist_env, fn_used_block )		\
+#define AL_FUNC_FIX_ARG( fn_name, fn_arg_count, fn_persist_env, fn_used_block )		\
 static_assert( fn_arg_count >= -1, "Argument count must be >= -1" );			\
 extern "C" {										\
 	FnInfo f_inf_##fn_name = { .name = #fn_name,					\
@@ -53,5 +54,12 @@ extern "C" {										\
 extern "C" int fn_##fn_name( const std::vector< std::string > & args, const int depth,	\
 				const Parser::BlockStmt * block,			\
 				const bool internal_display_enabled )
+
+#define EVAL_AND_CHECK( func, res, var, val )								\
+res = Str::Eval( ( var ), ( val ) );									\
+if( ( res ) != OK ) {											\
+	std::cerr << "Function: " << ( func ) << " failed while evaluating: " << ( var ) << "!\n";	\
+	return res;											\
+}
 
 #endif // INTERPRETER_FN_BASE_HPP
