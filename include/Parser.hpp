@@ -42,6 +42,7 @@ public:
 
 	~ParseTree();
 };
+void swap( ParseTree & stmt1, ParseTree & stmt2 );
 
 std::variant< int, ParseTree > ParseTokens( const LexSymVec & tokens );
 }
