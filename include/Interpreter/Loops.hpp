@@ -17,7 +17,6 @@
 namespace Interpreter
 {
 int LoopCall( const Parser::LoopStmt * loop_var, const size_t depth );
-int LoopInVarCall( const Parser::LoopInVarStmt * loop_var, const size_t depth );
 }
 
 #endif // INTERPRETER_LOOPS_HPP

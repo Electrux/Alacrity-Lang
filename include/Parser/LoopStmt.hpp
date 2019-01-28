@@ -21,6 +21,12 @@
 
 namespace Parser
 {
+enum LoopType
+{
+	FOR,
+	FOREACH,
+	FOREACHVAR,
+};
 
 // Loop
 
@@ -28,32 +34,17 @@ class LoopStmt : public Stmt
 {
 	std::vector< std::string > m_args;
 	const BlockStmt * m_block;
-	LoopStmt( const std::vector< std::string > & args, const BlockStmt * block );
+	const LoopType m_loop_type;
+	LoopStmt( const std::vector< std::string > & args, const BlockStmt * block, const LoopType loop_type );
 public:
 	~LoopStmt();
-	static LoopStmt * Parse( const LexSymVec & tokens, int & loc, std::vector< std::string > parent_funcs );
+	static LoopStmt * Parse( const LexSymVec & tokens, int & loc, std::vector< std::string > parent_funcs, const LoopType loop_type );
 
 	void Disp( const bool has_next = false ) const;
 
 	const std::vector< std::string > & GetArgs() const;
 	const BlockStmt * GetBlock() const;
-};
-
-// LoopInVar
-
-class LoopInVarStmt : public Stmt
-{
-	std::vector< std::string > m_args;
-	const BlockStmt * m_block;
-	LoopInVarStmt( const std::vector< std::string > & args, const BlockStmt * block );
-public:
-	~LoopInVarStmt();
-	static LoopInVarStmt * Parse( const LexSymVec & tokens, int & loc, std::vector< std::string > parent_funcs );
-
-	void Disp( const bool has_next = false ) const;
-
-	const std::vector< std::string > & GetArgs() const;
-	const BlockStmt * GetBlock() const;
+	const LoopType GetType() const;
 };
 }
 

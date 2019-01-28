@@ -42,6 +42,7 @@ const std::vector< std::string > Lex::KeywStrs = {
 	"elif",
 	"else",
 
+	"for",
 	"foreach",
 	"foreach_in_var",
 

@@ -27,46 +27,85 @@ int Interpreter::LoopCall( const Parser::LoopStmt * loop_var, const size_t depth
 	std::string err;
 
 	// Temporary variable for loop
-	std::string dest = loop_var->GetArgs()[ 0 ];
+	std::string dest;
+	if( loop_var->GetArgs().size() > 0 ) dest = loop_var->GetArgs()[ 0 ];
 	bool colout_was_enabled = IO::colout.IsEnabled();
+	IO::colout.Enable( false );
 
 	std::vector< std::string > final_args;
-	if( loop_var->GetArgs().size() == 3 ) {
-		std::string arg1, arg2;
-		res = Str::Eval( loop_var->GetArgs()[ 1 ], arg1 );
-		if( res != OK ) {
-			err = "Failed to evaluate the second argument of loop statement";
-			goto error;
-		}
-		res = Str::Eval( loop_var->GetArgs()[ 2 ], arg2 );
-		if( res != OK ) {
-			err = "Failed to evaluate the third argument of loop statement";
-			goto error;
-		}
-		if( Str::IsNum( arg1 ) && Str::IsNum( arg2 ) ) {
-			int r1 = std::stoi( arg1 );
-			int r2 = std::stoi( arg2 );
-			if( r1 > r2 ) {
-				for( int i = r1; i >= r2; --i ) {
-					final_args.push_back( std::to_string( i ) );
+	// args.size() is bound to be 3 - 4 or 0 because of parse condition
+	if( loop_var->GetType() == Parser::LoopType::FOR ) {
+		std::string start = "0", end = "0", inc = "0";
+		if( loop_var->GetArgs().size() > 0 ) {
+			res = Str::Eval( loop_var->GetArgs()[ 1 ], start );
+			if( res != OK ) {
+				err = "Failed to evaluate the second argument of loop statement";
+				goto error;
+			}
+			res = Str::Eval( loop_var->GetArgs()[ 2 ], end );
+			if( res != OK ) {
+				err = "Failed to evaluate the third argument of loop statement";
+				goto error;
+			}
+			if( !Str::IsNum( end ) || !Str::IsNum( end ) ) {
+				err = "Expected loop range to be numbers!\n";
+				goto error;
+			}
+			if( loop_var->GetArgs().size() == 4 ) {
+				res = Str::Eval( loop_var->GetArgs()[ 3 ], inc );
+				if( res != OK ) {
+					err = "Failed to evaluate the 4th argument of loop statement";
+					goto error;
+				}
+				if( !Str::IsNum( inc ) ) {
+					err = "Expected loop increment/decrement to be number!\n";
+					goto error;
 				}
 			} else {
-				for( int i = r1; i <= r2; ++i ) {
-					final_args.push_back( std::to_string( i ) );
-				}
-			}
-		} else {
-			for( auto it = loop_var->GetArgs().begin() + 1; it != loop_var->GetArgs().end(); ++it ) {
-				final_args.push_back( * it );
+				inc = "1";
 			}
 		}
-	} else {
+		int start_num = std::stoi( start ), end_num = std::stoi( end ), inc_num = std::stoi( inc );
+		if( inc_num > 0 ) {
+			for( int i = start_num; i <= end_num; i += inc_num ) {
+				final_args.push_back( std::to_string( i ) );
+			}
+		} else if( inc_num < 0 ) {
+			for( int i = start_num; i >= end_num; i += inc_num ) {
+				final_args.push_back( std::to_string( i ) );
+			}
+		}
+		if( loop_var->GetArgs().size() > 0 ) goto finite_loop;
+		else goto infinite_loop;
+	} else if( loop_var->GetType() == Parser::LoopType::FOREACH ) { // args.size() will be >= 2
 		for( auto it = loop_var->GetArgs().begin() + 1; it != loop_var->GetArgs().end(); ++it ) {
-			final_args.push_back( * it );
+			std::string tmp;
+			res = Str::Eval( * it, tmp );
+			if( res != OK ) {
+				err = "Failed to evaulate foreach argument: " + ( * it );
+				goto error;
+			}
+			final_args.push_back( tmp );
 		}
+		goto finite_loop;
+	} else if( loop_var->GetType() == Parser::LoopType::FOREACHVAR ) { // args.size() will be = 2 or 3
+		std::string val = Env::GetVar( loop_var->GetArgs()[ 0 ] );
+		char delim = ' ';
+		if( loop_var->GetArgs().size() > 2 && !loop_var->GetArgs()[ 2 ].empty() ) {
+			delim = loop_var->GetArgs()[ 2 ][ 0 ];
+		}
+		final_args = Str::Delimit( val, delim );
+		goto finite_loop;
 	}
 
-	IO::colout.Enable( false );
+infinite_loop:
+	while( true ) {
+		if( loop_var->GetBlock() != nullptr ) res = Interpreter::Block( loop_var->GetBlock(), depth );
+		if( res != OK && res != LOOP_CONTINUE_ENCOUNTERED ) break;
+	}
+	goto error;
+
+finite_loop:
 	for( auto & var : final_args ) {
 		std::string arg;
 		res = Str::Eval( var, arg );
@@ -78,51 +117,12 @@ int Interpreter::LoopCall( const Parser::LoopStmt * loop_var, const size_t depth
 		if( loop_var->GetBlock() != nullptr ) res = Interpreter::Block( loop_var->GetBlock(), depth );
 		if( res != OK && res != LOOP_CONTINUE_ENCOUNTERED ) break;
 	}
+error:
 	IO::colout.Enable( colout_was_enabled );
 	Env::Reset( dest );
 	if( res == LOOP_BREAK_ENCOUNTERED || res == LOOP_CONTINUE_ENCOUNTERED ) res = OK;
-error:
 	if( res != OK && res != FAIL_FN_CALLED ) {
-		IO::colout << "Foreach call[" << depth << "] {r}error{0}(" << res << "): Failed to interpret, " + err + "!{0}\n";
-	}
-	return res;
-}
-
-int Interpreter::LoopInVarCall( const Parser::LoopInVarStmt * loop_var, const size_t depth )
-{
-	int res = OK;
-	std::string err;
-	bool reverse_loop = false;
-
-	// Temporary variable for loop
-	std::string dest = loop_var->GetArgs()[ 0 ];
-
-	// use variable, from variable, delim
-	auto val = Env::GetVar( loop_var->GetArgs()[ 1 ] );
-	if( val.empty() ) return OK;
-	auto vals = Str::Delimit( val, loop_var->GetArgs().size() == 2 ? ' ' : loop_var->GetArgs()[ 2 ][ 0 ] );
-
-	if( loop_var->GetArgs().size() == 4 && ( loop_var->GetArgs()[ 3 ] == "1" || loop_var->GetArgs()[ 3 ] == "true" ) ) reverse_loop = true;
-
-	IO::colout.Enable( false );
-	if( reverse_loop ) {
-		for( auto it = vals.rbegin(); it != vals.rend(); ++it ) {
-			Env::SetVar( dest, * it );
-			if( loop_var->GetBlock() != nullptr ) res = Interpreter::Block( loop_var->GetBlock(), depth );
-			if( res != OK ) break;
-		}
-	} else {
-		for( auto it = vals.begin(); it != vals.end(); ++it ) {
-			Env::SetVar( dest, * it );
-			if( loop_var->GetBlock() != nullptr ) res = Interpreter::Block( loop_var->GetBlock(), depth );
-			if( res != OK ) break;
-		}
-	}
-	IO::colout.Enable( true );
-	Env::Reset( dest );
-error:
-	if( res != OK && res != FAIL_FN_CALLED ) {
-		IO::colout << "Foreach call[" << depth << "] {r}error{0}(" << res << "): Failed to interpret, " + err + "!{0}\n";
+		IO::colout << "Loop call[" << depth << "] {r}error{0}(" << res << "): Failed to interpret, " + err + "!{0}\n";
 	}
 	return res;
 }

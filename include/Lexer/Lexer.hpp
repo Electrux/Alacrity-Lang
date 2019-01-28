@@ -43,8 +43,9 @@ namespace Lex
 		ELIF,
 		ELSE,
 
+		FOR,
 		FOREACH,
-		FOREACH_IN_VAR,
+		FOREACHVAR,
 
 		GOTO,
 

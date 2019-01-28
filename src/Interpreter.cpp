@@ -45,8 +45,6 @@ int Interpreter::Interpret( const Parser::ParseTree & ps, const std::string & fi
 			res = Interpreter::Conditional( static_cast< const Parser::CondStmt * >( stmt ), depth + 1 );
 		} else if( stmt->GetType() == Parser::LOOP ) {
 			res = Interpreter::LoopCall( static_cast< const Parser::LoopStmt * >( stmt ), depth + 1 );
-		} else if( stmt->GetType() == Parser::LOOP_IN_VAR ) {
-			res = Interpreter::LoopInVarCall( static_cast< const Parser::LoopInVarStmt * >( stmt ), depth + 1 );
 		} else {
 			IO::colout << "Interpret[" << depth << "] {r}error{0}: Unrecognized object type with value: " << stmt->GetType() << "\n";
 			res = UNKNOWN_OBJ_TYPE;

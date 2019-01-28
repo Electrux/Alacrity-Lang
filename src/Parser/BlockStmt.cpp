@@ -93,18 +93,16 @@ std::variant< int, std::vector< Parser::Stmt * > > Parser::BlockStmt::Parse( con
 				auto cond = std::get< CondStmt * >( cond_var );
 				stmts.push_back( cond );
 			}
-		} else if( tokens[ loc ]->GetType() == Lex::KEYW && tokens[ loc ]->GetDetailType() == Lex::FOREACH ) {
+		} else if( tokens[ loc ]->GetType() == Lex::KEYW && ( 
+				tokens[ loc ]->GetDetailType() == Lex::FOR ||
+				tokens[ loc ]->GetDetailType() == Lex::FOREACH ||
+				tokens[ loc ]->GetDetailType() == Lex::FOREACHVAR ) ) {
 			int tmp_loc = loc;
-			LoopStmt * loop_var = LoopStmt::Parse( tokens, loc, parent_funcs );
-			if( loop_var == nullptr ) {
-				err = "Error encountered while parsing: " + tokens[ tmp_loc ]->GetData();
-				err_val = FN_PARSE_FAIL;
-				goto error;
-			}
-			stmts.push_back( loop_var );
-		} else if( tokens[ loc ]->GetType() == Lex::KEYW && tokens[ loc ]->GetDetailType() == Lex::FOREACH_IN_VAR ) {
-			int tmp_loc = loc;
-			LoopInVarStmt * loop_var = LoopInVarStmt::Parse( tokens, loc, parent_funcs );
+			Parser::LoopType type;
+			if( tokens[ loc ]->GetDetailType() == Lex::FOR ) 	type = FOR;
+			if( tokens[ loc ]->GetDetailType() == Lex::FOREACH ) 	type = FOREACH;
+			if( tokens[ loc ]->GetDetailType() == Lex::FOREACHVAR ) type = FOREACHVAR;
+			LoopStmt * loop_var = LoopStmt::Parse( tokens, loc, parent_funcs, type );
 			if( loop_var == nullptr ) {
 				err = "Error encountered while parsing: " + tokens[ tmp_loc ]->GetData();
 				err_val = FN_PARSE_FAIL;
