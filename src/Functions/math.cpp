@@ -11,6 +11,7 @@
 #include <iostream>
 #include <string>
 #include <limits>
+#include <cmath>
 
 #include "../../include/Errors.hpp"
 #include "../../include/Env.hpp"
