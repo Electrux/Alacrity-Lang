@@ -22,8 +22,7 @@
 AL_FUNC_FIX_ARG( fail, 1, false, false )
 {
 	std::string op;
-	int res = OK;
-	EVAL_AND_CHECK( "fail", res, "{br}FAIL{0}: {r}" + args[ 0 ] + "{0}", op );
+	EVAL_AND_CHECK( "fail", "{br}FAIL{0}: {r}" + args[ 0 ] + "{0}", op );
 	Str::RemoveBackslash( op );
 	std::cout << op;
 	std::cout.flush();
@@ -32,36 +31,33 @@ AL_FUNC_FIX_ARG( fail, 1, false, false )
 
 AL_FUNC_VAR_ARG( print, 1, -1, false, false )
 {
-	int res = OK;
 	for( auto & a : args ) {
 		std::string op;
-		EVAL_AND_CHECK( "print", res, a, op );
+		EVAL_AND_CHECK( "print", a, op );
 		Str::RemoveBackslash( op );
 		std::cout << op;
 	}
 	std::cout.flush();
-	return res;
+	return OK;
 }
 
 AL_FUNC_FIX_ARG( input, 2, false, false )
 {
-	int res = OK;
 	std::string op;
-	EVAL_AND_CHECK( "input", res, args[ 1 ], op );
+	EVAL_AND_CHECK( "input", args[ 1 ], op );
 	Str::RemoveBackslash( op );
 	std::cout << op;
 	std::cout.flush();
 	std::string tmp;
 	std::getline( std::cin, tmp );
 	Env::SetVar( args[ 0 ], tmp );
-	return res;
+	return OK;
 }
 
 AL_FUNC_FIX_ARG( input_num, 2, false, false )
 {
-	int res = OK;
 	std::string op;
-	EVAL_AND_CHECK( "input_num", res, args[ 1 ], op );
+	EVAL_AND_CHECK( "input_num", args[ 1 ], op );
 	Str::RemoveBackslash( op );
 	std::string tmp;
 	std::cout << op;
@@ -75,97 +71,90 @@ AL_FUNC_FIX_ARG( input_num, 2, false, false )
 		}
 	}
 	Env::SetVar( args[ 0 ], tmp );
-	return res;
+	return OK;
 }
 
 AL_FUNC_FIX_ARG( set, 2, false, false )
 {
 	if( args[ 0 ].empty() ) return OK;
 	std::string op1, op2;
-	int res = OK;
-	EVAL_AND_CHECK( "set", res, args[ 0 ], op1 );
-	EVAL_AND_CHECK( "set", res, args[ 1 ], op2 );
+	EVAL_AND_CHECK( "set", args[ 0 ], op1 );
+	EVAL_AND_CHECK( "set", args[ 1 ], op2 );
 	if( !Env::SetVar( op1, op2 ) ) {
 		std::cout << "Function: set failed to set the variable: " << op1
 			<< " to: " << op2 << "\n";
 		return ENV_SETVAR_FAILED;
 	}
-	return res;
+	return OK;
 }
 
 AL_FUNC_VAR_ARG( prepend, 2, -1, false, false )
 {
 	std::string var;
-	int res = OK;
-	EVAL_AND_CHECK( "prepend", res, args[ 0 ], var );
+	EVAL_AND_CHECK( "prepend", args[ 0 ], var );
 	for( auto arg = args.begin() + 1; arg != args.end(); ++arg ) {
 		std::string farg;
-		EVAL_AND_CHECK( "prepend", res, * arg, farg );
+		EVAL_AND_CHECK( "prepend", * arg, farg );
 		Env::Prepend( var, farg );
 	}
-	return res;
+	return OK;
 }
 
 AL_FUNC_VAR_ARG( append, 2, -1, false, false )
 {
 	std::string var;
-	int res = OK;
-	EVAL_AND_CHECK( "append", res, args[ 0 ], var );
+	EVAL_AND_CHECK( "append", args[ 0 ], var );
 	for( auto arg = args.begin() + 1; arg != args.end(); ++arg ) {
 		std::string farg;
-		EVAL_AND_CHECK( "append", res, * arg, farg );
+		EVAL_AND_CHECK( "append", * arg, farg );
 		Env::Append( var, farg );
 	}
-	return res;
+	return OK;
 }
 
 AL_FUNC_VAR_ARG( remove, 2, -1, false, false )
 {
 	std::string var;
-	int res = OK;
-	EVAL_AND_CHECK( "remove", res, args[ 0 ], var );
+	EVAL_AND_CHECK( "remove", args[ 0 ], var );
 	for( auto arg = args.begin() + 1; arg != args.end(); ++arg ) {
 		std::string farg;
-		EVAL_AND_CHECK( "remove", res, * arg, farg );
+		EVAL_AND_CHECK( "remove", * arg, farg );
 		Env::Remove( var, farg );
 	}
-	return res;
+	return OK;
 }
 
 AL_FUNC_FIX_ARG( reset, 1, false, false )
 {
-	int res = OK;
 	std::string var;
-	EVAL_AND_CHECK( "reset", res, args[ 0 ], var );
+	EVAL_AND_CHECK( "reset", args[ 0 ], var );
 	Env::Reset( var );
-	return res;
+	return OK;
 }
 
 AL_FUNC_VAR_ARG( bs_add_lib_paths, 1, -1, false, false )
 {
 	std::string var = Core::ALLibPaths();
-	int res = OK;
 	for( auto arg = args.begin(); arg != args.end(); ++arg ) {
 		std::string farg;
-		EVAL_AND_CHECK( "bs_add_lib_paths", res, * arg, farg );
+		EVAL_AND_CHECK( "bs_add_lib_paths", * arg, farg );
 		Env::Append( var, farg );
 	}
-	return res;
+	return OK;
 }
 
 AL_FUNC_FIX_ARG( exec, 1, false, false )
 {
-	int res = OK;
 	std::string op;
-	EVAL_AND_CHECK( "exec", res, args[ 0 ], op );
+	EVAL_AND_CHECK( "exec", args[ 0 ], op );
 	Env::Exec( op, nullptr );
-	return res;
+	return OK;
 }
 
 AL_FUNC_FIX_ARG( eval, 1, false, false )
 {
 	std::string tmp;
-	Str::Eval( args[ 0 ], tmp );
+	EVAL_AND_CHECK( "eval", args[ 0 ], tmp );
 	return OK;
 }
 

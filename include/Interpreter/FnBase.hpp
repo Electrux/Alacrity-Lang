@@ -55,11 +55,14 @@ extern "C" int fn_##fn_name( const std::vector< std::string > & args, const int 
 				const Parser::BlockStmt * block,			\
 				const bool internal_display_enabled )
 
-#define EVAL_AND_CHECK( func, res, var, val )								\
-res = Str::Eval( ( var ), ( val ) );									\
-if( ( res ) != OK ) {											\
-	std::cerr << "Function: " << ( func ) << " failed while evaluating: " << ( var ) << "!\n";	\
-	return res;											\
+#define EVAL_AND_CHECK( func, var, val )						\
+{											\
+int tmp_res = Str::Eval( ( var ), ( val ) );						\
+if( tmp_res != OK ) {									\
+	std::cerr << "Function: " << ( func ) << " failed while evaluating: "		\
+		<< ( var ) << "!\n";							\
+	return tmp_res;									\
+}											\
 }
 
 #endif // INTERPRETER_FN_BASE_HPP

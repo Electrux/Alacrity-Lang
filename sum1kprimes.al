@@ -3,6 +3,7 @@ set( num, 2 )
 set( count, 0 )
 
 for() {
+/*
 	set( isprime, true )
 	math.sqrt( sqrnum, "${num}" )
 
@@ -13,6 +14,8 @@ for() {
 			brkloop()
 		}
 	}
+*/
+	math.isprime( isprime, "${num}" )
 
 	if( "${isprime}" == true ) {
 		#print( "${num} is prime, adding it...\n" )
