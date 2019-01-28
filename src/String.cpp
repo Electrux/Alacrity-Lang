@@ -119,6 +119,7 @@ int Str::Eval( const std::string & str, std::string & op )
 	if( res != OK ) {
 		op.clear();
 	}
+	RemoveBackslash( op );
 	return res;
 }
 
@@ -128,9 +129,13 @@ void Str::RemoveBackslash( std::string & s )
 		if( * it == '\\' ) {
 			if( it + 1 >= s.end() ) continue;
 			it = s.erase( it );
-			if( * it == 'n' ) * it = '\n';
+			if( * it == 'a' ) * it = '\a';
+			else if( * it == 'b' ) * it = '\b';
+			else if( * it == 'f' ) * it = '\f';
+			else if( * it == 'n' ) * it = '\n';
 			else if( * it == 'r' ) * it = '\r';
 			else if( * it == 't' ) * it = '\t';
+			else if( * it == 'v' ) * it = '\v';
 		}
 	}
 }
