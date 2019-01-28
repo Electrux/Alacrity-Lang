@@ -23,7 +23,6 @@ AL_FUNC_FIX_ARG( fail, 1, false, false )
 {
 	std::string op;
 	EVAL_AND_CHECK( "fail", "{br}FAIL{0}: {r}" + args[ 0 ] + "{0}", op );
-	Str::RemoveBackslash( op );
 	std::cout << op;
 	std::cout.flush();
 	return FAIL_FN_CALLED;
@@ -34,7 +33,6 @@ AL_FUNC_VAR_ARG( print, 1, -1, false, false )
 	for( auto & a : args ) {
 		std::string op;
 		EVAL_AND_CHECK( "print", a, op );
-		Str::RemoveBackslash( op );
 		std::cout << op;
 	}
 	std::cout.flush();
@@ -45,7 +43,6 @@ AL_FUNC_FIX_ARG( input, 2, false, false )
 {
 	std::string op;
 	EVAL_AND_CHECK( "input", args[ 1 ], op );
-	Str::RemoveBackslash( op );
 	std::cout << op;
 	std::cout.flush();
 	std::string tmp;
@@ -58,7 +55,6 @@ AL_FUNC_FIX_ARG( input_num, 2, false, false )
 {
 	std::string op;
 	EVAL_AND_CHECK( "input_num", args[ 1 ], op );
-	Str::RemoveBackslash( op );
 	std::string tmp;
 	std::cout << op;
 	std::cout.flush();
