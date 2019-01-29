@@ -80,6 +80,7 @@ AL_FUNC_FIX_ARG( stop, 1, false, false )
 	}
 	m->stop();
 	delete m;
+	Env::Reset( music_addr );
 	return OK;
 }
 
