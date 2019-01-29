@@ -19,54 +19,10 @@
 #include "../../include/Interpreter/Block.hpp"
 #include "../../include/Interpreter/FnBase.hpp"
 
-AL_FUNC_FIX_ARG( init, 1, false, false )
+AL_FUNC_FIX_ARG( play, 2, false, false )
 {
-	std::string addr;
-	EVAL_AND_CHECK( "init", args[ 0 ], addr );
-	Env::SetVar( addr, "0" );
-	sf::Sound * s = new sf::Sound();
-	if( s == nullptr ) {
-		std::cerr << "libaudio: Failed to create sf::Sound\n";
-		return FAIL;
-	}
-	std::string loc = std::to_string( ( unsigned long long )s );
-	Env::SetVar( addr, loc );
-	return OK;
-}
-
-AL_FUNC_FIX_ARG( deinit, 1, false, false )
-{
-	std::string addr;
-	EVAL_AND_CHECK( "deinit", args[ 0 ], addr );
-	auto loc = Env::GetVar( addr );
-	if( !Str::IsNum( loc ) ) {
-		std::cerr << "libaudio: Invalid handle provided, contains malformed data\n";
-		return FAIL;
-	}
-	sf::Sound * s = ( sf::Sound * ) std::stoull( loc );
-	if( s == nullptr ) {
-		std::cerr << "libaudio: Failed to fetch sf::Sound from location: " << loc << "\n";
-		return FAIL;
-	}
-	delete s;
-	return OK;
-}
-
-AL_FUNC_FIX_ARG( play, 3, false, false )
-{
-	std::string sound_addr, music_addr;
-	EVAL_AND_CHECK( "play", args[ 0 ], sound_addr );
-	EVAL_AND_CHECK( "play", args[ 1 ], music_addr );
-	auto loc = Env::GetVar( sound_addr );
-	if( !Str::IsNum( loc ) ) {
-		std::cerr << "libaudio: Invalid handle provided, contains malformed data\n";
-		return FAIL;
-	}
-	sf::Sound * s = ( sf::Sound * ) std::stoull( loc );
-	if( s == nullptr ) {
-		std::cerr << "libaudio: Failed to fetch sf::Sound from location: " << loc << "\n";
-		return FAIL;
-	}
+	std::string music_addr;
+	EVAL_AND_CHECK( "play", args[ 0 ], music_addr );
 	Env::SetVar( music_addr, "0" );
 	sf::Music * m = new sf::Music();
 	auto m_loc = std::to_string( ( unsigned long long )m );
@@ -75,8 +31,8 @@ AL_FUNC_FIX_ARG( play, 3, false, false )
 		return FAIL;
 	}
 
-	if( !m->openFromFile( args[ 2 ] ) ) {
-		std::cerr << "libaudio: Failed to open music file: " << args[ 2 ] << "\n";
+	if( !m->openFromFile( args[ 1 ] ) ) {
+		std::cerr << "libaudio: Failed to open music file: " << args[ 1 ] << "\n";
 		return FAIL;
 	}
 	Env::SetVar( music_addr, m_loc );
@@ -84,21 +40,10 @@ AL_FUNC_FIX_ARG( play, 3, false, false )
 	return OK;
 }
 
-AL_FUNC_FIX_ARG( pause, 2, false, false )
+AL_FUNC_FIX_ARG( pause, 1, false, false )
 {
-	std::string sound_addr, music_addr;
-	EVAL_AND_CHECK( "pause", args[ 0 ], sound_addr );
-	EVAL_AND_CHECK( "pause", args[ 1 ], music_addr );
-	auto loc = Env::GetVar( sound_addr );
-	if( !Str::IsNum( loc ) ) {
-		std::cerr << "libaudio: Invalid handle provided, contains malformed data\n";
-		return FAIL;
-	}
-	sf::Sound * s = ( sf::Sound * ) std::stoull( loc );
-	if( s == nullptr ) {
-		std::cerr << "libaudio: Failed to fetch sf::Sound from location: " << loc << "\n";
-		return FAIL;
-	}
+	std::string music_addr;
+	EVAL_AND_CHECK( "pause", args[ 0 ], music_addr );
 	auto m_loc = Env::GetVar( music_addr );
 	sf::Music * m = ( sf::Music * ) std::stoull( m_loc );
 	if( m == nullptr ) {
@@ -109,21 +54,10 @@ AL_FUNC_FIX_ARG( pause, 2, false, false )
 	return OK;
 }
 
-AL_FUNC_FIX_ARG( resume, 2, false, false )
+AL_FUNC_FIX_ARG( resume, 1, false, false )
 {
-	std::string sound_addr, music_addr;
-	EVAL_AND_CHECK( "resume", args[ 0 ], sound_addr );
-	EVAL_AND_CHECK( "resume", args[ 1 ], music_addr );
-	auto loc = Env::GetVar( sound_addr );
-	if( !Str::IsNum( loc ) ) {
-		std::cerr << "libaudio: Invalid handle provided, contains malformed data\n";
-		return FAIL;
-	}
-	sf::Sound * s = ( sf::Sound * ) std::stoull( loc );
-	if( s == nullptr ) {
-		std::cerr << "libaudio: Failed to fetch sf::Sound from location: " << loc << "\n";
-		return FAIL;
-	}
+	std::string music_addr;
+	EVAL_AND_CHECK( "resume", args[ 0 ], music_addr );
 	auto m_loc = Env::GetVar( music_addr );
 	sf::Music * m = ( sf::Music * ) std::stoull( m_loc );
 	if( m == nullptr ) {
@@ -134,21 +68,10 @@ AL_FUNC_FIX_ARG( resume, 2, false, false )
 	return OK;
 }
 
-AL_FUNC_FIX_ARG( stop, 2, false, false )
+AL_FUNC_FIX_ARG( stop, 1, false, false )
 {
-	std::string sound_addr, music_addr;
-	EVAL_AND_CHECK( "stop", args[ 0 ], sound_addr );
-	EVAL_AND_CHECK( "stop", args[ 1 ], music_addr );
-	auto loc = Env::GetVar( sound_addr );
-	if( !Str::IsNum( loc ) ) {
-		std::cerr << "libaudio: Invalid handle provided, contains malformed data\n";
-		return FAIL;
-	}
-	sf::Sound * s = ( sf::Sound * ) std::stoull( loc );
-	if( s == nullptr ) {
-		std::cerr << "libaudio: Failed to fetch sf::Sound from location: " << loc << "\n";
-		return FAIL;
-	}
+	std::string music_addr;
+	EVAL_AND_CHECK( "stop", args[ 0 ], music_addr );
 	auto m_loc = Env::GetVar( music_addr );
 	sf::Music * m = ( sf::Music * ) std::stoull( m_loc );
 	if( m == nullptr ) {
@@ -158,4 +81,21 @@ AL_FUNC_FIX_ARG( stop, 2, false, false )
 	m->stop();
 	delete m;
 	return OK;
+}
+
+AL_FUNC_FIX_ARG( setvol, 2, false, false )
+{
+	std::string music_addr;
+	EVAL_AND_CHECK( "setvol", args[ 0 ], music_addr );
+	auto m_loc = Env::GetVar( music_addr );
+	sf::Music * m = ( sf::Music * ) std::stoull( m_loc );
+	if( m == nullptr ) {
+		std::cerr << "libaudio: Failed to fetch sf::Music from location: " << m_loc << "\n";
+		return FAIL;
+	}
+	std::string vol_str;
+	EVAL_AND_CHECK( "setvol", args[ 1 ], vol_str );
+	CHECK_VAR_NUMERIC( args[ 1 ], vol_str );
+	m->setVolume( std::stoi( vol_str ) % 100 );
+	delete m;
 }

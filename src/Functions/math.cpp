@@ -19,12 +19,6 @@
 #include "../../include/Interpreter/Block.hpp"
 #include "../../include/Interpreter/FnBase.hpp"
 
-#define CHECK_VAR_NUMERIC( var, val ) 						\
-if( val.empty() || !Str::IsNum( val ) ) {					\
-	std::cerr << "Expected variable: " << var << " to contain a number!\n";	\
-	return EXPECTED_NUM_VAL;						\
-}
-
 AL_FUNC_FIX_ARG( inc, 1, false, false )
 {
 	std::string op;
@@ -33,7 +27,6 @@ AL_FUNC_FIX_ARG( inc, 1, false, false )
 	CHECK_VAR_NUMERIC( op, val );
 
 	Env::SetVar( op, std::to_string( std::stoi( val ) + 1 ) );
-
 	return OK;
 }
 
@@ -46,7 +39,6 @@ AL_FUNC_FIX_ARG( dec, 1, false, false )
 	CHECK_VAR_NUMERIC( op, val );
 
 	Env::SetVar( op, std::to_string( std::stoi( val ) - 1 ) );
-
 	return OK;
 }
 

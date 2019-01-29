@@ -1,5 +1,3 @@
-audio.init( hnd )
-audio.play( hnd, snd, "audio_test.ogg" )
+audio.play( mnd, "audio_test.ogg" )
 os.sleep( 5000 )
-audio.stop( hnd, snd )
-audio.deinit( hnd )
+audio.stop( mnd )

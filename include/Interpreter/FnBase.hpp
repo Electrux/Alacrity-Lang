@@ -65,4 +65,10 @@ if( tmp_res != OK ) {									\
 }											\
 }
 
+#define CHECK_VAR_NUMERIC( var, val ) 							\
+if( val.empty() || !Str::IsNum( val ) ) {						\
+	std::cerr << "Expected variable: " << var << " to contain a number!\n";		\
+	return EXPECTED_NUM_VAL;							\
+}
+
 #endif // INTERPRETER_FN_BASE_HPP
