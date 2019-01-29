@@ -65,6 +65,18 @@ builds:
     exclude:
       - src/Functions/(.*).cpp
       - src/main.cpp
+  - name: list
+    type: lib
+    build_type: ""
+    inc_flags: ""
+    lib_flags: ""
+    pre_exec: ""
+    main_src: src/Functions/list.cpp
+    other_src:
+      - src/(.*).cpp
+    exclude:
+      - src/Functions/(.*).cpp
+      - src/main.cpp
   - name: audio
     type: lib
     build_type: ""

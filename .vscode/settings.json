@@ -67,6 +67,8 @@
 		"utility": "cpp",
 		"vector": "cpp",
 		"*.tcc": "cpp",
-		"fstream": "cpp"
+		"fstream": "cpp",
+		"stack": "cpp",
+		"thread": "cpp"
 	}
 }
