@@ -28,18 +28,18 @@ builds:
     other_src:
       - src/(.*).cpp
     exclude:
-      - src/Functions/(.*).cpp
+      - src/Modules/(.*).cpp
   - name: core
     type: lib
     build_type: ""
     inc_flags: ""
     lib_flags: ""
     pre_exec: ""
-    main_src: src/Functions/core.cpp
+    main_src: src/Modules/core.cpp
     other_src:
       - src/(.*).cpp
     exclude:
-      - src/Functions/(.*).cpp
+      - src/Modules/(.*).cpp
       - src/main.cpp
   - name: os
     type: lib
@@ -47,11 +47,11 @@ builds:
     inc_flags: ""
     lib_flags: ""
     pre_exec: ""
-    main_src: src/Functions/os.cpp
+    main_src: src/Modules/os.cpp
     other_src:
       - src/(.*).cpp
     exclude:
-      - src/Functions/(.*).cpp
+      - src/Modules/(.*).cpp
       - src/main.cpp
   - name: math
     type: lib
@@ -59,11 +59,11 @@ builds:
     inc_flags: ""
     lib_flags: ""
     pre_exec: ""
-    main_src: src/Functions/math.cpp
+    main_src: src/Modules/math.cpp
     other_src:
       - src/(.*).cpp
     exclude:
-      - src/Functions/(.*).cpp
+      - src/Modules/(.*).cpp
       - src/main.cpp
   - name: list
     type: lib
@@ -71,11 +71,11 @@ builds:
     inc_flags: ""
     lib_flags: ""
     pre_exec: ""
-    main_src: src/Functions/list.cpp
+    main_src: src/Modules/list.cpp
     other_src:
       - src/(.*).cpp
     exclude:
-      - src/Functions/(.*).cpp
+      - src/Modules/(.*).cpp
       - src/main.cpp
   - name: audio
     type: lib
@@ -83,11 +83,11 @@ builds:
     inc_flags: ""
     lib_flags: "-lsfml-audio"
     pre_exec: ""
-    main_src: src/Functions/audio.cpp
+    main_src: src/Modules/audio.cpp
     other_src:
       - src/(.*).cpp
     exclude:
-      - src/Functions/(.*).cpp
+      - src/Modules/(.*).cpp
       - src/main.cpp
 env:
   []
