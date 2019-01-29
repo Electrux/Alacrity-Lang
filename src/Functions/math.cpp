@@ -55,25 +55,18 @@ AL_FUNC_FIX_ARG( dec, 1, false, false )
 //  when 3: ARG1 <- ARG2 + ARG3
 AL_FUNC_VAR_ARG( add, 2, 3, false, false )
 {
-	if( args.size() == 2 ) {
-		std::string val1;
-		EVAL_AND_CHECK( "add", args[ 0 ], val1 );
-		CHECK_VAR_NUMERIC( args[ 0 ], val1 );
-		std::string val2;
-		EVAL_AND_CHECK( "add", args[ 1 ], val2 );
-		CHECK_VAR_NUMERIC( args[ 1 ], val2 );
+	int arg_loc_1 = args.size() == 2 ? 0 : 1;
+	int arg_loc_2 = arg_loc_1 + 1;
+	std::string var = args.size() == 2 ? "RESULT" : args[ 0 ];
 
-		Env::SetVar( "RESULT", std::to_string( std::stoi( val1 ) + std::stoi( val2 ) ) );
-	} else { // args.size() == 3
-		std::string val1;
-		EVAL_AND_CHECK( "add", args[ 1 ], val1 );
-		CHECK_VAR_NUMERIC( args[ 1 ], val1 );
-		std::string val2;
-		EVAL_AND_CHECK( "add", args[ 2 ], val2 );
-		CHECK_VAR_NUMERIC( args[ 2 ], val2 );
+	std::string val1;
+	EVAL_AND_CHECK( "add", args[ arg_loc_1 ], val1 );
+	CHECK_VAR_NUMERIC( args[ arg_loc_1 ], val1 );
+	std::string val2;
+	EVAL_AND_CHECK( "add", args[ arg_loc_2 ], val2 );
+	CHECK_VAR_NUMERIC( args[ arg_loc_2 ], val2 );
 
-		Env::SetVar( args[ 0 ], std::to_string( std::stoi( val1 ) + std::stoi( val2 ) ) );
-	}
+	Env::SetVar( var, std::to_string( std::stoi( val1 ) + std::stoi( val2 ) ) );
 	return OK;
 }
 
@@ -82,25 +75,18 @@ AL_FUNC_VAR_ARG( add, 2, 3, false, false )
 //  when 3: ARG1 <- ARG2 - ARG3
 AL_FUNC_VAR_ARG( sub, 2, 3, false, false )
 {
-	if( args.size() == 2 ) {
-		std::string val1;
-		EVAL_AND_CHECK( "sub", args[ 0 ], val1 );
-		CHECK_VAR_NUMERIC( args[ 0 ], val1 );
-		std::string val2;
-		EVAL_AND_CHECK( "sub", args[ 1 ], val2 );
-		CHECK_VAR_NUMERIC( args[ 1 ], val2 );
+	int arg_loc_1 = args.size() == 2 ? 0 : 1;
+	int arg_loc_2 = arg_loc_1 + 1;
+	std::string var = args.size() == 2 ? "RESULT" : args[ 0 ];
 
-		Env::SetVar( "RESULT", std::to_string( std::stoi( val1 ) - std::stoi( val2 ) ) );
-	} else { // args.size() == 3
-		std::string val1;
-		EVAL_AND_CHECK( "sub", args[ 1 ], val1 );
-		CHECK_VAR_NUMERIC( args[ 1 ], val1 );
-		std::string val2;
-		EVAL_AND_CHECK( "sub", args[ 2 ], val2 );
-		CHECK_VAR_NUMERIC( args[ 2 ], val2 );
+	std::string val1;
+	EVAL_AND_CHECK( "sub", args[ arg_loc_1 ], val1 );
+	CHECK_VAR_NUMERIC( args[ arg_loc_1 ], val1 );
+	std::string val2;
+	EVAL_AND_CHECK( "sub", args[ arg_loc_2 ], val2 );
+	CHECK_VAR_NUMERIC( args[ arg_loc_2 ], val2 );
 
-		Env::SetVar( args[ 0 ], std::to_string( std::stoi( val1 ) - std::stoi( val2 ) ) );
-	}
+	Env::SetVar( var, std::to_string( std::stoi( val1 ) - std::stoi( val2 ) ) );
 	return OK;
 }
 
@@ -109,25 +95,18 @@ AL_FUNC_VAR_ARG( sub, 2, 3, false, false )
 //  when 3: ARG1 <- ARG2 * ARG3
 AL_FUNC_VAR_ARG( mul, 2, 3, false, false )
 {
-	if( args.size() == 2 ) {
-		std::string val1;
-		EVAL_AND_CHECK( "mul", args[ 0 ], val1 );
-		CHECK_VAR_NUMERIC( args[ 0 ], val1 );
-		std::string val2;
-		EVAL_AND_CHECK( "mul", args[ 1 ], val2 );
-		CHECK_VAR_NUMERIC( args[ 1 ], val2 );
+	int arg_loc_1 = args.size() == 2 ? 0 : 1;
+	int arg_loc_2 = arg_loc_1 + 1;
+	std::string var = args.size() == 2 ? "RESULT" : args[ 0 ];
 
-		Env::SetVar( "RESULT", std::to_string( std::stoi( val1 ) * std::stoi( val2 ) ) );
-	} else { // args.size() == 3
-		std::string val1;
-		EVAL_AND_CHECK( "mul", args[ 1 ], val1 );
-		CHECK_VAR_NUMERIC( args[ 1 ], val1 );
-		std::string val2;
-		EVAL_AND_CHECK( "mul", args[ 2 ], val2 );
-		CHECK_VAR_NUMERIC( args[ 2 ], val2 );
+	std::string val1;
+	EVAL_AND_CHECK( "mul", args[ arg_loc_1 ], val1 );
+	CHECK_VAR_NUMERIC( args[ arg_loc_1 ], val1 );
+	std::string val2;
+	EVAL_AND_CHECK( "mul", args[ arg_loc_2 ], val2 );
+	CHECK_VAR_NUMERIC( args[ arg_loc_2 ], val2 );
 
-		Env::SetVar( args[ 0 ], std::to_string( std::stoi( val1 ) * std::stoi( val2 ) ) );
-	}
+	Env::SetVar( var, std::to_string( std::stoi( val1 ) * std::stoi( val2 ) ) );
 	return OK;
 }
 
@@ -136,25 +115,18 @@ AL_FUNC_VAR_ARG( mul, 2, 3, false, false )
 //  when 3: ARG1 <- ARG2 / ARG3
 AL_FUNC_VAR_ARG( div, 2, 3, false, false )
 {
-	if( args.size() == 2 ) {
-		std::string val1;
-		EVAL_AND_CHECK( "div", args[ 0 ], val1 );
-		CHECK_VAR_NUMERIC( args[ 0 ], val1 );
-		std::string val2;
-		EVAL_AND_CHECK( "div", args[ 1 ], val2 );
-		CHECK_VAR_NUMERIC( args[ 1 ], val2 );
+	int arg_loc_1 = args.size() == 2 ? 0 : 1;
+	int arg_loc_2 = arg_loc_1 + 1;
+	std::string var = args.size() == 2 ? "RESULT" : args[ 0 ];
 
-		Env::SetVar( "RESULT", std::to_string( std::stoi( val1 ) / std::stoi( val2 ) ) );
-	} else { // args.size() == 3
-		std::string val1;
-		EVAL_AND_CHECK( "div", args[ 1 ], val1 );
-		CHECK_VAR_NUMERIC( args[ 1 ], val1 );
-		std::string val2;
-		EVAL_AND_CHECK( "div", args[ 2 ], val2 );
-		CHECK_VAR_NUMERIC( args[ 2 ], val2 );
+	std::string val1;
+	EVAL_AND_CHECK( "div", args[ arg_loc_1 ], val1 );
+	CHECK_VAR_NUMERIC( args[ arg_loc_1 ], val1 );
+	std::string val2;
+	EVAL_AND_CHECK( "div", args[ arg_loc_2 ], val2 );
+	CHECK_VAR_NUMERIC( args[ arg_loc_2 ], val2 );
 
-		Env::SetVar( args[ 0 ], std::to_string( std::stoi( val1 ) / std::stoi( val2 ) ) );
-	}
+	Env::SetVar( var, std::to_string( std::stoi( val1 ) / std::stoi( val2 ) ) );
 	return OK;
 }
 
@@ -163,25 +135,18 @@ AL_FUNC_VAR_ARG( div, 2, 3, false, false )
 //  when 3: ARG1 <- ARG2 % ARG3
 AL_FUNC_VAR_ARG( mod, 2, 3, false, false )
 {
-	if( args.size() == 2 ) {
-		std::string val1;
-		EVAL_AND_CHECK( "mod", args[ 0 ], val1 );
-		CHECK_VAR_NUMERIC( args[ 0 ], val1 );
-		std::string val2;
-		EVAL_AND_CHECK( "mod", args[ 1 ], val2 );
-		CHECK_VAR_NUMERIC( args[ 1 ], val2 );
+	int arg_loc_1 = args.size() == 2 ? 0 : 1;
+	int arg_loc_2 = arg_loc_1 + 1;
+	std::string var = args.size() == 2 ? "RESULT" : args[ 0 ];
 
-		Env::SetVar( "RESULT", std::to_string( std::stoi( val1 ) % std::stoi( val2 ) ) );
-	} else { // args.size() == 3
-		std::string val1;
-		EVAL_AND_CHECK( "mod", args[ 1 ], val1 );
-		CHECK_VAR_NUMERIC( args[ 1 ], val1 );
-		std::string val2;
-		EVAL_AND_CHECK( "mod", args[ 2 ], val2 );
-		CHECK_VAR_NUMERIC( args[ 2 ], val2 );
+	std::string val1;
+	EVAL_AND_CHECK( "mod", args[ arg_loc_1 ], val1 );
+	CHECK_VAR_NUMERIC( args[ arg_loc_1 ], val1 );
+	std::string val2;
+	EVAL_AND_CHECK( "mod", args[ arg_loc_2 ], val2 );
+	CHECK_VAR_NUMERIC( args[ arg_loc_2 ], val2 );
 
-		Env::SetVar( args[ 0 ], std::to_string( std::stoi( val1 ) % std::stoi( val2 ) ) );
-	}
+	Env::SetVar( var, std::to_string( std::stoi( val1 ) % std::stoi( val2 ) ) );
 	return OK;
 }
 
@@ -190,19 +155,13 @@ AL_FUNC_VAR_ARG( mod, 2, 3, false, false )
 //  when 3: ARG1 <- sqrt( ARG2 )
 AL_FUNC_VAR_ARG( sqrt, 1, 2, false, false )
 {
-	if( args.size() == 1 ) {
-		std::string val;
-		EVAL_AND_CHECK( "sqrt", args[ 0 ], val );
-		CHECK_VAR_NUMERIC( args[ 0 ], val );
+	int arg_loc = args.size() == 1 ? 0 : 1;
+	std::string var = args.size() > 1 ? args[ 0 ] : "RESULT";
+	std::string val;
+	EVAL_AND_CHECK( "sqrt", args[ arg_loc ], val );
+	CHECK_VAR_NUMERIC( args[ arg_loc ], val );
 
-		Env::SetVar( "RESULT", std::to_string( ( int )std::sqrt( std::stoi( val ) ) ) );
-	} else { // args.size() == 2
-		std::string val;
-		EVAL_AND_CHECK( "sqrt", args[ 1 ], val );
-		CHECK_VAR_NUMERIC( args[ 1 ], val );
-
-		Env::SetVar( args[ 0 ], std::to_string( ( int )std::sqrt( std::stoi( val ) ) ) );
-	}
+	Env::SetVar( var, std::to_string( ( int )std::sqrt( std::stoi( val ) ) ) );
 	return OK;
 }
 
