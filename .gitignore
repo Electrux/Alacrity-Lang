@@ -8,6 +8,10 @@
 *.aux
 *.el
 
+# Audio files #
+###############
+*.ogg
+
 # Build files #
 ###############
 testbin/

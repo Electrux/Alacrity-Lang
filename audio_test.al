@@ -1,0 +1,5 @@
+audio.init( hnd )
+audio.play( hnd, snd, "file.ogg" )
+os.sleep( 5000 )
+audio.stop( hnd, snd )
+audio.deinit( hnd )

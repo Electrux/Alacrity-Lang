@@ -41,6 +41,18 @@ builds:
     exclude:
       - src/Functions/(.*).cpp
       - src/main.cpp
+  - name: os
+    type: lib
+    build_type: ""
+    inc_flags: ""
+    lib_flags: ""
+    pre_exec: ""
+    main_src: src/Functions/os.cpp
+    other_src:
+      - src/(.*).cpp
+    exclude:
+      - src/Functions/(.*).cpp
+      - src/main.cpp
   - name: math
     type: lib
     build_type: ""
@@ -48,6 +60,18 @@ builds:
     lib_flags: ""
     pre_exec: ""
     main_src: src/Functions/math.cpp
+    other_src:
+      - src/(.*).cpp
+    exclude:
+      - src/Functions/(.*).cpp
+      - src/main.cpp
+  - name: audio
+    type: lib
+    build_type: ""
+    inc_flags: ""
+    lib_flags: "-lsfml-audio"
+    pre_exec: ""
+    main_src: src/Functions/audio.cpp
     other_src:
       - src/(.*).cpp
     exclude:
