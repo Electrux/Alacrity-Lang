@@ -84,6 +84,56 @@ AL_FUNC_FIX_ARG( play, 3, false, false )
 	return OK;
 }
 
+AL_FUNC_FIX_ARG( pause, 2, false, false )
+{
+	std::string sound_addr, music_addr;
+	EVAL_AND_CHECK( "pause", args[ 0 ], sound_addr );
+	EVAL_AND_CHECK( "pause", args[ 1 ], music_addr );
+	auto loc = Env::GetVar( sound_addr );
+	if( !Str::IsNum( loc ) ) {
+		std::cerr << "libaudio: Invalid handle provided, contains malformed data\n";
+		return FAIL;
+	}
+	sf::Sound * s = ( sf::Sound * ) std::stoull( loc );
+	if( s == nullptr ) {
+		std::cerr << "libaudio: Failed to fetch sf::Sound from location: " << loc << "\n";
+		return FAIL;
+	}
+	auto m_loc = Env::GetVar( music_addr );
+	sf::Music * m = ( sf::Music * ) std::stoull( m_loc );
+	if( m == nullptr ) {
+		std::cerr << "libaudio: Failed to fetch sf::Music from location: " << m_loc << "\n";
+		return FAIL;
+	}
+	m->pause();
+	return OK;
+}
+
+AL_FUNC_FIX_ARG( resume, 2, false, false )
+{
+	std::string sound_addr, music_addr;
+	EVAL_AND_CHECK( "resume", args[ 0 ], sound_addr );
+	EVAL_AND_CHECK( "resume", args[ 1 ], music_addr );
+	auto loc = Env::GetVar( sound_addr );
+	if( !Str::IsNum( loc ) ) {
+		std::cerr << "libaudio: Invalid handle provided, contains malformed data\n";
+		return FAIL;
+	}
+	sf::Sound * s = ( sf::Sound * ) std::stoull( loc );
+	if( s == nullptr ) {
+		std::cerr << "libaudio: Failed to fetch sf::Sound from location: " << loc << "\n";
+		return FAIL;
+	}
+	auto m_loc = Env::GetVar( music_addr );
+	sf::Music * m = ( sf::Music * ) std::stoull( m_loc );
+	if( m == nullptr ) {
+		std::cerr << "libaudio: Failed to fetch sf::Music from location: " << m_loc << "\n";
+		return FAIL;
+	}
+	m->play();
+	return OK;
+}
+
 AL_FUNC_FIX_ARG( stop, 2, false, false )
 {
 	std::string sound_addr, music_addr;
