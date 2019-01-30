@@ -98,5 +98,5 @@ AL_FUNC_FIX_ARG( setvol, 2, false, false )
 	EVAL_AND_CHECK( "setvol", args[ 1 ], vol_str );
 	CHECK_VAR_NUMERIC( args[ 1 ], vol_str );
 	m->setVolume( std::stoi( vol_str ) % 100 );
-	delete m;
+	return OK;
 }
