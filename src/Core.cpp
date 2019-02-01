@@ -31,7 +31,7 @@ int Core::Init()
 {
 	int res = OK;
 
-	if( !Env::SetVar( ALLibPaths(), "lib" ) ) {
+	if( !Env::SetVar( ALLibPaths(), FS::GetCurrentDir() + "/lib" ) ) {
 		std::cout << "Core::Init() failed: Unable to set core AL_LIB_PATHS env var!\n";
 		return ENV_SETVAR_FAILED;
 	}
