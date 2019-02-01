@@ -1,7 +1,7 @@
 set( "res", 0 )
 
-foreach( x, 1, 10 ) {
-	set( res, "%{echo ${res} + ${x} | bc}" )
+for( x, 1, 10 ) {
+	math.add( res, "${res}", "${x}" )
 }
 
 print( "Result: ${res}\n" )
