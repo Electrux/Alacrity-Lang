@@ -16,6 +16,8 @@
 #include "../../include/Core.hpp"
 #include "../../include/String.hpp"
 #include "../../include/Env.hpp"
+#include "../../include/FS.hpp"
+#include "../../include/Interpreter.hpp"
 #include "../../include/Interpreter/Block.hpp"
 #include "../../include/Interpreter/FnBase.hpp"
 
@@ -175,4 +177,35 @@ AL_FUNC_FIX_ARG( brkloop, 0, false, false )
 AL_FUNC_FIX_ARG( contloop, 0, false, false )
 {
 	return LOOP_CONTINUE_ENCOUNTERED;
+}
+
+AL_FUNC_VAR_ARG( load_file, 1, -1, false, false )
+{
+	int res = OK;
+
+	for( auto & arg : args ) {
+		auto al_lib_paths = Env::GetVar( Core::ALLibPaths() );
+		auto file_loc = Env::GetFileLocation( al_lib_paths, arg + ".al", ':' );
+		if( file_loc.empty() ) {
+			std::cout << "File: " << arg << " not found in search paths: " << al_lib_paths << "\n";
+			return FILE_NOT_FOUND;
+		}
+		auto file_data_var = FS::ReadFile( file_loc );
+		if( std::holds_alternative< int >( file_data_var ) ) return std::get< int >( file_data_var );
+		std::string file_data = std::get< std::string >( file_data_var );
+
+		auto lex_syms_var = Lex::Tokenize( file_data );
+
+		if( std::holds_alternative< int >( lex_syms_var ) ) return std::get< int >( lex_syms_var );
+		auto lex_syms = std::get< Lex::Syms >( lex_syms_var );
+
+		auto parse_syms_var = Parser::ParseTokens( lex_syms.GetSyms() );
+		if( std::holds_alternative< int >( parse_syms_var ) ) return std::get< int >( parse_syms_var );
+		auto parse_syms = std::get< Parser::ParseTree >( parse_syms_var );
+
+		res = Interpreter::Interpret( parse_syms, file_loc, depth, internal_display_enabled );
+		if( res != OK ) break;
+	}
+
+	return res;
 }
