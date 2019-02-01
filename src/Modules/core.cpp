@@ -133,12 +133,13 @@ AL_FUNC_FIX_ARG( reset, 1, false, false )
 	return OK;
 }
 
-AL_FUNC_VAR_ARG( bs_add_lib_paths, 1, -1, false, false )
+AL_FUNC_VAR_ARG( al_add_lib_paths, 1, -1, false, false )
 {
 	std::string var = Core::ALLibPaths();
 	for( auto arg = args.begin(); arg != args.end(); ++arg ) {
 		std::string farg;
-		EVAL_AND_CHECK( "bs_add_lib_paths", * arg, farg );
+		EVAL_AND_CHECK( "al_add_lib_paths", * arg, farg );
+		if( !farg.empty() && * farg.begin() != '/' ) farg = FS::GetCurrentDir() + "/" + farg;
 		Env::Append( var, farg );
 	}
 	return OK;
