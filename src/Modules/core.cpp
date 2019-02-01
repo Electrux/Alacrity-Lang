@@ -84,38 +84,41 @@ AL_FUNC_FIX_ARG( set, 2, false, false )
 	return OK;
 }
 
-AL_FUNC_VAR_ARG( prepend, 2, -1, false, false )
+AL_FUNC_VAR_ARG( prepend, 3, -1, false, false )
 {
 	std::string var;
 	EVAL_AND_CHECK( "prepend", args[ 0 ], var );
-	for( auto arg = args.begin() + 1; arg != args.end(); ++arg ) {
+	char delim = args[ 1 ].empty() ? ':' : args[ 1 ][ 0 ];
+	for( auto arg = args.begin() + 2; arg != args.end(); ++arg ) {
 		std::string farg;
 		EVAL_AND_CHECK( "prepend", * arg, farg );
-		Env::Prepend( var, farg );
+		Env::Prepend( var, farg, delim );
 	}
 	return OK;
 }
 
-AL_FUNC_VAR_ARG( append, 2, -1, false, false )
+AL_FUNC_VAR_ARG( append, 3, -1, false, false )
 {
 	std::string var;
 	EVAL_AND_CHECK( "append", args[ 0 ], var );
-	for( auto arg = args.begin() + 1; arg != args.end(); ++arg ) {
+	char delim = args[ 1 ].empty() ? ':' : args[ 1 ][ 0 ];
+	for( auto arg = args.begin() + 2; arg != args.end(); ++arg ) {
 		std::string farg;
 		EVAL_AND_CHECK( "append", * arg, farg );
-		Env::Append( var, farg );
+		Env::Append( var, farg, delim );
 	}
 	return OK;
 }
 
-AL_FUNC_VAR_ARG( remove, 2, -1, false, false )
+AL_FUNC_VAR_ARG( remove, 3, -1, false, false )
 {
 	std::string var;
 	EVAL_AND_CHECK( "remove", args[ 0 ], var );
-	for( auto arg = args.begin() + 1; arg != args.end(); ++arg ) {
+	char delim = args[ 1 ].empty() ? ':' : args[ 1 ][ 0 ];
+	for( auto arg = args.begin() + 2; arg != args.end(); ++arg ) {
 		std::string farg;
 		EVAL_AND_CHECK( "remove", * arg, farg );
-		Env::Remove( var, farg );
+		Env::Remove( var, farg, delim );
 	}
 	return OK;
 }
