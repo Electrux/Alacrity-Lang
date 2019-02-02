@@ -22,7 +22,7 @@ namespace Parser
 class BlockStmt : public Stmt
 {
 	std::vector< Stmt * > m_stmts;
-	BlockStmt( const std::vector< Stmt * > & stmts );
+	explicit BlockStmt( const std::vector< Stmt * > & stmts );
 public:
 	~BlockStmt();
 	static std::variant< int, std::vector< Parser::Stmt * > > Parse( const LexSymVec & tokens, int & loc, std::vector< std::string > parent_funcs );

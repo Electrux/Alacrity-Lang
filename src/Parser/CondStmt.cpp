@@ -156,7 +156,6 @@ op_begin:
 		++loc;
 		goto begin;
 	}
-end:
 	return new CondStmt( conds );
 error_size:
 	err_line = tokens[ loc - 1 ]->GetLine();

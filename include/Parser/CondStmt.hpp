@@ -53,7 +53,7 @@ struct Cond
 class CondStmt : public Stmt
 {
 	std::vector< Cond > m_conds;
-	CondStmt( const std::vector< Cond > & conds );
+	explicit CondStmt( const std::vector< Cond > & conds );
 public:
 	~CondStmt();
 	void AddBlock( const Cond & cond );

@@ -144,7 +144,7 @@ std::unordered_map< std::string, std::string > IO::COLORS = {
 	{ "lc", "\033[0;36m" },
 };
 
-IO::ColOut::ColOut() : m_enable( true ), m_use_colors( true ) {}
+IO::ColOut::ColOut() : m_enable( true ), m_use_colors( true ), m_eval( false ) {}
 
 void IO::ColOut::Enable( const bool enable ) { m_enable = enable; }
 bool IO::ColOut::IsEnabled() { return m_enable; }
@@ -279,7 +279,7 @@ const ColOut & IO::ColOut::operator<< ( const void * val ) const
 void IO::ColOut::ApplyColors( std::string & str )
 {
 	for( auto it = str.begin(); it != str.end(); ) {
-		if( * it == '{' && ( it == str.begin() || ( * ( it - 1 ) != '$' && * ( it - 1 ) != '$' && * ( it - 1 ) != '$' ) ) ) {
+		if( * it == '{' && ( it == str.begin() || ( * ( it - 1 ) != '$' && * ( it - 1 ) != '%' && * ( it - 1 ) != '#' ) ) ) {
 			it = str.erase( it );
 			if( it != str.end() && * it == '{' ) {
 				++it;

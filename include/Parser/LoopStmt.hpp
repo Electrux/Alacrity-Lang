@@ -35,7 +35,7 @@ class LoopStmt : public Stmt
 	std::vector< std::string > m_args;
 	const BlockStmt * m_block;
 	const LoopType m_loop_type;
-	LoopStmt( const std::vector< std::string > & args, const BlockStmt * block, const LoopType loop_type );
+	explicit LoopStmt( const std::vector< std::string > & args, const BlockStmt * block, const LoopType loop_type );
 public:
 	~LoopStmt();
 	static LoopStmt * Parse( const LexSymVec & tokens, int & loc, std::vector< std::string > parent_funcs, const LoopType loop_type );

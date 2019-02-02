@@ -33,7 +33,7 @@ class FnCallStmt : public Stmt
 	const BlockStmt * m_block; // may or may not exist for any given function call
 	// for example: for the project() function call, it exists (optionally),
 	// for use_lib, it does not
-	FnCallStmt( const std::vector< std::string > & name, const std::string & full_name, const std::string & lib_name,
+	explicit FnCallStmt( const std::vector< std::string > & name, const std::string & full_name, const std::string & lib_name,
 		const std::vector< std::string > & args, const BlockStmt * block );
 public:
 	~FnCallStmt();

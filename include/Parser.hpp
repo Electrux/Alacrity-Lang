@@ -23,7 +23,7 @@ class ParseTree
 	std::vector< Stmt * > m_stmts;
 public:
 	ParseTree();
-	ParseTree( std::vector< Stmt * > stmts );
+	explicit ParseTree( std::vector< Stmt * > stmts );
 	ParseTree( ParseTree && original );
 	ParseTree( ParseTree & original );
 	ParseTree( ParseTree const & original ) = delete;

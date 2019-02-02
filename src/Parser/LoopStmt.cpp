@@ -84,7 +84,7 @@ Parser::LoopStmt * Parser::LoopStmt::Parse( const LexSymVec & tokens, int & loc,
 		err = "Expected at least 2 arguments in loop foreach, but found: " + std::to_string( loop_args.size() );
 		goto error;
 	}
-	if( loop_type == FOREACHVAR && ( loop_args.size() != 2 || loop_args.size() != 3 ) ) {
+	if( loop_type == FOREACHVAR && ( loop_args.size() != 2 && loop_args.size() != 3 ) ) {
 		err = "Expected 2 - 3 arguments in loop foreach_var, but found: " + std::to_string( loop_args.size() );
 		goto error;
 	}
