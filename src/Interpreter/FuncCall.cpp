@@ -44,7 +44,7 @@ int Interpreter::FuncCall( const Parser::FnCallStmt * fncall, const size_t depth
 		goto error;
 	}
 
-	func_info = ( FnInfo * )DynLib::Get()->GetSym( file_loc, "f_inf_" + fncall->GetName() );
+	func_info = static_cast< FnInfo * >( DynLib::Get()->GetSym( file_loc, "f_inf_" + fncall->GetName() ) );
 
 	if( func_info == nullptr ) {
 		if( res == USING_CORE_LIB ) {
@@ -63,8 +63,8 @@ int Interpreter::FuncCall( const Parser::FnCallStmt * fncall, const size_t depth
 		Env::Backup();
 	}
 
-	func = ( int (*)( const std::vector< std::string > &, const int, const Parser::BlockStmt *, const bool ) )
-		DynLib::Get()->GetSym( file_loc, "fn_" + fncall->GetName() );
+	func = reinterpret_cast< int (*)( const std::vector< std::string > &, const int, const Parser::BlockStmt *, const bool ) >
+		( DynLib::Get()->GetSym( file_loc, "fn_" + fncall->GetName() ) );
 	if( func == nullptr ) {
 		err = "dlsym() failed for: " + fncall->GetName();
 		res = DLSYM_FAILED;

@@ -207,7 +207,7 @@ std::variant< int, Syms > Lex::Tokenize( const std::string & data )
 	Syms syms;
 	std::string buffer;
 
-	int prev_state = GetCharType( data[ 0 ], -1, -1, 1, 1 ), next_state = -1;
+	int prev_state = GetCharType( data[ 0 ], -1, -1, 1, 1 );
 	for( auto it = data.begin(); it != data.end(); ++it ) {
 		if( * it == SeparChars[ COMMENT ] ) {
 			while( it != data.end() && * it != SeparChars[ NEWL ] ) ++it;
@@ -225,7 +225,7 @@ std::variant< int, Syms > Lex::Tokenize( const std::string & data )
 		char ch = * it;
 		char next_ch = ( it >= data.end() - 1 ) ? -1 : ( * ( it + 1 ) );
 
-		next_state = GetCharType( ch, prev_ch, next_ch, line, col );
+		int next_state = GetCharType( ch, prev_ch, next_ch, line, col );
 		if( next_state < 0 ) return next_state;
 
 		if( !buffer.empty() && ( FSM[ prev_state ][ next_state ] != prev_state || next_state == SEPAR ) ) {
