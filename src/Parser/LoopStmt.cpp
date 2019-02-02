@@ -100,8 +100,7 @@ Parser::LoopStmt * Parser::LoopStmt::Parse( const LexSymVec & tokens, int & loc,
 			err = "Error encountered while parsing block from foreach call";
 			goto error;
 		} else {
-			auto block_stmts = std::get< std::vector< Stmt * > >( block_var );
-			loop_block = BlockStmt::GenBlock( block_stmts );
+			loop_block = BlockStmt::GenBlock( std::get< std::vector< Stmt * > >( block_var ) );
 		}
 	}
 	return new LoopStmt( loop_args, loop_block, loop_type );

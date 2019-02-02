@@ -92,8 +92,7 @@ std::variant< int, std::vector< Parser::Stmt * > > Parser::BlockStmt::Parse( con
 				err = "Error encountered while parsing block";
 				goto error;
 			} else {
-				auto block_stmts = std::get< std::vector< Stmt * > >( block_var );
-				stmts.push_back( new BlockStmt( block_stmts ) );
+				stmts.push_back( new BlockStmt( std::get< std::vector< Stmt * > >( block_var ) ) );
 			}
 		} else if( tokens[ loc ]->GetType() == Lex::KEYW && tokens[ loc ]->GetDetailType() == Lex::IF ) {
 			auto cond_var = CondStmt::Parse( tokens, loc, parent_funcs );
@@ -135,7 +134,7 @@ error:
 	return err_val;
 }
 
-Parser::BlockStmt * Parser::BlockStmt::GenBlock( const std::vector< Stmt * > stmts )
+Parser::BlockStmt * Parser::BlockStmt::GenBlock( const std::vector< Stmt * > & stmts )
 {
 	return new BlockStmt( stmts );
 }

@@ -96,8 +96,7 @@ Parser::FnCallStmt * Parser::FnCallStmt::Parse( const LexSymVec & tokens, int & 
 			err = "Error encountered while parsing block from function call of: " + full_name;
 			goto error;
 		} else {
-			auto block_stmts = std::get< std::vector< Stmt * > >( block_var );
-			fn_block = BlockStmt::GenBlock( block_stmts );
+			fn_block = BlockStmt::GenBlock( std::get< std::vector< Stmt * > >( block_var ) );
 		}
 	}
 	return new FnCallStmt( parent_funcs, full_name, lib_name, fn_args, fn_block );

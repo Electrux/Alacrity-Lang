@@ -23,7 +23,7 @@
 
 Parser::ParseTree::ParseTree() {}
 
-Parser::ParseTree::ParseTree( std::vector< Stmt * > stmts ) : m_stmts( stmts ) {}
+Parser::ParseTree::ParseTree( const std::vector< Stmt * > & stmts ) : m_stmts( stmts ) {}
 
 Parser::ParseTree::ParseTree( ParseTree && original ) : ParseTree()
 {

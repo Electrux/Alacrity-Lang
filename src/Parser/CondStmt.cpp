@@ -144,8 +144,7 @@ op_begin:
 			err_col = tokens[ loc ]->GetCol();
 			goto error;
 		} else {
-			auto block_stmts = std::get< std::vector< Stmt * > >( block_var );
-			cond_tmp.block = BlockStmt::GenBlock( block_stmts );
+			cond_tmp.block = BlockStmt::GenBlock( std::get< std::vector< Stmt * > >( block_var ) );
 			conds.push_back( cond_tmp );
 			cond_tmp.clear();
 		}
