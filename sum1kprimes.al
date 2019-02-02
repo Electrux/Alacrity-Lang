@@ -1,16 +1,16 @@
-set( sum, 0 )
-set( num, 2 )
-set( count, 0 )
+sum = 0
+num = 2
+count = 0
 
 for() {
 /*
-	set( isprime, true )
+	isprime = true
 	math.sqrt( sqrnum, "${num}" )
 
 	for( x, 2, "${sqrnum}" ) {
 		math.mod( tmp, "${num}", "${x}" )
 		if( "${tmp}" == 0 ) {
-			set( isprime, false )
+			isprime = false
 			brkloop()
 		}
 	}

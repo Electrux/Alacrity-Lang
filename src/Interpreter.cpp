@@ -19,6 +19,7 @@
 #include "../include/Interpreter/Block.hpp"
 #include "../include/Interpreter/Loops.hpp"
 #include "../include/Interpreter/FuncCall.hpp"
+#include "../include/Interpreter/Assignment.hpp"
 #include "../include/Interpreter/Conditional.hpp"
 #include "../include/Interpreter.hpp"
 
@@ -37,7 +38,9 @@ int Interpreter::Interpret( const Parser::ParseTree & ps, const std::string & fi
 
 	for( auto it = ps.GetStmts().begin(); it != ps.GetStmts().end(); ++it ) {
 		auto & stmt = * it;
-		if( stmt->GetType() == Parser::FNCALL ) {
+		if( stmt->GetType() == Parser::ASSIGN ) {
+			res = Interpreter::Assignment( static_cast< const Parser::AssignStmt * >( stmt ), depth + 1 );
+		} else if( stmt->GetType() == Parser::FNCALL ) {
 			res = Interpreter::FuncCall( static_cast< const Parser::FnCallStmt * >( stmt ), depth + 1 );
 		} else if( stmt->GetType() == Parser::BLOCK ) {
 			res = Interpreter::Block( static_cast< const Parser::BlockStmt * >( stmt ), depth + 1 );

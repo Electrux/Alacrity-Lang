@@ -1,11 +1,11 @@
 input_num( num, "Enter a number: " )
-set( isprime, true )
-set( sqrnum, "%{echo \"sqrt(${num}) + 1\" | bc}" )
+isprime = true
+sqrnum = "%{echo \"sqrt(${num}) + 1\" | bc}"
 
 foreach( x, 2, "${sqrnum}" ) {
-	set( tmp, "%{echo ${num} % ${x} | bc}" )
+	tmp = "%{echo ${num} % ${x} | bc}"
 	if( "${tmp}" == 0 ) {
-		set( isprime, false )
+		isprime = false
 		brkloop()
 	}
 }

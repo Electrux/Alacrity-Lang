@@ -1,12 +1,12 @@
 audio.play( mnd, "wave.wav" )
-set( vol, 100 )
-set( is_inc, true )
+vol = 100
+is_inc = true
 for( x, 1, 2000 ) {
 	if( "${vol}" >= 100 ) {
-		set( is_inc, false )
+		is_inc = false
 	}
 	if( "${vol}" <= 10 ) {
-		set( is_inc, true )
+		is_inc = true
 	}
 	if( "${is_inc}" == true ) {
 		math.inc( vol )

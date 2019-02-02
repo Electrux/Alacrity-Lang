@@ -48,6 +48,7 @@ namespace Lex
 		FOREACHVAR,
 
 		GOTO,
+		ASSIGN,
 
 		CONCAT,
 	};

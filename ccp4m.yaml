@@ -81,7 +81,7 @@ builds:
     type: lib
     build_type: ""
     inc_flags: ""
-    lib_flags: "-lsfml-audio"
+    lib_flags: -lsfml-audio
     pre_exec: ""
     main_src: src/Modules/audio.cpp
     other_src:

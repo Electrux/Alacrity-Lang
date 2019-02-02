@@ -19,6 +19,7 @@ namespace Parser
 
 enum StmtType
 {
+	ASSIGN,
 	BLOCK,
 	FNCALL,
 	COND,

@@ -16,6 +16,7 @@
 #include "../../include/IO.hpp"
 #include "../../include/Lexer/Lexer.hpp"
 #include "../../include/Parser/Stmt.hpp"
+#include "../../include/Parser/AssignStmt.hpp"
 #include "../../include/Parser/FnCallStmt.hpp"
 #include "../../include/Parser/CondStmt.hpp"
 #include "../../include/Parser/LoopStmt.hpp"
@@ -48,15 +49,26 @@ std::variant< int, std::vector< Parser::Stmt * > > Parser::BlockStmt::Parse( con
 		err_col = tokens[ loc ]->GetCol();
 		if( tokens[ loc ]->GetType() == Lex::STR ) {
 			if( loc + 1 >= tokens.size() ) {
-				err = "Expected parenthesis open after " + tokens[ loc ]->GetData() + " , but found <EOF>";
+				err = "Expected parenthesis open or (=) after " + tokens[ loc ]->GetData() + " , but found <EOF>";
 				err_val = EARLY_EOF;
 				goto error;
 			}
 			++loc;
 			err_line = tokens[ loc ]->GetLine();
 			err_col = tokens[ loc ]->GetCol();
-			// Well, it's a function call!
-			if( tokens[ loc ]->GetType() == Lex::SEPAR && tokens[ loc ]->GetDetailType() == Lex::PARENOP ) {
+			// It's an assignment
+			if( tokens[ loc ]->GetType() == Lex::KEYW && tokens[ loc ]->GetDetailType() == Lex::ASSIGN ) {
+				// Go to variable name
+				--loc;
+				int tmp_loc = loc;
+				AssignStmt * assn = AssignStmt::Parse( tokens, loc );
+				if( assn == nullptr ) {
+					err = "Error encountered while parsing assignment of: " + tokens[ tmp_loc ]->GetData();
+					err_val = ASSN_PARSE_FAIL;
+					goto error;
+				}
+				stmts.push_back( assn );
+			} else if( tokens[ loc ]->GetType() == Lex::SEPAR && tokens[ loc ]->GetDetailType() == Lex::PARENOP ) { // Well, it's a function call!
 				// Go to function name
 				--loc;
 				int tmp_loc = loc;

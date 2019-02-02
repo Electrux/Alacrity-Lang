@@ -47,6 +47,7 @@ const std::vector< std::string > Lex::KeywStrs = {
 	"foreach_in_var",
 
 	"goto",
+	"=",
 
 	"+",
 };
