@@ -25,7 +25,7 @@ AL_FUNC_FIX_ARG( play, 2, false, false )
 	std::string music_addr;
 	EVAL_AND_CHECK( "play", args[ 0 ], music_addr );
 	Env::SetVar( music_addr, "0" );
-	if( !FS::LocExists( args[ 1 ] ) {
+	if( !FS::LocExists( args[ 1 ] ) ) {
 		std::cerr << "libaudio: Audio file: " << args[ 1 ] << " not found\n";
 		return FAIL;
 	}
