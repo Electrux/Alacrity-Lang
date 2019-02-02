@@ -16,6 +16,7 @@
 #include "../../include/Core.hpp"
 #include "../../include/String.hpp"
 #include "../../include/Env.hpp"
+#include "../../include/FS.hpp"
 #include "../../include/Interpreter/Block.hpp"
 #include "../../include/Interpreter/FnBase.hpp"
 
@@ -24,6 +25,10 @@ AL_FUNC_FIX_ARG( play, 2, false, false )
 	std::string music_addr;
 	EVAL_AND_CHECK( "play", args[ 0 ], music_addr );
 	Env::SetVar( music_addr, "0" );
+	if( !FS::LocExists( args[ 1 ] ) {
+		std::cerr << "libaudio: Audio file: " << args[ 1 ] << " not found\n";
+		return FAIL;
+	}
 	sf::Music * m = new sf::Music();
 	auto m_loc = std::to_string( ( unsigned long long )m );
 	if( m == nullptr ) {
