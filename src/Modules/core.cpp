@@ -180,7 +180,7 @@ AL_FUNC_FIX_ARG( contloop, 0, false, false )
 	return LOOP_CONTINUE_ENCOUNTERED;
 }
 
-AL_FUNC_VAR_ARG( load_file, 1, -1, false, false )
+AL_FUNC_VAR_ARG( load_file, 1, -1, true, false )
 {
 	int res = OK;
 
