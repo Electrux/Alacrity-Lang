@@ -74,3 +74,27 @@ bool FS::CreateDirectoriesForFile( const std::string & file )
 	}
 	return true;
 }
+
+std::string FS::GetFilePath( const std::string & file, const std::string & env_var, const char delim )
+{
+	std::string file_path = file;
+	if( file_path[ 0 ] == '~' ) {
+		file_path.erase( file_path.begin() );
+		file_path = Env::Home() + "/" + file_path;
+	}
+	if( file_path[ 0 ] != '.' && file_path[ 0 ] != '/' ) {
+		file_path = FS::GetCurrentDir() + "/" + file_path;
+	}
+
+	if( FS::LocExists( file_path ) ) return file_path;
+
+	if( env_var.empty() ) {
+		std::cout << "File: " << file_path << " (derived from: " << file << ") does not exist!\n";
+		return "";
+	}
+	auto final_path = Env::GetFileLocation( Env::GetVar( env_var ), file, delim );
+	if( final_path.empty() ) {
+		std::cout << "File: " << file << " could not be found in the list!\n";
+	}
+	return final_path;
+}

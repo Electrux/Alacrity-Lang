@@ -22,6 +22,11 @@ std::string Core::ALLibPaths()
 	return "AL_LIB_PATHS";
 }
 
+std::string Core::ALSourcePaths()
+{
+	return "AL_SRC_PATHS";
+}
+
 std::string Core::FuncLibFile( const std::string & func_name )
 {
 	return "lib" + func_name + ".so";

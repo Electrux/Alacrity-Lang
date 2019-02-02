@@ -137,7 +137,8 @@ std::string Env::GetFileLocation( const std::string & paths, const std::string &
 		if( p == delim || it == paths.end() - 1 ) {
 			if( it == paths.end() - 1 ) tmp += * it;
 			if( !tmp.empty() ) {
-				tmp += "/" + file;
+				if( * ( tmp.end() - 1 ) != '/' ) tmp += "/";
+				tmp += file;
 				if( FS::LocExists( tmp ) ) return tmp;
 				tmp.clear();
 			}

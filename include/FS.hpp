@@ -25,6 +25,8 @@ void SetCurrentDir( const std::string & path );
 std::variant< int, std::string > ReadFile( const std::string & file_name );
 
 bool CreateDirectoriesForFile( const std::string & file );
+
+std::string GetFilePath( const std::string & file, const std::string & env_var = "", const char delim = ':' );
 }
 
 #endif // FS_HPP

@@ -145,6 +145,18 @@ AL_FUNC_VAR_ARG( al_add_lib_paths, 1, -1, false, false )
 	return OK;
 }
 
+AL_FUNC_VAR_ARG( al_add_src_paths, 1, -1, false, false )
+{
+	std::string var = Core::ALSourcePaths();
+	for( auto arg = args.begin(); arg != args.end(); ++arg ) {
+		std::string farg;
+		EVAL_AND_CHECK( "al_add_src_paths", * arg, farg );
+		if( !farg.empty() && * farg.begin() != '/' ) farg = FS::GetCurrentDir() + "/" + farg;
+		Env::Append( var, farg );
+	}
+	return OK;
+}
+
 AL_FUNC_FIX_ARG( exec, 1, false, false )
 {
 	std::string op;
@@ -186,19 +198,10 @@ AL_FUNC_VAR_ARG( load_file, 1, -1, true, false )
 
 	for( auto & arg : args ) {
 		if( arg.empty() ) continue;
-		std::string file_path = arg + ".al";
-		if( file_path[ 0 ] == '~' ) {
-			file_path.erase( file_path.begin() );
-			file_path = Env::Home() + "/" + file_path;
-		}
-		if( file_path[ 0 ] != '.' && file_path[ 0 ] != '/' ) {
-			file_path = FS::GetCurrentDir() + "/" + file_path;
-		}
 
-		if( !FS::LocExists( file_path ) ) {
-			std::cout << "File: " << file_path << " (derived from: " << arg << ") does not exist!\n";
-			return FILE_NOT_FOUND;
-		}
+		auto file_path = FS::GetFilePath( arg + ".al", Core::ALSourcePaths() );
+		if( file_path.empty() ) return FILE_NOT_FOUND;
+
 		auto file_data_var = FS::ReadFile( file_path );
 		if( std::holds_alternative< int >( file_data_var ) ) return std::get< int >( file_data_var );
 		std::string file_data = std::get< std::string >( file_data_var );
