@@ -185,13 +185,21 @@ AL_FUNC_VAR_ARG( load_file, 1, -1, false, false )
 	int res = OK;
 
 	for( auto & arg : args ) {
-		auto al_lib_paths = Env::GetVar( Core::ALLibPaths() );
-		auto file_loc = Env::GetFileLocation( al_lib_paths, arg + ".al", ':' );
-		if( file_loc.empty() ) {
-			std::cout << "File: " << arg << " not found in search paths: " << al_lib_paths << "\n";
+		if( arg.empty() ) continue;
+		std::string file_path = arg + ".al";
+		if( file_path[ 0 ] == '~' ) {
+			file_path.erase( file_path.begin() );
+			file_path = Env::Home() + "/" + file_path;
+		}
+		if( file_path[ 0 ] != '.' && file_path[ 0 ] != '/' ) {
+			file_path = FS::GetCurrentDir() + "/" + file_path;
+		}
+
+		if( !FS::LocExists( file_path ) ) {
+			std::cout << "File: " << file_path << " (derived from: " << arg << ") does not exist!\n";
 			return FILE_NOT_FOUND;
 		}
-		auto file_data_var = FS::ReadFile( file_loc );
+		auto file_data_var = FS::ReadFile( file_path );
 		if( std::holds_alternative< int >( file_data_var ) ) return std::get< int >( file_data_var );
 		std::string file_data = std::get< std::string >( file_data_var );
 
@@ -204,7 +212,7 @@ AL_FUNC_VAR_ARG( load_file, 1, -1, false, false )
 		if( std::holds_alternative< int >( parse_syms_var ) ) return std::get< int >( parse_syms_var );
 		auto parse_syms = std::get< Parser::ParseTree >( parse_syms_var );
 
-		res = Interpreter::Interpret( parse_syms, file_loc, depth, internal_display_enabled );
+		res = Interpreter::Interpret( parse_syms, file_path, depth, internal_display_enabled );
 		if( res != OK ) break;
 	}
 

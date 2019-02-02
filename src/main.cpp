@@ -65,5 +65,19 @@ int main( int argc, char ** argv )
 	res = Core::Init();
 	if( res != OK ) return res;
 
-	return Interpreter::Interpret( parse_syms, argv[ 1 ], 0, false );
+	std::string file_path = argv[ 1 ];
+	if( file_path[ 0 ] == '~' ) {
+		file_path.erase( file_path.begin() );
+		file_path = Env::Home() + "/" + file_path;
+	}
+	if( file_path[ 0 ] != '.' && file_path[ 0 ] != '/' ) {
+		file_path = FS::GetCurrentDir() + "/" + file_path;
+	}
+
+	if( !FS::LocExists( file_path ) ) {
+		std::cout << "File: " << file_path << " (derived from: " << argv[ 1 ] << ") does not exist!\n";
+		return FILE_NOT_FOUND;
+	}
+
+	return Interpreter::Interpret( parse_syms, file_path, 0, false );
 }
