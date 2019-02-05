@@ -1,5 +1,5 @@
 if( "${CPP_FILESYSTEM_SUPPORT}" == "" ) {
-	print( "Checking filesystem support... " )
+	print( "{b}Checking filesystem support{0} ... " )
 	if( "${OS}" == OS_OSX ) {
 		eval( "#{${CC} -std=c++17 cpp_filesystem_support.cpp -I/usr/local/opt/llvm/include -L/usr/local/opt/llvm/lib -lc++fs 2>/dev/null}" )
 	} elif( "${OS}" == OS_LINUX ) {

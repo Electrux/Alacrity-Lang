@@ -224,11 +224,6 @@ AL_FUNC_FIX_ARG( install, 2, false, false )
 	EVAL_AND_CHECK( "install", args[ 1 ], dest );
 	if( src.empty() || dest.empty() ) return OK;
 
-	if( !FS::LocExists( src ) ) {
-		std::cerr << "Failed install: Source " << src << " does not exist!\n";
-		return FAIL;
-	}
-
 	if( !FS::CreateDirectoriesForFile( dest ) ) {
 		std::cerr << "Failed install: Could not create destination directories for " << dest << "! Ensure that you have required permissions!\n";
 		return FAIL;

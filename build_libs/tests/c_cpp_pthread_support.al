@@ -1,5 +1,5 @@
 if( "${C_CPP_PTHREAD_SUPPORT}" == "" ) {
-	print( "Checking pthread support... " )
+	print( "{b}Checking pthread support{0} ... " )
 
 	if( "${LANGUAGE}" == "c++" ) {
 		tmp_cc = "${CC}"

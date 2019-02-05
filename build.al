@@ -36,5 +36,5 @@ if( "${IS_ROOT}" == "true" || "${OS}" == OS_OSX ) {
 	install( "buildfiles/libaudio.so", "/usr/local/share/allang_libs/" )
 	install( "buildfiles/libproject.so", "/usr/local/share/allang_libs/" )
 	install( "buildfiles/libbuilds.so", "/usr/local/share/allang_libs/" )
-	install( "build_libs", "/usr/local/share/allang_tests" )
+	install( "build_libs/*", "/usr/local/share/allang_tests/" )
 }

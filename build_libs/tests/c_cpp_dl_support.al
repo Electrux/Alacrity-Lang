@@ -1,5 +1,5 @@
 if( "${C_CPP_DL_SUPPORT}" == "" ) {
-	print( "Checking libdl support... " )
+	print( "{b}Checking libdl support{0} ... " )
 
 	if( "${LANGUAGE}" == "c++" ) {
 		tmp_cc = "${CC}"
