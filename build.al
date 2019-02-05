@@ -7,8 +7,6 @@ project( "Alacrity-Lang" ) {
 
 builds.add_cxx_flags( "-O2", "-fPIC" )
 
-al_add_src_paths( build_libs )
-
 load_file( filesystem )
 load_file( pthread )
 load_file( dl )
@@ -38,4 +36,5 @@ if( "${IS_ROOT}" == "true" || "${OS}" == OS_OSX ) {
 	install( "buildfiles/libaudio.so", "/usr/local/share/allang_libs/" )
 	install( "buildfiles/libproject.so", "/usr/local/share/allang_libs/" )
 	install( "buildfiles/libbuilds.so", "/usr/local/share/allang_libs/" )
+	install( "build_libs", "/usr/local/share/allang_tests" )
 }

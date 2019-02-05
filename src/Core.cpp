@@ -39,6 +39,11 @@ int Core::Init()
 		return ENV_SETVAR_FAILED;
 	}
 
+	if( !Env::SetVar( ALSourcePaths(), "/usr/local/share/allang_tests/" ) ) {
+		std::cout << "Core::Init() failed: Unable to set core AL_SRC_PATHS env var!\n";
+		return ENV_SETVAR_FAILED;
+	}
+
 #ifdef __linux__
 	if( !Env::SetVar( "OS", "OS_LINUX" ) ) {
 #elif __APPLE__
