@@ -27,6 +27,10 @@ std::variant< int, std::string > ReadFile( const std::string & file_name );
 bool CreateDirectoriesForFile( const std::string & file );
 
 std::string GetFilePath( const std::string & file, const std::string & env_var = "", const char delim = ':' );
+
+std::vector< std::string > GetFilesFromRegex( std::string regex_str );
+
+bool DeleteFile( const std::string & file );
 }
 
 #endif // FS_HPP

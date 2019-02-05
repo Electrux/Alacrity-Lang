@@ -14,7 +14,7 @@ if( "${LANGUAGE}" != "c++" ) {
 }
 
 if( "${STD_VERSION}" < 17 ) {
-	fail( "Minimum required standard version for filesystem library is c++17" )
+	fail( "Minimum required standard version for filesystem library is c++17\n" )
 }
 
 load_file( "tests/cpp_filesystem_support" )
@@ -24,9 +24,9 @@ if( "${CPP_FILESYSTEM_SUPPORT}" == no || "${CPP_FILESYSTEM_SUPPORT}" == "" ) {
 }
 
 if( "${OS}" == OS_OSX ) {
-	add_cxx_inc_dirs( "-I/usr/local/opt/llvm/include" )
-	add_cxx_lib_dirs( "-I/usr/local/opt/llvm/lib" )
-	add_cxx_lib_flags( "-lc++fs" )
+	builds.add_cxx_inc_dirs( "-I/usr/local/opt/llvm/include" )
+	builds.add_cxx_lib_dirs( "-L/usr/local/opt/llvm/lib" )
+	builds.add_cxx_lib_flags( "-lc++fs" )
 } elif( "${OS}" == OS_LINUX ) {
-	add_cxx_lib_flags( "-lstdc++fs" )
+	builds.add_cxx_lib_flags( "-lstdc++fs" )
 }

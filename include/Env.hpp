@@ -14,9 +14,17 @@
 #include <vector>
 #include <string>
 #include <unordered_map>
+#include <atomic>
 
 namespace Env
 {
+struct ExecData
+{
+	std::string msg;
+	std::string cmd;
+};
+extern std::atomic< int > threadctr;
+
 /* Manipulate Environment Variables */
 std::string GetVar( const std::string & var );
 bool SetVar( const std::string & var, const std::string & val );
@@ -49,6 +57,8 @@ void Append( const std::string & var, const std::string & val, const char delim 
 void Prepend( const std::string & var, const std::string & val, const char delim = ':' );
 void Reset( const std::string & var );
 void Remove( const std::string & var, const std::string & val, const char delim = ':' );
+
+int MultiThreadedExec( const std::vector< ExecData > cmds );
 }
 
 #endif // ENV_HPP

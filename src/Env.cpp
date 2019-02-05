@@ -12,11 +12,17 @@
 #include <string>
 #include <unordered_map>
 #include <cstdlib>
+#include <thread>
+#include <atomic>
+#include <future>
 
 #include "../include/Errors.hpp"
 #include "../include/String.hpp"
+#include "../include/IO.hpp"
 #include "../include/FS.hpp"
 #include "../include/Env.hpp"
+
+std::atomic< int > Env::threadctr( 0 );
 
 std::string Env::GetVar( const std::string & var )
 {
@@ -191,4 +197,50 @@ void Env::Remove( const std::string & var, const std::string & val, const char d
 		else if( p2.size() > 0 ) p2.erase( p2.begin() );
 	}
 	Env::SetVar( var, p1 + p2 );
+}
+
+int Env::MultiThreadedExec( const std::vector< ExecData > cmds )
+{
+	if( cmds.size() == 0 ) return OK;
+	std::vector< std::future< int > > futures;
+	int cores = std::thread::hardware_concurrency();
+	int ctr = 1;
+	int percent;
+	for( auto cmdit = cmds.begin(); cmdit < cmds.end() - 1; ++cmdit ) {
+		auto & cmd = * cmdit;
+		percent = ( ctr * 100 ) / cmds.size();
+		while( threadctr >= cores ) {
+			for( auto it = futures.begin(); it != futures.end(); ) {
+				if( it->wait_for( std::chrono::seconds( 0 ) ) != std::future_status::ready ) {
+					++it;
+					continue;
+				}
+				--threadctr;
+				int res = it->get();
+				it = futures.erase( it );
+				if( res != 0 ) {
+					for( auto & d : futures ) d.wait();
+					return res;
+				}
+				break;
+			}
+		}
+		IO::colout( false ) << "[" << percent << "%]\t" << cmd.msg << "\n";
+		++ctr;
+		++threadctr;
+		futures.push_back( std::async( std::launch::async, ExecVector, cmd.cmd, nullptr ) );
+	}
+
+	for( auto it = futures.begin(); it != futures.end(); ) {
+		int res = it->get();
+		--threadctr;
+		it = futures.erase( it );
+		if( res != 0 ) {
+			for( auto & d : futures ) d.wait();
+			return res;
+		}
+	}
+
+	IO::colout( false ) << "[" << 100 << "%]\t" << cmds[ cmds.size() - 1 ].msg << "\n";
+	return Env::ExecVector( cmds[ cmds.size() - 1 ].cmd, nullptr );
 }

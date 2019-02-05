@@ -98,3 +98,40 @@ std::string FS::GetFilePath( const std::string & file, const std::string & env_v
 	}
 	return final_path;
 }
+
+std::vector< std::string > FS::GetFilesFromRegex( std::string regex_str )
+{
+	if( regex_str.empty() ) return {};
+	bool reverse_regex = false;
+
+	if( * regex_str.begin() == '-' ) {
+		reverse_regex = true;
+		regex_str.erase( regex_str.begin() );
+	}
+
+	if( regex_str.size() > 0 && * regex_str.begin() == '.' ) {
+		regex_str.erase( regex_str.begin() );
+		if( regex_str.size() > 0 && * regex_str.begin() == '/' ) regex_str.erase( regex_str.begin() );
+	}
+	if( regex_str.size() == 0 ) return {};
+
+	std::vector< std::string > res;
+	auto src_dir = regex_str.substr( 0, regex_str.find_last_of( '/' ) + 1 );
+	if( src_dir.empty() ) src_dir = "./";
+
+	std::regex regex( regex_str );
+	for( auto & p : std::filesystem::recursive_directory_iterator( src_dir ) ) {
+		if( reverse_regex ) {
+			if( !std::regex_match( p.path().string(), regex ) ) res.push_back( p.path() );
+		} else {
+			if( std::regex_match( p.path().string(), regex ) ) res.push_back( p.path() );
+		}
+	}
+
+	return res;
+}
+
+bool FS::DeleteFile( const std::string & file )
+{
+	return std::remove( file.c_str() ) == 0 ? true : false;
+}

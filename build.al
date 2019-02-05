@@ -1,3 +1,5 @@
+CC = "clang++"
+
 project( "Alacrity-Lang" ) {
 	version( 0.1 )
 	language( cpp, 17 )
@@ -5,15 +7,15 @@ project( "Alacrity-Lang" ) {
 	author( Electrux, "ElectruxRedsworth@gmail.com" )
 }
 
-add_cxx_flags( "-O2", "-fPIC" )
+builds.add_cxx_flags( "-O2", "-fPIC" )
 
 al_add_src_paths( build_libs )
 
 load_file( filesystem )
-load_file( dl )
 
 builds( bin ) {
-	sources( "src/(.*)\.cpp", "-src/Modules/(.*)\.cpp" )
+	sources( "./src/(.*)\.cpp", "-src/Modules/(.*)\.cpp" )
+	.load_file( dl )
 	build( al, "src/main.cpp" )
 }
 
@@ -23,9 +25,7 @@ builds( lib, dynamic ) {
 	build( os, "src/Modules/os.cpp" )
 	build( math, "src/Modules/math.cpp" )
 	build( list, "src/Modules/list.cpp" )
-}
-
-builds( lib, dynamic ) {
-	add_lib_flags( "-lsfml-audio" )
-	build( audio, "src/Modules/audio.cpp" )
+	build( audio, "src/Modules/audio.cpp", "", "-lsfml-audio" )
+	build( project, "src/Modules/project.cpp" )
+	build( builds, "src/Modules/builds.cpp, src/Modules/builds/cxx.cpp, src/Modules/builds/c.cpp" )
 }

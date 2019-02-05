@@ -199,6 +199,7 @@ std::vector< std::string > Str::Delimit( const std::string & str, const char ch 
 	std::vector< std::string > vec;
 
 	for( auto c : str ) {
+		if( c == ' ' && ch != ' ' ) continue;
 		if( c == ch ) {
 			if( temp.empty() ) continue;
 			vec.push_back( temp );

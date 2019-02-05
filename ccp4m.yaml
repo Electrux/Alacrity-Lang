@@ -89,5 +89,29 @@ builds:
     exclude:
       - src/Modules/(.*).cpp
       - src/main.cpp
+  - name: project
+    type: lib
+    build_type: ""
+    inc_flags: ""
+    lib_flags: ""
+    pre_exec: ""
+    main_src: src/Modules/project.cpp
+    other_src:
+      - src/(.*).cpp
+    exclude:
+      - src/Modules/(.*).cpp
+      - src/main.cpp
+  - name: builds
+    type: lib
+    build_type: ""
+    inc_flags: ""
+    lib_flags: ""
+    pre_exec: ""
+    main_src: src/Modules/builds.cpp
+    other_src:
+      - src/(.*).cpp
+    exclude:
+      - src/Modules/.([^\\/]*).cpp
+      - src/main.cpp
 env:
   []

@@ -199,9 +199,7 @@ const ColOut & IO::ColOut::operator<< ( const char * val ) const
 const ColOut & IO::ColOut::operator<< ( const int val ) const
 {
 	if( m_enable ) {
-		if( m_use_colors ) std::cout << COLORS[ "by" ];
 		std::cout << val;
-		if( m_use_colors ) std::cout << COLORS[ "0" ];
 	}
 	return * this;
 }

@@ -9,6 +9,6 @@ if( "${C_CPP_DL_SUPPORT}" == no || "${C_CPP_DL_SUPPORT}" == "" ) {
 }
 
 if( "${OS}" == OS_OSX || "${OS}" == OS_LINUX ) {
-	#add_c_lib_flags( "-ldl" )
-	#add_cxx_lib_flags( "-ldl" )
+	builds.add_c_lib_flags( "-ldl" )
+	builds.add_cxx_lib_flags( "-ldl" )
 }
