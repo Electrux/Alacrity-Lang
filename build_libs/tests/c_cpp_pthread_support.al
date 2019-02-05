@@ -1,5 +1,5 @@
-if( "${C_CPP_DL_SUPPORT}" == "" ) {
-	print( "Checking libdl support... " )
+if( "${C_CPP_PTHREAD_SUPPORT}" == "" ) {
+	print( "Checking pthread support... " )
 
 	if( "${LANGUAGE}" == "c++" ) {
 		tmp_cc = "${CC}"
@@ -10,7 +10,7 @@ if( "${C_CPP_DL_SUPPORT}" == "" ) {
 		}
 	}
 
-	eval( "#{${CC} c_cpp_dl_support.c -ldl 2>/dev/null}" )
+	eval( "#{${CC} c_cpp_pthread_support.c -lpthread 2>/dev/null}" )
 
 	if( "${LANGUAGE}" == "c++" ) {
 		CC = "${tmp_cc}"
@@ -19,10 +19,10 @@ if( "${C_CPP_DL_SUPPORT}" == "" ) {
 
 	if( "${EXIT_STATUS}" == 0 ) {
 		exec( "rm a.out" )
-		C_CPP_DL_SUPPORT = yes
+		C_CPP_PTHREAD_SUPPORT = yes
 		print( "{g}yes{0}\n" )
 	} else {
-		C_CPP_DL_SUPPORT = no
+		C_CPP_PTHREAD_SUPPORT = no
 		print( "{r}no{0}\n" )
 	}
 }

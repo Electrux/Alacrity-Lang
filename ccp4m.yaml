@@ -18,6 +18,10 @@ libs:
     version: 0
     inc_flags: ""
     lib_flags: -ldl
+  - name: pthread
+    version: 0
+    inc_flags: ""
+    lib_flags: -lpthread
 builds:
   - name: al
     type: bin

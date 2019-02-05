@@ -1,5 +1,3 @@
-CC = "clang++"
-
 project( "Alacrity-Lang" ) {
 	version( 0.1 )
 	language( cpp, 17 )
@@ -12,10 +10,11 @@ builds.add_cxx_flags( "-O2", "-fPIC" )
 al_add_src_paths( build_libs )
 
 load_file( filesystem )
+load_file( pthread )
+load_file( dl )
 
 builds( bin ) {
 	sources( "./src/(.*)\.cpp", "-src/Modules/(.*)\.cpp" )
-	.load_file( dl )
 	build( al, "src/main.cpp" )
 }
 
