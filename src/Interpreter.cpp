@@ -36,6 +36,9 @@ int Interpreter::Interpret( const Parser::ParseTree & ps, const std::string & fi
 		FS::SetCurrentDir( srcpath );
 	}
 
+	auto prev_file = Env::GetVar( "CURRENT_FILE" );
+	Env::SetVar( "CURRENT_FILE", file_path );
+
 	for( auto it = ps.GetStmts().begin(); it != ps.GetStmts().end(); ++it ) {
 		auto & stmt = * it;
 		if( stmt->GetType() == Parser::ASSIGN ) {
@@ -62,6 +65,8 @@ int Interpreter::Interpret( const Parser::ParseTree & ps, const std::string & fi
 		}
 	}
 	FS::SetCurrentDir( cwd );
+
+	Env::SetVar( "CURRENT_FILE", prev_file );
 
 	if( res != FAIL_FN_CALLED ) {
 		IO::colout << "Exited [{c}" << file_path << "{0}]! ";
