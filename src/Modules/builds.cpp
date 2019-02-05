@@ -172,7 +172,6 @@ AL_FUNC_VAR_ARG( build, 2, -1, false, false )
 	// Finally, build all
 	int res = Env::MultiThreadedExec( cmds );
 
-done:
 	Env::Reset( "TARGET" );
 	* builder = builder_backup;
 	Env::Restore();

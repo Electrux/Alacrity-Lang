@@ -58,7 +58,7 @@ void Prepend( const std::string & var, const std::string & val, const char delim
 void Reset( const std::string & var );
 void Remove( const std::string & var, const std::string & val, const char delim = ':' );
 
-int MultiThreadedExec( const std::vector< ExecData > cmds );
+int MultiThreadedExec( const std::vector< ExecData > & cmds );
 
 int GetUID();
 }

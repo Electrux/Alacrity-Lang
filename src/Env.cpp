@@ -200,16 +200,15 @@ void Env::Remove( const std::string & var, const std::string & val, const char d
 	Env::SetVar( var, p1 + p2 );
 }
 
-int Env::MultiThreadedExec( const std::vector< ExecData > cmds )
+int Env::MultiThreadedExec( const std::vector< ExecData > & cmds )
 {
 	if( cmds.size() == 0 ) return OK;
 	std::vector< std::future< int > > futures;
 	int cores = std::thread::hardware_concurrency();
 	int ctr = 1;
-	int percent;
 	for( auto cmdit = cmds.begin(); cmdit < cmds.end() - 1; ++cmdit ) {
 		auto & cmd = * cmdit;
-		percent = ( ctr * 100 ) / cmds.size();
+		int percent = ( ctr * 100 ) / cmds.size();
 		while( threadctr >= cores ) {
 			for( auto it = futures.begin(); it != futures.end(); ) {
 				if( it->wait_for( std::chrono::seconds( 0 ) ) != std::future_status::ready ) {
