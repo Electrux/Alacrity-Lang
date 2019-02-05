@@ -234,7 +234,11 @@ AL_FUNC_FIX_ARG( install, 2, false, false )
 		return FAIL;
 	}
 	std::string cmd_str, cmd_final;
+#ifdef __linux__
 	cmd_str = "cp -r --remove-destination " + src + " " + dest;
+#elif __APPLE__
+	cmd_str = "cp -r " + src + " " + dest;
+#endif
 	IO::colout << "{bm}Installing {by}" + src + " {bm}to {by}" + dest << "{0}\n";
 	return Env::Exec( cmd_str );
 }
