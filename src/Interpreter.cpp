@@ -24,10 +24,9 @@
 #include "../include/Interpreter.hpp"
 
 int Interpreter::Interpret( const Parser::ParseTree & ps, const std::string & file_path,
-			const int depth, const bool enable_internal_display )
+			const int depth, const bool internal_display_enabled )
 {
-	IO::colout.Enable( enable_internal_display );
-	IO::colout << "Entering [{c}" << file_path << "{0}]...\n";
+	if( internal_display_enabled ) IO::colout << "Entering [{c}" << file_path << "{0}]...\n";
 	int res = OK;
 
 	auto cwd = FS::GetCurrentDir();
@@ -42,22 +41,22 @@ int Interpreter::Interpret( const Parser::ParseTree & ps, const std::string & fi
 	for( auto it = ps.GetStmts().begin(); it != ps.GetStmts().end(); ++it ) {
 		auto & stmt = * it;
 		if( stmt->GetType() == Parser::ASSIGN ) {
-			res = Interpreter::Assignment( static_cast< const Parser::AssignStmt * >( stmt ), depth + 1 );
+			res = Interpreter::Assignment( static_cast< const Parser::AssignStmt * >( stmt ), depth + 1, internal_display_enabled );
 		} else if( stmt->GetType() == Parser::FNCALL ) {
-			res = Interpreter::FuncCall( static_cast< const Parser::FnCallStmt * >( stmt ), depth + 1 );
+			res = Interpreter::FuncCall( static_cast< const Parser::FnCallStmt * >( stmt ), depth + 1, internal_display_enabled );
 		} else if( stmt->GetType() == Parser::BLOCK ) {
-			res = Interpreter::Block( static_cast< const Parser::BlockStmt * >( stmt ), depth + 1 );
+			res = Interpreter::Block( static_cast< const Parser::BlockStmt * >( stmt ), depth + 1, internal_display_enabled );
 		} else if( stmt->GetType() == Parser::COND ) {
-			res = Interpreter::Conditional( static_cast< const Parser::CondStmt * >( stmt ), depth + 1 );
+			res = Interpreter::Conditional( static_cast< const Parser::CondStmt * >( stmt ), depth + 1, internal_display_enabled );
 		} else if( stmt->GetType() == Parser::LOOP ) {
-			res = Interpreter::LoopCall( static_cast< const Parser::LoopStmt * >( stmt ), depth + 1 );
+			res = Interpreter::LoopCall( static_cast< const Parser::LoopStmt * >( stmt ), depth + 1, internal_display_enabled );
 		} else {
-			IO::colout << "Interpret[" << depth << "] {r}error{0}: Unrecognized object type with value: " << stmt->GetType() << "\n";
+			if( internal_display_enabled ) IO::colout << "Interpret[" << depth << "] {r}error{0}: Unrecognized object type with value: " << stmt->GetType() << "\n";
 			res = UNKNOWN_OBJ_TYPE;
 			break;
 		}
 		if( res != OK ) {
-			if( res != FAIL_FN_CALLED ) {
+			if( res != FAIL_FN_CALLED && internal_display_enabled ) {
 				IO::colout << "Interpret[" << depth << "] {r}error{0}: Failed to interpret object "
 					<< stmt->GetType() << ", look at error above!\n";
 			}
@@ -68,7 +67,7 @@ int Interpreter::Interpret( const Parser::ParseTree & ps, const std::string & fi
 
 	Env::SetVar( "CURRENT_FILE", prev_file );
 
-	if( res != FAIL_FN_CALLED ) {
+	if( res != FAIL_FN_CALLED && internal_display_enabled ) {
 		IO::colout << "Exited [{c}" << file_path << "{0}]! ";
 		if( res != OK ) {
 			IO::colout << "Errors encountered!\n";

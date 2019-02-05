@@ -25,7 +25,7 @@ static int GetFuncFileLoc( const std::string & fn_name, const std::string & fn_l
 			std::string & file_loc, const int depth );
 static bool VerifyArgCount( const std::string & fn_name, const int depth, const int min, const int max, const int used );
 
-int Interpreter::FuncCall( const Parser::FnCallStmt * fncall, const size_t depth )
+int Interpreter::FuncCall( const Parser::FnCallStmt * fncall, const size_t depth, const bool internal_display_enabled )
 {
 	int res = OK;
 	std::string err;
@@ -72,17 +72,7 @@ int Interpreter::FuncCall( const Parser::FnCallStmt * fncall, const size_t depth
 	}
 
 	// execute the function
-	res = func( fncall->GetArgs(), depth, fncall->GetBlock(), IO::colout.IsEnabled() );
-
-	if( res == COLOR_OUT_ENABLED || res == COLOR_OUT_DISABLED ) {
-		IO::colout.UseColors( res == COLOR_OUT_ENABLED );
-		res = OK;
-	}
-
-	if( res == IMPLICIT_DISPLAY_ENABLED || res == IMPLICIT_DISPLAY_DISABLED ) {
-		IO::colout.Enable( res == IMPLICIT_DISPLAY_ENABLED );
-		res = OK;
-	}
+	res = func( fncall->GetArgs(), depth, fncall->GetBlock(), internal_display_enabled );
 
 	if( res != OK && res != LOOP_BREAK_ENCOUNTERED && res != LOOP_CONTINUE_ENCOUNTERED ) {
 		if( res != FAIL_FN_CALLED ) {
@@ -93,16 +83,13 @@ int Interpreter::FuncCall( const Parser::FnCallStmt * fncall, const size_t depth
 
 	if( fncall->GetBlock() != nullptr ) {
 		if( !func_info->used_block && res != LOOP_BREAK_ENCOUNTERED && res != LOOP_CONTINUE_ENCOUNTERED )
-			res = Interpreter::Block( fncall->GetBlock(), depth );
+			res = Interpreter::Block( fncall->GetBlock(), depth, internal_display_enabled );
 		if( !func_info->persist_env ) Env::Restore();
 	}
 error:
 	if( res != OK && res != FAIL_FN_CALLED && res != LOOP_BREAK_ENCOUNTERED && res != LOOP_CONTINUE_ENCOUNTERED ) {
-		bool was_enabled = IO::colout.IsEnabled();
-		if( !was_enabled ) IO::colout.Enable( true );
 		IO::colout << "Function Call[" << depth << "][{b}" << fncall->GetFullName()
 			<< "{0}] {r}error{0}(" << res << "): Failed to interpret, " + err + "!{0}\n";
-		if( !was_enabled ) IO::colout.Enable( false );
 	}
 	return res;
 }
@@ -136,10 +123,7 @@ static int GetFuncFileLoc( const std::string & fn_name, const std::string & fn_l
 	}
 error:
 	if( res != OK && res != FAIL_FN_CALLED ) {
-		bool was_enabled = IO::colout.IsEnabled();
-		if( !was_enabled ) IO::colout.Enable( true );
 		IO::colout << "Function Call[" << depth << "][{b}" << fn_name << "{0}] {r}error{0}(" << res << "): Failed to interpret, " + err + "!{0}\n";
-		if( !was_enabled ) IO::colout.Enable( false );
 		return res;
 	}
 	return USING_CORE_LIB;
@@ -163,10 +147,7 @@ static bool VerifyArgCount( const std::string & fn_name, const int depth, const 
 	}
 
 	if( res != true ) {
-		bool was_enabled = IO::colout.IsEnabled();
-		if( !was_enabled ) IO::colout.Enable( true );
 		IO::colout << "Function Call[" << depth << "][{b}" << fn_name << "{0}] {r}error{0}(" << res << "): Failed to interpret, " + err + "!{0}\n";
-		if( !was_enabled ) IO::colout.Enable( false );
 	}
 	return res;
 }

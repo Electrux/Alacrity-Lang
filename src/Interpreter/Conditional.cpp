@@ -19,19 +19,19 @@
 #include "../../include/Interpreter/Block.hpp"
 #include "../../include/Interpreter/Conditional.hpp"
 
-static int EvalConditions( const Parser::Cond & cond, const size_t depth );
+static int EvalConditions( const Parser::Cond & cond, const size_t depth, const bool internal_display_enabled );
 
-int Interpreter::Conditional( const Parser::CondStmt * conds, const size_t depth )
+int Interpreter::Conditional( const Parser::CondStmt * conds, const size_t depth, const bool internal_display_enabled )
 {
 	int res = OK;
 
-	IO::colout << "Conditional[" << depth << "]: Interpreting...\n";
+	if( internal_display_enabled ) IO::colout << "Conditional[" << depth << "]: Interpreting...\n";
 
 	int block_loc = -1;
 
 	for( int i = 0; i < conds->GetConds().size(); ++i ) {
 		auto & cond = conds->GetConds()[ i ];
-		res = EvalConditions( cond, depth );
+		res = EvalConditions( cond, depth, internal_display_enabled );
 		if( res < 0 ) {
 			break;
 		}
@@ -42,15 +42,15 @@ int Interpreter::Conditional( const Parser::CondStmt * conds, const size_t depth
 	}
 
 	if( block_loc < 0 ) {
-		IO::colout << "Conditional[" << depth << "]: Could not satisfy any block's conditions! Nothing to do here!\n";
+		if( internal_display_enabled ) IO::colout << "Conditional[" << depth << "]: Could not satisfy any block's conditions! Nothing to do here!\n";
 		return OK;
 	}
 
 	if( conds->GetConds()[ block_loc ].block != nullptr ) {
-		res = Interpreter::Block( conds->GetConds()[ block_loc ].block, depth );
+		res = Interpreter::Block( conds->GetConds()[ block_loc ].block, depth ,internal_display_enabled );
 	}
 
-	if( res != FAIL_FN_CALLED ) {
+	if( res != FAIL_FN_CALLED && internal_display_enabled ) {
 		IO::colout << "Conditional[" << depth << "]: Interpretation finished! ";
 		if( res != OK && res != LOOP_BREAK_ENCOUNTERED && res != LOOP_CONTINUE_ENCOUNTERED ) {
 			IO::colout << "Errors encountered!\n";
@@ -61,10 +61,10 @@ int Interpreter::Conditional( const Parser::CondStmt * conds, const size_t depth
 	return res;
 }
 
-static int EvalConditions( const Parser::Cond & cond, const size_t depth )
+static int EvalConditions( const Parser::Cond & cond, const size_t depth, const bool internal_display_enabled )
 {
 	if( cond.ops.empty() ) {
-		IO::colout << "Conditional[" << depth << "]: Executing else statement...\n";
+		if( internal_display_enabled ) IO::colout << "Conditional[" << depth << "]: Executing else statement...\n";
 		return true;
 	}
 
@@ -76,12 +76,12 @@ static int EvalConditions( const Parser::Cond & cond, const size_t depth )
 		std::string outl, outr;
 		res = Str::Eval( o.lhs, outl );
 		if( res != OK ) {
-			IO::colout << "Conditional[" << depth << "] {r}error{0}: Failed to fetch LHS from: " << o.lhs << "\n";
+			if( internal_display_enabled ) IO::colout << "Conditional[" << depth << "] {r}error{0}: Failed to fetch LHS from: " << o.lhs << "\n";
 			return -1;
 		}
 		res = Str::Eval( o.rhs, outr );
 		if( res != OK ) {
-			IO::colout << "Conditional[" << depth << "] {r}error{0}: Failed to fetch RHS from: " << o.rhs << "\n";
+			if( internal_display_enabled ) IO::colout << "Conditional[" << depth << "] {r}error{0}: Failed to fetch RHS from: " << o.rhs << "\n";
 			return -1;
 		}
 		bool result_tmp;
@@ -141,7 +141,7 @@ static int EvalConditions( const Parser::Cond & cond, const size_t depth )
 		}
 		i = tmp_i;
 	}
-	if( result ) {
+	if( result && internal_display_enabled ) {
 		IO::colout << "Conditional[" << depth << "]: Matched condition(s): ";
 		for( auto & o : cond.ops ) {
 			if( o.type == Parser::AND ) {

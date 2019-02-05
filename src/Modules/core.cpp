@@ -17,6 +17,7 @@
 #include "../../include/String.hpp"
 #include "../../include/Env.hpp"
 #include "../../include/FS.hpp"
+#include "../../include/IO.hpp"
 #include "../../include/Interpreter.hpp"
 #include "../../include/Interpreter/Block.hpp"
 #include "../../include/Interpreter/FnBase.hpp"
@@ -172,16 +173,6 @@ AL_FUNC_FIX_ARG( eval, 1, false, false )
 	return OK;
 }
 
-AL_FUNC_FIX_ARG( enable_internal_display, 0, false, false )
-{
-	return IMPLICIT_DISPLAY_ENABLED;
-}
-
-AL_FUNC_FIX_ARG( disable_internal_display, 0, false, false )
-{
-	return IMPLICIT_DISPLAY_DISABLED;
-}
-
 AL_FUNC_FIX_ARG( brkloop, 0, false, false )
 {
 	return LOOP_BREAK_ENCOUNTERED;
@@ -220,4 +211,30 @@ AL_FUNC_VAR_ARG( load_file, 1, -1, true, false )
 	}
 
 	return res;
+}
+
+/*
+ * a1 -> src
+ * a2 -> dest
+ */
+AL_FUNC_FIX_ARG( install, 2, false, false )
+{
+	std::string src, dest;
+	EVAL_AND_CHECK( "install", args[ 0 ], src );
+	EVAL_AND_CHECK( "install", args[ 1 ], dest );
+	if( src.empty() || dest.empty() ) return OK;
+
+	if( !FS::LocExists( src ) ) {
+		std::cerr << "Failed install: Source " << src << " does not exist!\n";
+		return FAIL;
+	}
+
+	if( !FS::CreateDirectoriesForFile( dest ) ) {
+		std::cerr << "Failed install: Could not create destination directories for " << dest << "! Ensure that you have required permissions!\n";
+		return FAIL;
+	}
+	std::string cmd_str, cmd_final;
+	cmd_str = "install " + src + " " + dest;
+	IO::colout( true ) << "{bm}Installing {by}" + src + " {bm}to {by}" + dest << "\n";
+	return Env::Exec( cmd_str );
 }

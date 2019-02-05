@@ -21,7 +21,7 @@
 #include "../../include/Interpreter/Block.hpp"
 #include "../../include/Interpreter/Loops.hpp"
 
-int Interpreter::LoopCall( const Parser::LoopStmt * loop_var, const size_t depth )
+int Interpreter::LoopCall( const Parser::LoopStmt * loop_var, const size_t depth, const bool internal_display_enabled )
 {
 	int res = OK;
 	std::string err;
@@ -29,8 +29,6 @@ int Interpreter::LoopCall( const Parser::LoopStmt * loop_var, const size_t depth
 	// Temporary variable for loop
 	std::string dest;
 	if( loop_var->GetArgs().size() > 0 ) dest = loop_var->GetArgs()[ 0 ];
-	bool colout_was_enabled = IO::colout.IsEnabled();
-	IO::colout.Enable( false );
 
 	std::vector< std::string > final_args;
 	// args.size() is bound to be 3 - 4 or 0 because of parse condition
@@ -100,7 +98,7 @@ int Interpreter::LoopCall( const Parser::LoopStmt * loop_var, const size_t depth
 
 infinite_loop:
 	while( true ) {
-		if( loop_var->GetBlock() != nullptr ) res = Interpreter::Block( loop_var->GetBlock(), depth );
+		if( loop_var->GetBlock() != nullptr ) res = Interpreter::Block( loop_var->GetBlock(), depth, internal_display_enabled );
 		if( res != OK && res != LOOP_CONTINUE_ENCOUNTERED ) break;
 	}
 	goto error;
@@ -114,14 +112,13 @@ finite_loop:
 			goto error;
 		}
 		Env::SetVar( dest, arg );
-		if( loop_var->GetBlock() != nullptr ) res = Interpreter::Block( loop_var->GetBlock(), depth );
+		if( loop_var->GetBlock() != nullptr ) res = Interpreter::Block( loop_var->GetBlock(), depth, internal_display_enabled );
 		if( res != OK && res != LOOP_CONTINUE_ENCOUNTERED ) break;
 	}
 error:
-	IO::colout.Enable( colout_was_enabled );
 	Env::Reset( dest );
 	if( res == LOOP_BREAK_ENCOUNTERED || res == LOOP_CONTINUE_ENCOUNTERED ) res = OK;
-	if( res != OK && res != FAIL_FN_CALLED ) {
+	if( res != OK && res != FAIL_FN_CALLED && internal_display_enabled ) {
 		IO::colout << "Loop call[" << depth << "] {r}error{0}(" << res << "): Failed to interpret, " + err + "!{0}\n";
 	}
 	return res;

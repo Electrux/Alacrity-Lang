@@ -141,15 +141,12 @@ AL_FUNC_FIX_ARG( each, 2, true, true )
 	std::string loop_var;
 	EVAL_AND_CHECK( "each", args[ 1 ], loop_var );
 	int res = OK;
-	auto was_enabled = IO::colout.IsEnabled();
-	IO::colout.Enable( false );
 	for( auto & e : * vec ) {
 		Env::SetVar( loop_var, e );
-		res = Interpreter::Block( block, depth );
+		res = Interpreter::Block( block, depth, internal_display_enabled );
 		if( res != OK && res != LOOP_CONTINUE_ENCOUNTERED ) break;
 	}
 	if( res == LOOP_BREAK_ENCOUNTERED || res == LOOP_CONTINUE_ENCOUNTERED ) res = OK;
-	IO::colout.Enable( was_enabled );
 	Env::Reset( loop_var );
 	return res;
 }

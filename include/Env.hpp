@@ -59,6 +59,8 @@ void Reset( const std::string & var );
 void Remove( const std::string & var, const std::string & val, const char delim = ':' );
 
 int MultiThreadedExec( const std::vector< ExecData > cmds );
+
+int GetUID();
 }
 
 #endif // ENV_HPP

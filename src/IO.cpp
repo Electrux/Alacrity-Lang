@@ -144,12 +144,7 @@ std::unordered_map< std::string, std::string > IO::COLORS = {
 	{ "lc", "\033[0;36m" },
 };
 
-IO::ColOut::ColOut() : m_enable( true ), m_use_colors( true ), m_eval( false ) {}
-
-void IO::ColOut::Enable( const bool enable ) { m_enable = enable; }
-bool IO::ColOut::IsEnabled() { return m_enable; }
-
-void IO::ColOut::UseColors( const bool use ) { m_use_colors = use; }
+IO::ColOut::ColOut() : m_eval( false ) {}
 
 void IO::ColOut::SetEval( const bool eval ) { m_eval = eval; }
 bool IO::ColOut::IsEval() { return m_eval; }
@@ -162,31 +157,19 @@ const ColOut & IO::ColOut::operator() ( const bool eval )
 
 const ColOut & IO::ColOut::operator<< ( std::string val ) const
 {
-	if( m_enable ) {
-		std::string op;
-		if( m_use_colors && m_eval ) {
-			Str::Eval( val, op );
-		} else if( m_use_colors ) {
-			ApplyColors( val );
-			op = val;
-		} else {
-			op = val;
-		}
-		std::cout << op;
+	std::string op;
+	if( m_eval ) {
+		Str::Eval( val, op );
+	} else {
+		op = val;
 	}
+	std::cout << op;
 	return * this;
 }
 
 const ColOut & IO::ColOut::operator<< ( const bool val ) const
 {
-	if( m_enable ) {
-		if( m_use_colors ) {
-			if( val ) std::cout << COLORS[ "bg" ];
-			else std::cout << COLORS[ "br" ];
-		}
-		std::cout << std::boolalpha << val;
-		if( m_use_colors ) std::cout << COLORS[ "0" ];
-	}
+	std::cout << std::boolalpha << val;
 	return * this;
 }
 
@@ -198,79 +181,49 @@ const ColOut & IO::ColOut::operator<< ( const char * val ) const
 
 const ColOut & IO::ColOut::operator<< ( const int val ) const
 {
-	if( m_enable ) {
-		std::cout << val;
-	}
+	std::cout << val;
 	return * this;
 }
 
 const ColOut & IO::ColOut::operator<< ( const long val ) const
 {
-	if( m_enable ) {
-		if( m_use_colors ) std::cout << COLORS[ "by" ];
-		std::cout << val;
-		if( m_use_colors ) std::cout << COLORS[ "0" ];
-	}
+	std::cout << val;
 	return * this;
 }
 
 const ColOut & IO::ColOut::operator<< ( const unsigned long val ) const
 {
-	if( m_enable ) {
-		if( m_use_colors ) std::cout << COLORS[ "by" ];
-		std::cout << val;
-		if( m_use_colors ) std::cout << COLORS[ "0" ];
-	}
+	std::cout << val;
 	return * this;
 }
 
 const ColOut & IO::ColOut::operator<< ( const long long val ) const
 {
-	if( m_enable ) {
-		if( m_use_colors ) std::cout << COLORS[ "by" ];
-		std::cout << val;
-		if( m_use_colors ) std::cout << COLORS[ "0" ];
-	}
+	std::cout << val;
 	return * this;
 }
 
 const ColOut & IO::ColOut::operator<< ( const float val ) const
 {
-	if( m_enable ) {
-		if( m_use_colors ) std::cout << COLORS[ "by" ];
-		std::cout << val;
-		if( m_use_colors ) std::cout << COLORS[ "0" ];
-	}
+	std::cout << val;
 	return * this;
 }
 
 const ColOut & IO::ColOut::operator<< ( const double val ) const
 {
-	if( m_enable ) {
-		if( m_use_colors ) std::cout << COLORS[ "by" ];
-		std::cout << val;
-		if( m_use_colors ) std::cout << COLORS[ "0" ];
-	}
+	std::cout << val;
 	return * this;
 }
 
 const ColOut & IO::ColOut::operator<< ( const short val ) const
 {
-	if( m_enable ) {
-		if( m_use_colors ) std::cout << COLORS[ "by" ];
-		std::cout << val;
-		if( m_use_colors ) std::cout << COLORS[ "0" ];
-	}
+	std::cout << val;
 	return * this;
 }
 
 const ColOut & IO::ColOut::operator<< ( const void * val ) const
 {
-	if( m_enable ) {
-		if( m_use_colors ) std::cout << COLORS[ "bb" ];
-		std::cout << val;
-		if( m_use_colors ) std::cout << COLORS[ "0" ];
-	}
+	std::cout << val;
 	return * this;
 }
 

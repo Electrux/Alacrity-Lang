@@ -12,6 +12,7 @@
 #include <string>
 #include <unordered_map>
 #include <cstdlib>
+#include <unistd.h>
 #include <thread>
 #include <atomic>
 #include <future>
@@ -243,4 +244,10 @@ int Env::MultiThreadedExec( const std::vector< ExecData > cmds )
 
 	IO::colout( false ) << "[" << 100 << "%]\t" << cmds[ cmds.size() - 1 ].msg << "\n";
 	return Env::ExecVector( cmds[ cmds.size() - 1 ].cmd, nullptr );
+}
+
+int Env::GetUID()
+{
+	static uid_t uid = geteuid();
+	return uid;
 }

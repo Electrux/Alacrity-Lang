@@ -16,7 +16,7 @@
 
 namespace Interpreter
 {
-int FuncCall( const Parser::FnCallStmt * fncall, const size_t depth );
+int FuncCall( const Parser::FnCallStmt * fncall, const size_t depth, const bool internal_display_enabled );
 }
 
 #endif // INTERPRETER_FUNC_CALL_HPP

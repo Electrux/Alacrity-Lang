@@ -34,7 +34,7 @@ std::string Core::FuncLibFile( const std::string & func_name )
 
 int Core::Init()
 {
-	if( !Env::SetVar( ALLibPaths(), FS::GetCurrentDir() + "/lib" ) ) {
+	if( !Env::SetVar( ALLibPaths(), "/usr/local/share/allang_libs/" ) ) {
 		std::cout << "Core::Init() failed: Unable to set core AL_LIB_PATHS env var!\n";
 		return ENV_SETVAR_FAILED;
 	}
@@ -45,6 +45,16 @@ int Core::Init()
 	if( !Env::SetVar( "OS", "OS_OSX" ) ) {
 #endif
 		std::cout << "Core::Init() failed: Unable to set initial OS env var!\n";
+		return ENV_SETVAR_FAILED;
+	}
+
+	if( !Env::SetVar( "UID", std::to_string( Env::GetUID() ) ) ) {
+		std::cout << "Core::Init() failed: Unable to set initial UID env var!\n";
+		return ENV_SETVAR_FAILED;
+	}
+
+	if( !Env::SetVar( "IS_ROOT", Env::GetUID() == 0 ? "true" : "false" ) ) {
+		std::cout << "Core::Init() failed: Unable to set initial IS_ROOT env var!\n";
 		return ENV_SETVAR_FAILED;
 	}
 	return OK;

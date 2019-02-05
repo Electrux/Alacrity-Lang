@@ -48,17 +48,12 @@ namespace IO
 
 	class ColOut
 	{
-		bool m_enable;
-		bool m_use_colors;
 		bool m_eval;
 	public:
 		ColOut();
-		void Enable( const bool enable );
-		bool IsEnabled();
-		void UseColors( const bool use );
 		void SetEval( const bool eval );
 		bool IsEval();
-		const ColOut & operator() ( const bool eval = false );
+		const ColOut & operator() ( const bool eval = true );
 		const ColOut & operator<< ( std::string val ) const;
 		const ColOut & operator<< ( const bool val ) const;
 		const ColOut & operator<< ( const char * val ) const;

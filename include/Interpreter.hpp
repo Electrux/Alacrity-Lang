@@ -16,7 +16,7 @@
 namespace Interpreter
 {
 int Interpret( const Parser::ParseTree & ps, const std::string & file_path,
-		const int depth = 0, const bool enable_internal_display = true );
+		const int depth = 0, const bool internal_display_enabled = true );
 }
 
 #endif // INTERPRETER_HPP

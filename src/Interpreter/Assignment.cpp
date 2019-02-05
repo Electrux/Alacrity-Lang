@@ -20,7 +20,7 @@
 #include "../../include/Interpreter/FnBase.hpp"
 #include "../../include/Interpreter/Assignment.hpp"
 
-int Interpreter::Assignment( const Parser::AssignStmt * assn_var, const size_t depth )
+int Interpreter::Assignment( const Parser::AssignStmt * assn_var, const size_t depth, const bool internal_display_enabled )
 {
 	int res = OK;
 	std::string err;
@@ -43,7 +43,7 @@ int Interpreter::Assignment( const Parser::AssignStmt * assn_var, const size_t d
 
 	Env::SetVar( var_final, val_final );
 error:
-	if( res != OK ) {
+	if( res != OK && internal_display_enabled ) {
 		IO::colout << "Assignment[" << depth << "] {r}error{0}(" << res << "): Failed to interpret, " + err + "!{0}\n";
 	}
 	return res;

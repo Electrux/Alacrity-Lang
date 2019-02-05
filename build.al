@@ -29,3 +29,13 @@ builds( lib, dynamic ) {
 	build( project, "src/Modules/project.cpp" )
 	build( builds, "src/Modules/builds.cpp, src/Modules/builds/cxx.cpp, src/Modules/builds/c.cpp" )
 }
+
+if( "${IS_ROOT}" == "true" || "${OS}" == OS_OSX ) {
+	install( "buildfiles/al", "/usr/local/bin" )
+	install( "buildfiles/libos.so", "/usr/local/share/allang_libs/" )
+	install( "buildfiles/libmath.so", "/usr/local/share/allang_libs/" )
+	install( "buildfiles/liblist.so", "/usr/local/share/allang_libs/" )
+	install( "buildfiles/libaudio.so", "/usr/local/share/allang_libs/" )
+	install( "buildfiles/libproject.so", "/usr/local/share/allang_libs/" )
+	install( "buildfiles/libbuilds.so", "/usr/local/share/allang_libs/" )
+}

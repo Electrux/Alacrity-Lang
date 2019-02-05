@@ -16,7 +16,7 @@
 
 namespace Interpreter
 {
-int Block( const Parser::BlockStmt * blk, const size_t depth );
+int Block( const Parser::BlockStmt * blk, const size_t depth, const bool internal_display_enabled );
 }
 
 #endif // INTERPRETER_BLOCK_HPP
