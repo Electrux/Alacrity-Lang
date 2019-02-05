@@ -144,14 +144,13 @@ std::unordered_map< std::string, std::string > IO::COLORS = {
 	{ "lc", "\033[0;36m" },
 };
 
-IO::ColOut::ColOut() : m_eval( false ) {}
+IO::ColOut::ColOut() : m_eval( true ) {}
 
 void IO::ColOut::SetEval( const bool eval ) { m_eval = eval; }
 bool IO::ColOut::IsEval() { return m_eval; }
 
-const ColOut & IO::ColOut::operator() ( const bool eval )
+const ColOut & IO::ColOut::operator() ()
 {
-	m_eval = eval;
 	return * this;
 }
 

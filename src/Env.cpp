@@ -226,7 +226,7 @@ int Env::MultiThreadedExec( const std::vector< ExecData > cmds )
 				break;
 			}
 		}
-		IO::colout( false ) << "[" << percent << "%]\t" << cmd.msg << "\n";
+		IO::colout << "[" << percent << "%]\t" << cmd.msg << "\n";
 		++ctr;
 		++threadctr;
 		futures.push_back( std::async( std::launch::async, ExecVector, cmd.cmd, nullptr ) );
@@ -242,7 +242,7 @@ int Env::MultiThreadedExec( const std::vector< ExecData > cmds )
 		}
 	}
 
-	IO::colout( false ) << "[" << 100 << "%]\t" << cmds[ cmds.size() - 1 ].msg << "\n";
+	IO::colout << "[" << 100 << "%]\t" << cmds[ cmds.size() - 1 ].msg << "\n";
 	return Env::ExecVector( cmds[ cmds.size() - 1 ].cmd, nullptr );
 }
 

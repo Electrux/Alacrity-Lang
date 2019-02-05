@@ -91,7 +91,7 @@ AL_FUNC_VAR_ARG( build, 2, -1, false, false )
 		else 						Env::Append( "C_FLAGS", args[ 4 ], ' ' );
 	}
 
-	IO::colout( true ) << "{bm}Building target{0}: {by}${TARGET}{0} {bm}of type{0}: {by}${BUILD_TYPE}{0} ...\n";
+	IO::colout << "{bm}Building target{0}: {by}${TARGET}{0} {bm}of type{0}: {by}${BUILD_TYPE}{0} ...\n";
 
 	std::string base_msg_str = "{m}Compiling ${LANGUAGE} object{0}: {y}buildfiles/${SRC}.o{0} ...";
 	std::string base_comp_str = "${CC} -std=${LANGUAGE}${STD_VERSION} ";

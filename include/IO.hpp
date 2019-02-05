@@ -53,7 +53,7 @@ namespace IO
 		ColOut();
 		void SetEval( const bool eval );
 		bool IsEval();
-		const ColOut & operator() ( const bool eval = true );
+		const ColOut & operator() ();
 		const ColOut & operator<< ( std::string val ) const;
 		const ColOut & operator<< ( const bool val ) const;
 		const ColOut & operator<< ( const char * val ) const;

@@ -234,7 +234,7 @@ AL_FUNC_FIX_ARG( install, 2, false, false )
 		return FAIL;
 	}
 	std::string cmd_str, cmd_final;
-	cmd_str = "install " + src + " " + dest;
-	IO::colout( true ) << "{bm}Installing {by}" + src + " {bm}to {by}" + dest << "{0}\n";
+	cmd_str = "cp -r " + src + " " + dest;
+	IO::colout << "{bm}Installing {by}" + src + " {bm}to {by}" + dest << "{0}\n";
 	return Env::Exec( cmd_str );
 }
