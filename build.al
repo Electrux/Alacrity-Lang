@@ -31,6 +31,7 @@ builds( lib, dynamic ) {
 
 if( "${IS_ROOT}" == "true" || "${OS}" == OS_OSX ) {
 	install( "buildfiles/al", "/usr/local/bin" )
+	install( "buildfiles/libcore.so", "/usr/local/share/allang_libs/" )
 	install( "buildfiles/libos.so", "/usr/local/share/allang_libs/" )
 	install( "buildfiles/libmath.so", "/usr/local/share/allang_libs/" )
 	install( "buildfiles/liblist.so", "/usr/local/share/allang_libs/" )
