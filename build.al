@@ -37,5 +37,7 @@ if( "${ARGC}" > 0 && "${ARG_0}" == "install" ) {
 		install( "buildfiles/al", "/usr/local/bin" )
 		install( "buildfiles/lib*.so", "/usr/local/share/allang_libs/" )
 		install( "build_libs/*", "/usr/local/share/allang_tests/" )
+	} else {
+		print( "{r}Run as root to install the built files\n" )
 	}
 }
