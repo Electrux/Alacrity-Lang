@@ -33,7 +33,7 @@ std::string ALSourcePaths();
 std::string FuncLibFile( const std::string & func_name );
 
 /* Required for Interpreter */
-int Init();
+int Init( const int argc, const char ** argv );
 void DeInit();
 }
 

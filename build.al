@@ -28,8 +28,10 @@ builds( lib, dynamic ) {
 	build( builds, "src/Modules/builds.cpp, src/Modules/builds/cxx.cpp, src/Modules/builds/c.cpp" )
 }
 
-if( "${IS_ROOT}" == "true" || "${OS}" == OS_OSX ) {
-	install( "buildfiles/al", "/usr/local/bin" )
-	install( "buildfiles/lib*.so", "/usr/local/share/allang_libs/" )
-	install( "build_libs/*", "/usr/local/share/allang_tests/" )
+if( "${ARGC}" > 0 && "${ARG_0}" == "install" ) {
+	if( "${IS_ROOT}" == "true" || "${OS}" == OS_OSX ) {
+		install( "buildfiles/al", "/usr/local/bin" )
+		install( "buildfiles/lib*.so", "/usr/local/share/allang_libs/" )
+		install( "build_libs/*", "/usr/local/share/allang_tests/" )
+	}
 }

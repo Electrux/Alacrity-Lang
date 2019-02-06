@@ -62,7 +62,7 @@ int main( int argc, char ** argv )
 	*/
 
 	int res = OK;
-	res = Core::Init();
+	res = Core::Init( argc, ( const char ** )argv );
 	if( res != OK ) return res;
 
 	auto file_path = FS::GetFilePath( argv[ 1 ], Core::ALSourcePaths() );

@@ -32,7 +32,7 @@ std::string Core::FuncLibFile( const std::string & func_name )
 	return "lib" + func_name + ".so";
 }
 
-int Core::Init()
+int Core::Init( const int argc, const char ** argv )
 {
 	if( !Env::SetVar( ALLibPaths(), "/usr/local/share/allang_libs/" ) ) {
 		std::cout << "Core::Init() failed: Unable to set core AL_LIB_PATHS env var!\n";
@@ -62,6 +62,19 @@ int Core::Init()
 		std::cout << "Core::Init() failed: Unable to set initial IS_ROOT env var!\n";
 		return ENV_SETVAR_FAILED;
 	}
+
+	// Set argument variables
+	for( int i = 2; i < argc; ++i ) {
+		if( !Env::SetVar( "ARG_" + std::to_string( i - 2 ), argv[ i ] ) ) {
+			std::cout << "Core::Init() failed: Unable to set initial ARG_" << i - 2 << " env var!\n";
+			return ENV_SETVAR_FAILED;
+		}
+	}
+	if( !Env::SetVar( "ARGC", std::to_string( argc - 2 ) ) ) {
+		std::cout << "Core::Init() failed: Unable to set initial ARGC env var!\n";
+		return ENV_SETVAR_FAILED;
+	}
+
 	return OK;
 }
 
