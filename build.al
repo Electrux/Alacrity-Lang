@@ -16,7 +16,7 @@ if( "${ARGC}" > 0 && "${ARG_0}" == "cmds" || "${ARG_1}" == "cmds" ) {
 }
 
 builds( bin ) {
-	sources( "./src/(.*)\.cpp", "-src/Modules/(.*)\.cpp" )
+	sources( "src/(.*)\.cpp", "-src/Modules/(.*)\.cpp" )
 	build( al, "src/main.cpp" )
 }
 
