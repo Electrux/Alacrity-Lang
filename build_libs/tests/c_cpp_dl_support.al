@@ -10,7 +10,7 @@ if( "${C_CPP_DL_SUPPORT}" == "" ) {
 		}
 	}
 
-	eval( "#{${CC} c_cpp_dl_support.c -ldl 2>/dev/null}" )
+	eval( "#{${CC} c_cpp_dl_support.c -ldl -o /tmp/a.out 2>/dev/null}" )
 
 	if( "${LANGUAGE}" == "c++" ) {
 		CC = "${tmp_cc}"
@@ -18,7 +18,7 @@ if( "${C_CPP_DL_SUPPORT}" == "" ) {
 	}
 
 	if( "${EXIT_STATUS}" == 0 ) {
-		exec( "rm a.out" )
+		exec( "rm /tmp/a.out" )
 		C_CPP_DL_SUPPORT = yes
 		print( "{g}yes{0}\n" )
 	} else {
