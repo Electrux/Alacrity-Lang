@@ -20,6 +20,7 @@ builds( lib, dynamic ) {
 	sources( "src/(.*)\.cpp", "-src/main.cpp", "-src/Modules/(.*)\.cpp" )
 	build( core, "src/Modules/core.cpp" )
 	build( os, "src/Modules/os.cpp" )
+	build( string, "src/Modules/string.cpp" )
 	build( math, "src/Modules/math.cpp" )
 	build( list, "src/Modules/list.cpp" )
 	build( audio, "src/Modules/audio.cpp", "", "-lsfml-audio" )

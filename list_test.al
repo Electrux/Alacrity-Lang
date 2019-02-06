@@ -10,13 +10,13 @@ list.at( l, 2 )
 print( "l[ 2 ] = ${RESULT}\n" )
 
 print( "List elements are: " )
-list.each( l, x ) {
+list.each( x, l ) {
 	.print( "${x} " )
 }
 print( "\n" )
 
 print( "Elements except 'something' are: " )
-list.each( l, x ) {
+list.each( x, l ) {
 	if( "${x}" == something ) {
 		.contloop()
 	}
@@ -28,7 +28,7 @@ print( "Erasing l[ 1 ]\n" )
 list.erase( l, 1 )
 
 print( "After erasing, list elements are: " )
-list.each( l, x ) {
+list.each( x, l ) {
 	.print( "${x} " )
 }
 print( "\n" )
@@ -37,7 +37,7 @@ print( "Popping l\n" )
 list.pop( l )
 
 print( "After popping, list elements are: " )
-list.each( l, x ) {
+list.each( x, l ) {
 	.print( "${x} " )
 }
 print( "\n" )
@@ -46,7 +46,7 @@ print( "Clearing list\n" )
 list.clear( l )
 
 print( "After clearing, list elements are: " )
-list.each( l, x ) {
+list.each( x, l ) {
 	.print( "${x} " )
 }
 print( "\n" )

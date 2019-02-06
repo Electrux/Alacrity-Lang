@@ -129,7 +129,7 @@ AL_FUNC_FIX_ARG( each, 2, true, true )
 {
 	if( block == nullptr ) return OK;
 	std::string var;
-	EVAL_AND_CHECK( "each", args[ 0 ], var );
+	EVAL_AND_CHECK( "each", args[ 1 ], var );
 	auto loc = Env::GetVar( var );
 	std::vector< std::string > * vec = ( std::vector< std::string > * )std::stoull( loc );
 	if( vec == nullptr ) {
@@ -139,7 +139,7 @@ AL_FUNC_FIX_ARG( each, 2, true, true )
 	if( vec->empty() ) return OK;
 
 	std::string loop_var;
-	EVAL_AND_CHECK( "each", args[ 1 ], loop_var );
+	EVAL_AND_CHECK( "each", args[ 0 ], loop_var );
 	int res = OK;
 	for( auto & e : * vec ) {
 		Env::SetVar( loop_var, e );
