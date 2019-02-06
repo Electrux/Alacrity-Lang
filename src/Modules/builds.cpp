@@ -105,17 +105,23 @@ AL_FUNC_VAR_ARG( build, 2, -1, false, false )
 
 	Env::Reset( "ALL_SRCS" );
 
+	bool cmds_only = Env::GetVar( "CMDS_ONLY" ) == "true";
+
 	for( auto & src : builder->Sources() ) {
 		Env::SetVar( "SRC", src );
 		std::string comp_str, msg_str;
 		EVAL_AND_CHECK( "build", base_comp_str, comp_str );
 		EVAL_AND_CHECK( "build", base_msg_str, msg_str );
 
-		if( !FS::CreateDirectoriesForFile( "buildfiles/" + src ) ) return FAIL;
-
 		Env::Append( "ALL_SRCS", "buildfiles/" + src + ".o", ' ' );
 
+		if( cmds_only ) {
+			IO::colout << comp_str << "\n";
+			continue;
+		}
+
 		if( IsFileLatest( "buildfiles/" + src + ".o", src ) ) continue;
+		if( !FS::CreateDirectoriesForFile( "buildfiles/" + src ) ) return FAIL;
 		cmds.push_back( { msg_str, comp_str } );
 	}
 
@@ -162,15 +168,17 @@ AL_FUNC_VAR_ARG( build, 2, -1, false, false )
 		}
 		EVAL_AND_CHECK( "build", base_msg_str, msg_str );
 		EVAL_AND_CHECK( "build", base_target_obj_str, target_obj_str );
-		if( cmds.size() > 0 || !IsFileLatest( target_obj_str, builder->MainSource() )
-				|| !IsFileLatest( target_obj_str, Env::GetVar( "CURRENT_FILE" ) ) ) {
+
+		if( cmds_only ) IO::colout << comp_str << "\n";
+		if( !cmds_only && ( cmds.size() > 0 || !IsFileLatest( target_obj_str, builder->MainSource() )
+				|| !IsFileLatest( target_obj_str, Env::GetVar( "CURRENT_FILE" ) ) ) ) {
 			if( !FS::CreateDirectoriesForFile( "buildfiles/" + builder->MainSource() ) ) return FAIL;
 			cmds.push_back( { msg_str, comp_str } );
 		}
 	}
 
 	// Finally, build all
-	int res = Env::MultiThreadedExec( cmds );
+	int res = !cmds_only ? Env::MultiThreadedExec( cmds ) : OK;
 
 	Env::Reset( "TARGET" );
 	* builder = builder_backup;

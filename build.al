@@ -11,6 +11,10 @@ load_file( filesystem )
 load_file( pthread )
 load_file( dl )
 
+if( "${ARGC}" > 0 && "${ARG_0}" == "cmds" || "${ARG_1}" == "cmds" ) {
+	CMDS_ONLY = true
+}
+
 builds( bin ) {
 	sources( "./src/(.*)\.cpp", "-src/Modules/(.*)\.cpp" )
 	build( al, "src/main.cpp" )

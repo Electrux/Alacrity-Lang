@@ -235,5 +235,6 @@ AL_FUNC_FIX_ARG( install, 2, false, false )
 	cmd_str = "cp -r " + src + " " + dest;
 #endif
 	IO::colout << "{bm}Installing {by}" + src + " {bm}to {by}" + dest << "{0}\n";
+	if( Env::GetVar( "CMDS_ONLY" ) == "true" ) { std::cout << cmd_str << "\n"; return OK; }
 	return Env::Exec( cmd_str );
 }
