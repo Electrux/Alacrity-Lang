@@ -7,7 +7,7 @@ if( "${LANGUAGE}" != "c++" ) {
 }
 
 if( "${STD_VERSION}" < 11 ) {
-	fail( "Minimum required standard version for filesystem library is c++11\n" )
+	fail( "Minimum required standard version for SFML audio library is c++11\n" )
 }
 
 load_file( "tests/cpp_sfml_audio_support" )

@@ -16,6 +16,7 @@ class Builder
 	std::string m_lib_type;
 
 	std::vector< std::string > m_srcs;
+	std::vector< std::string > m_tests;
 	std::string m_main_src;
 
 	Builder();
@@ -25,6 +26,7 @@ public:
 	void Reset();
 
 	std::vector< std::string > & Sources();
+	std::vector< std::string > & Tests();
 	std::string & MainSource();
 
 	int SetBuildType( const std::string & build_type );
@@ -49,10 +51,12 @@ void Builder::Reset()
 	m_build_type = "bin";
 	m_lib_type = "";
 	m_srcs.clear();
+	m_tests.clear();
 	m_main_src.clear();
 }
 
 std::vector< std::string > & Builder::Sources() { return m_srcs; }
+std::vector< std::string > & Builder::Tests() { return m_tests; }
 std::string & Builder::MainSource() { return m_main_src; }
 
 int Builder::SetBuildType( const std::string & build_type )

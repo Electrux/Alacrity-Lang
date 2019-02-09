@@ -173,6 +173,9 @@ AL_FUNC_VAR_ARG( build, 2, -1, false, false )
 		if( !cmds_only && ( cmds.size() > 0 || !IsFileLatest( target_obj_str, builder->MainSource() )
 				|| !IsFileLatest( target_obj_str, Env::GetVar( "CURRENT_FILE" ) ) ) ) {
 			if( !FS::CreateDirectoriesForFile( "buildfiles/" + builder->MainSource() ) ) return FAIL;
+
+			// test is directly added to the backup so that it is persistent between multiple build calls
+			if( builder->GetBuildType() == "test" ) builder_backup.Tests().push_back( "buildfiles/" + Env::GetVar( "TARGET" ) );
 			cmds.push_back( { msg_str, comp_str } );
 		}
 	}
@@ -184,6 +187,23 @@ AL_FUNC_VAR_ARG( build, 2, -1, false, false )
 	* builder = builder_backup;
 	Env::Restore();
 	return res;
+}
+
+AL_FUNC_FIX_ARG( runtests, 0, false, false )
+{
+	auto builder = Builder::Get();
+	if( builder->Tests().empty() ) return OK;
+	for( auto & test : builder->Tests() ) {
+		IO::colout << "{bc}Testing{0}: {by}" << Env::GetFilePart( test ) << "{0} ... ";
+		int res = Env::Exec( test );
+		if( res != OK ) {
+			IO::colout << "{br}Fail{0}\n";
+		} else {
+			IO::colout << "{bg}Pass{0}\n";
+		}
+	}
+	builder->Tests().clear();
+	return OK;
 }
 
 bool IsFileLatest( const std::string & file1, const std::string & file2 )
