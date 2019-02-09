@@ -38,8 +38,12 @@ fi
 
 buildfiles=$(find buildfiles -name "*.cpp.o" | paste -sd " " -)
 fs="-lstdc++fs"
-if [[ "$os" == 'Darwin' ]]; then
-	fs="-I/usr/local/opt/llvm/include -L/usr/local/opt/llvm/lib -lc++fs"
+if [[ "$compiler" == 'clang++' ]]; then
+	if [[ "$os" == 'Darwin' ]]; then
+		fs="-I/usr/local/opt/llvm/include -L/usr/local/opt/llvm/lib -lc++fs"
+	else
+		fs="-lc++fs"
+	fi
 fi
 
 echo "Building binary: al..."
