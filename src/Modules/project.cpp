@@ -42,7 +42,7 @@ AL_FUNC_FIX_ARG( language, 2, false, false )
 	EVAL_AND_CHECK( "language", args[ 1 ], std_ver );
 	if( lang == "cpp" ) lang = "c++";
 
-#ifdef __linux__
+#if __linux__
 	Env::SetVar( "CC", lang == "c++" ? "g++" : "gcc" );
 #elif __APPLE__ || __FreeBSD__
 	Env::SetVar( "CC", lang == "c++" ? "clang++" : "clang" );

@@ -11,7 +11,13 @@
 #include <iostream>
 #include <vector>
 #include <string>
+#if __FreeBSD__
+#include <experimental/filesystem>
+namespace fs = std::experimental::filesystem;
+#else
 #include <filesystem>
+namespace fs = std::filesystem;
+#endif
 #include <regex>
 #include <variant>
 #include <cstdio>
@@ -33,12 +39,12 @@ bool FS::LocExists( const std::string & loc )
 
 std::string FS::GetCurrentDir()
 {
-	return std::filesystem::current_path().string();
+	return fs::current_path().string();
 }
 
 void FS::SetCurrentDir( const std::string & path )
 {
-	std::filesystem::current_path( path );
+	fs::current_path( path );
 }
 
 std::variant< int, std::string > FS::ReadFile( const std::string & file_name )
@@ -120,7 +126,7 @@ std::vector< std::string > FS::GetFilesFromRegex( std::string regex_str )
 	if( src_dir.empty() ) src_dir = "./";
 
 	std::regex regex( regex_str );
-	for( auto & p : std::filesystem::recursive_directory_iterator( src_dir ) ) {
+	for( auto & p : fs::recursive_directory_iterator( src_dir ) ) {
 		if( reverse_regex ) {
 			if( !std::regex_match( p.path().string(), regex ) ) res.push_back( p.path() );
 		} else {

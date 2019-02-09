@@ -16,6 +16,9 @@
 #include <thread>
 #include <atomic>
 #include <future>
+#if __FreeBSD__
+#include <sys/wait.h>
+#endif
 
 #include "../include/Errors.hpp"
 #include "../include/String.hpp"

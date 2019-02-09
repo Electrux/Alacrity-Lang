@@ -44,7 +44,7 @@ int Core::Init( const int argc, const char ** argv )
 		return ENV_SETVAR_FAILED;
 	}
 
-#ifdef __linux__
+#if __linux__
 	if( !Env::SetVar( "OS", "OS_LINUX" ) ) {
 #elif __APPLE__
 	if( !Env::SetVar( "OS", "OS_OSX" ) ) {

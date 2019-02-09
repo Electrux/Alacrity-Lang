@@ -37,9 +37,9 @@ if ! [[ $? == 0 ]]; then
 fi
 
 buildfiles=$(find buildfiles -name "*.cpp.o" | paste -sd " " -)
-fs="-I/usr/local/opt/llvm/include -L/usr/local/opt/llvm/lib -lc++fs"
-if [[ "$os" == 'Linux' ]]; then
-	fs="-lstdc++fs"
+fs="-lstdc++fs"
+if [[ "$os" == 'Darwin' ]]; then
+	fs="-I/usr/local/opt/llvm/include -L/usr/local/opt/llvm/lib -lc++fs"
 fi
 
 echo "Building binary: al..."
