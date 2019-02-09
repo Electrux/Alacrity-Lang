@@ -232,10 +232,7 @@ AL_FUNC_FIX_ARG( install, 2, false, false )
 #if __linux__
 	cmd_str = "cp -r --remove-destination " + src + " " + dest;
 #elif __APPLE__ || __FreeBSD__
-#ifdef __FreeBSD__
-	Env::Exec( "unlink " + dest + "/" + Env::GetFilePart( src ) + " 2>/dev/null" );
-#endif
-	cmd_str = "cp -r " + src + " " + dest;
+	cmd_str = "cp -rf " + src + " " + dest;
 #endif
 	IO::colout << "{bm}Installing {by}" + src + " {bm}to {by}" + dest << "{0}\n";
 	if( Env::GetVar( "CMDS_ONLY" ) == "true" ) { std::cout << cmd_str << "\n"; return OK; }
