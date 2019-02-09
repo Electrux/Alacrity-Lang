@@ -233,7 +233,7 @@ AL_FUNC_FIX_ARG( install, 2, false, false )
 	cmd_str = "cp -r --remove-destination " + src + " " + dest;
 #elif __APPLE__ || __FreeBSD__
 #ifdef __FreeBSD__
-	Env::Exec( "unlink " + dest + " 2>/dev/null" );
+	Env::Exec( "unlink " + dest + "/" + FS::GetFilePart( src ) + " 2>/dev/null" );
 #endif
 	cmd_str = "cp -r " + src + " " + dest;
 #endif
