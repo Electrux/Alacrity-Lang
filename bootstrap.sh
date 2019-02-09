@@ -42,7 +42,7 @@ if [[ "$compiler" == 'clang++' ]]; then
 	if [[ "$os" == 'Darwin' ]]; then
 		fs="-I/usr/local/opt/llvm/include -L/usr/local/opt/llvm/lib -lc++fs"
 	else
-		fs="-lc++fs"
+		fs="-lc++experimental"
 	fi
 fi
 
