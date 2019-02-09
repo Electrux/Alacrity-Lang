@@ -8,6 +8,7 @@ project( "Alacrity-Lang" ) {
 builds.add_cxx_flags( "-O2", "-fPIC" )
 
 load_file( filesystem )
+load_file( sfml_audio )
 load_file( pthread )
 load_file( dl )
 
@@ -27,7 +28,7 @@ builds( lib, dynamic ) {
 	build( string, "src/Modules/string.cpp" )
 	build( math, "src/Modules/math.cpp" )
 	build( list, "src/Modules/list.cpp" )
-	build( audio, "src/Modules/audio.cpp", "", "-lsfml-audio" )
+	build( audio, "src/Modules/audio.cpp" )
 	build( project, "src/Modules/project.cpp" )
 	build( builds, "src/Modules/builds.cpp, src/Modules/builds/cxx.cpp, src/Modules/builds/c.cpp" )
 }
