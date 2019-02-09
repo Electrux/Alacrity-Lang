@@ -44,7 +44,7 @@ AL_FUNC_FIX_ARG( language, 2, false, false )
 
 #ifdef __linux__
 	Env::SetVar( "CC", lang == "c++" ? "g++" : "gcc" );
-#elif __APPLE__
+#elif __APPLE__ || __FreeBSD__
 	Env::SetVar( "CC", lang == "c++" ? "clang++" : "clang" );
 #endif
 

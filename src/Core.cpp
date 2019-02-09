@@ -48,6 +48,8 @@ int Core::Init( const int argc, const char ** argv )
 	if( !Env::SetVar( "OS", "OS_LINUX" ) ) {
 #elif __APPLE__
 	if( !Env::SetVar( "OS", "OS_OSX" ) ) {
+#elif __FreeBSD__
+	if( !Env::SetVar( "OS", "OS_BSD" ) ) {
 #endif
 		std::cout << "Core::Init() failed: Unable to set initial OS env var!\n";
 		return ENV_SETVAR_FAILED;

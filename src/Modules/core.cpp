@@ -231,7 +231,7 @@ AL_FUNC_FIX_ARG( install, 2, false, false )
 	std::string cmd_str, cmd_final;
 #ifdef __linux__
 	cmd_str = "cp -r --remove-destination " + src + " " + dest;
-#elif __APPLE__
+#elif __APPLE__ || __FreeBSD__
 	cmd_str = "cp -r " + src + " " + dest;
 #endif
 	IO::colout << "{bm}Installing {by}" + src + " {bm}to {by}" + dest << "{0}\n";
