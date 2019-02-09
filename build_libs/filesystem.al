@@ -29,4 +29,6 @@ if( "${OS}" == OS_OSX ) {
 	builds.add_cxx_lib_flags( "-lc++fs" )
 } elif( "${OS}" == OS_LINUX ) {
 	builds.add_cxx_lib_flags( "-lstdc++fs" )
+} elif( "${OS}" == OS_BSD ) {
+	builds.add_cxx_lib_flags( "-lc++experimental" )
 }
