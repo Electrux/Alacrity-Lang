@@ -22,6 +22,8 @@
 #include "../../include/Interpreter/Block.hpp"
 #include "../../include/Interpreter/FnBase.hpp"
 
+static int InterpretFile( const std::string & file, const int depth, const bool internal_display_enabled );
+
 AL_FUNC_FIX_ARG( fail, 1, false, false )
 {
 	std::string op;
@@ -190,27 +192,19 @@ AL_FUNC_VAR_ARG( load_file, 1, -1, true, false )
 	for( auto & arg : args ) {
 		if( arg.empty() ) continue;
 
-		auto file_path = FS::GetFilePath( arg + ".al", Core::ALSourcePaths() );
-		if( file_path.empty() ) return FILE_NOT_FOUND;
-
-		auto file_data_var = FS::ReadFile( file_path );
-		if( std::holds_alternative< int >( file_data_var ) ) return std::get< int >( file_data_var );
-		std::string file_data = std::get< std::string >( file_data_var );
-
-		auto lex_syms_var = Lex::Tokenize( file_data );
-
-		if( std::holds_alternative< int >( lex_syms_var ) ) return std::get< int >( lex_syms_var );
-		auto lex_syms = std::get< Lex::Syms >( lex_syms_var );
-
-		auto parse_syms_var = Parser::ParseTokens( lex_syms.GetSyms() );
-		if( std::holds_alternative< int >( parse_syms_var ) ) return std::get< int >( parse_syms_var );
-		auto parse_syms = std::get< Parser::ParseTree >( parse_syms_var );
-
-		res = Interpreter::Interpret( parse_syms, file_path, depth, internal_display_enabled );
+		res = InterpretFile( arg, depth, internal_display_enabled );
 		if( res != OK ) break;
 	}
 
 	return res;
+}
+
+AL_FUNC_VAR_ARG( use_lib, 1, 2, true, false )
+{
+	if( args.size() > 1 ) 	Env::SetVar( "OPTIONAL_VAR", args[ 1 ] );
+	else 			Env::Reset( "OPTIONAL_VAR" );
+
+	return InterpretFile( args[ 0 ], depth, internal_display_enabled );
 }
 
 /*
@@ -237,4 +231,25 @@ AL_FUNC_FIX_ARG( install, 2, false, false )
 	IO::colout << "{bm}Installing {by}" + src + " {bm}to {by}" + dest << "{0}\n";
 	if( Env::GetVar( "CMDS_ONLY" ) == "true" ) { std::cout << cmd_str << "\n"; return OK; }
 	return Env::Exec( cmd_str );
+}
+
+static int InterpretFile( const std::string & file, const int depth, const bool internal_display_enabled )
+{
+	auto file_path = FS::GetFilePath( file + ".al", Core::ALSourcePaths() );
+	if( file_path.empty() ) return FILE_NOT_FOUND;
+
+	auto file_data_var = FS::ReadFile( file_path );
+	if( std::holds_alternative< int >( file_data_var ) ) return std::get< int >( file_data_var );
+	std::string file_data = std::get< std::string >( file_data_var );
+
+	auto lex_syms_var = Lex::Tokenize( file_data );
+
+	if( std::holds_alternative< int >( lex_syms_var ) ) return std::get< int >( lex_syms_var );
+	auto lex_syms = std::get< Lex::Syms >( lex_syms_var );
+
+	auto parse_syms_var = Parser::ParseTokens( lex_syms.GetSyms() );
+	if( std::holds_alternative< int >( parse_syms_var ) ) return std::get< int >( parse_syms_var );
+	auto parse_syms = std::get< Parser::ParseTree >( parse_syms_var );
+
+	return Interpreter::Interpret( parse_syms, file_path, depth, internal_display_enabled );
 }

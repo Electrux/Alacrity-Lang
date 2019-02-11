@@ -7,10 +7,10 @@ project( "Alacrity-Lang" ) {
 
 builds.add_cxx_flags( "-O2", "-fPIC" )
 
-load_file( filesystem )
-load_file( sfml_audio )
-load_file( pthread )
-load_file( dl )
+use_lib( filesystem )
+use_lib( sfml_audio )
+use_lib( pthread )
+use_lib( dl )
 
 if( "${ARGC}" > 0 && "${ARG_0}" == "cmds" || "${ARG_1}" == "cmds" ) {
 	CMDS_ONLY = true

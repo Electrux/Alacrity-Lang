@@ -17,10 +17,18 @@ if( "${STD_VERSION}" < 17 ) {
 	fail( "Minimum required standard version for filesystem library is c++17\n" )
 }
 
-load_file( "tests/cpp_filesystem_support" )
+if( "${CPP_FILESYSTEM_SUPPORT}" == "" ) {
+	load_file( "tests/cpp_filesystem_support" )
+}
 
-if( "${CPP_FILESYSTEM_SUPPORT}" == no || "${CPP_FILESYSTEM_SUPPORT}" == "" ) {
-	fail( "The filesystem library is not supported by your compiler!\n" )
+if( "${CPP_FILESYSTEM_SUPPORT}" == no ) {
+	if( "${OPTIONAL_VAR}" == "" ) {
+		fail( "The filesystem library is not supported by your compiler!\n" )
+	}
+	if( "${OPTIONAL_VAR}" != 0 ) {
+		builds.add_c_flags( "${OPTIONAL_VAR}" )
+		builds.add_cxx_flags( "${OPTIONAL_VAR}" )
+	}
 }
 
 if( "${OS}" == OS_OSX ) {
