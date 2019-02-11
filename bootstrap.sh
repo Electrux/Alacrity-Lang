@@ -14,6 +14,8 @@ fi
 compiler_version=$($compiler --version)
 echo "Using compiler: $compiler, version: $compiler_version"
 
+rm -rf buildfiles 2>/dev/null
+
 echo "Creating directories ..."
 
 mkdir -p "buildfiles/src/Interpreter"
