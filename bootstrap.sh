@@ -94,6 +94,13 @@ if [[ $? != 0 ]]; then
 	exit $?
 fi
 
+# Library: network
+echo "Building libray: network ..."
+$compiler -O2 -fPIC -std=c++17 -shared -o buildfiles/libnet.so src/Modules/net.cpp $buildfiles -I/usr/local/include -L/usr/local/lib -ldl -lpthread -lsfml-system -lsfml-network $fs
+if [[ $? != 0 ]]; then
+	exit $?
+fi
+
 # Library: project
 echo "Building libray: project ..."
 $compiler -O2 -fPIC -std=c++17 -shared -o buildfiles/libproject.so src/Modules/project.cpp $buildfiles -I/usr/local/include -L/usr/local/lib -ldl -lpthread $fs
