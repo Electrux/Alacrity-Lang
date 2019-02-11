@@ -1,6 +1,7 @@
 #include <iostream>
 #include <vector>
 #include <string>
+#include <algorithm>
 
 #include "../../include/Errors.hpp"
 #include "../../include/Core.hpp"
