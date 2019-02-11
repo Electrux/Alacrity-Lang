@@ -46,63 +46,63 @@ if [[ "$compiler" == 'clang++' ]]; then
 	fi
 fi
 
-echo "Building binary: al..."
+echo "Building binary: al ..."
 $compiler -O2 -fPIC -std=c++17 -g -o buildfiles/al src/main.cpp $buildfiles -I/usr/local/include -L/usr/local/lib -ldl -lpthread $fs
 if [[ $? != 0 ]]; then
 	exit $?
 fi
 
 # Library: core
-echo "Building libray: core..."
+echo "Building libray: core ..."
 $compiler -O2 -fPIC -std=c++17 -shared -o buildfiles/libcore.so src/Modules/core.cpp $buildfiles -I/usr/local/include -L/usr/local/lib -ldl -lpthread $fs
 if [[ $? != 0 ]]; then
 	exit $?
 fi
 
 # Library: os
-echo "Building libray: os..."
+echo "Building libray: os ..."
 $compiler -O2 -fPIC -std=c++17 -shared -o buildfiles/libos.so src/Modules/os.cpp $buildfiles -I/usr/local/include -L/usr/local/lib -ldl -lpthread $fs
 if [[ $? != 0 ]]; then
 	exit $?
 fi
 
 # Library: string
-echo "Building libray: string..."
+echo "Building libray: string ..."
 $compiler -O2 -fPIC -std=c++17 -shared -o buildfiles/libstring.so src/Modules/string.cpp $buildfiles -I/usr/local/include -L/usr/local/lib -ldl -lpthread $fs
 if [[ $? != 0 ]]; then
 	exit $?
 fi
 
 # Library: math
-echo "Building libray: math..."
+echo "Building libray: math ..."
 $compiler -O2 -fPIC -std=c++17 -shared -o buildfiles/libmath.so src/Modules/math.cpp $buildfiles -I/usr/local/include -L/usr/local/lib -ldl -lpthread $fs
 if [[ $? != 0 ]]; then
 	exit $?
 fi
 
 # Library: list
-echo "Building libray: list..."
+echo "Building libray: list ..."
 $compiler -O2 -fPIC -std=c++17 -shared -o buildfiles/liblist.so src/Modules/list.cpp $buildfiles -I/usr/local/include -L/usr/local/lib -ldl -lpthread $fs
 if [[ $? != 0 ]]; then
 	exit $?
 fi
 
 # Library: audio
-echo "Building libray: audio..."
+echo "Building libray: audio ..."
 $compiler -O2 -fPIC -std=c++17 -shared -o buildfiles/libaudio.so src/Modules/audio.cpp $buildfiles -I/usr/local/include -L/usr/local/lib -ldl -lpthread -lsfml-audio $fs
 if [[ $? != 0 ]]; then
 	exit $?
 fi
 
 # Library: project
-echo "Building libray: project..."
+echo "Building libray: project ..."
 $compiler -O2 -fPIC -std=c++17 -shared -o buildfiles/libproject.so src/Modules/project.cpp $buildfiles -I/usr/local/include -L/usr/local/lib -ldl -lpthread $fs
 if [[ $? != 0 ]]; then
 	exit $?
 fi
 
 # Library: builds
-echo "Building libray: builds..."
+echo "Building libray: builds ..."
 $compiler -O2 -fPIC -std=c++17 -shared -o buildfiles/libbuilds.so src/Modules/builds.cpp src/Modules/builds/cxx.cpp src/Modules/builds/c.cpp $buildfiles -I/usr/local/include -L/usr/local/lib -ldl -lpthread $fs
 if [[ $? != 0 ]]; then
 	exit $?
@@ -125,7 +125,7 @@ if [[ "$os" == 'Linux' ]]; then
 	cp_cmd="cp -r --remove-destination "
 fi
 
-echo "Installing files..."
+echo "Installing files ..."
 $cp_cmd buildfiles/al /usr/local/bin
 $cp_cmd buildfiles/lib*.so /usr/local/share/allang_libs/
 $cp_cmd build_libs/* /usr/local/share/allang_tests/
