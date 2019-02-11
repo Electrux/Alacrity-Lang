@@ -48,7 +48,9 @@ AL_FUNC_FIX_ARG( push, 2, false, false )
 		std::cerr << "liblist: Failed to fetch std::vector from location: " << loc << "\n";
 		return FAIL;
 	}
-	vec->push_back( args[ 1 ] );
+	std::string item;
+	EVAL_AND_CHECK( "push", args[ 1 ], item );
+	vec->push_back( item );
 	return OK;
 }
 
@@ -72,6 +74,33 @@ AL_FUNC_VAR_ARG( pop, 1, 2, false, false )
 	return OK;
 }
 
+AL_FUNC_VAR_ARG( erase_idx, 2, 3, false, false )
+{
+	std::string var;
+	EVAL_AND_CHECK( "erase_idx", args[ 0 ], var );
+	auto loc = Env::GetVar( var );
+	std::vector< std::string > * vec = ( std::vector< std::string > * )std::stoull( loc );
+	if( vec == nullptr ) {
+		std::cerr << "liblist: Failed to fetch std::vector from location: " << loc << "\n";
+		return FAIL;
+	}
+	if( vec->empty() ) return OK;
+
+	std::string idx;
+	EVAL_AND_CHECK( "erase_idx", args[ 1 ], idx );
+	CHECK_VAR_NUMERIC( args[ 1 ], idx );
+	size_t index = std::stoul( idx );
+	if( vec->size() <= index ) return OK;
+
+	std::string res_loc = "RESULT";
+	if( args.size() > 2 ) {
+		EVAL_AND_CHECK( "erase_idx", args[ 2 ], res_loc );
+	}
+	Env::SetVar( res_loc, ( * vec )[ index ] );
+	vec->erase( vec->begin() + index );
+	return OK;
+}
+
 AL_FUNC_VAR_ARG( erase, 2, 3, false, false )
 {
 	std::string var;
@@ -84,18 +113,18 @@ AL_FUNC_VAR_ARG( erase, 2, 3, false, false )
 	}
 	if( vec->empty() ) return OK;
 
-	std::string idx;
-	EVAL_AND_CHECK( "erase", args[ 1 ], idx );
-	CHECK_VAR_NUMERIC( args[ 1 ], idx );
-	size_t index = std::stoul( idx );
-	if( vec->size() <= index ) return OK;
+	std::string item;
+	EVAL_AND_CHECK( "erase", args[ 1 ], item );
+
+	auto item_loc = std::find( vec->begin(), vec->end(), item );
+	if( item_loc == vec->end() ) return OK;
 
 	std::string res_loc = "RESULT";
 	if( args.size() > 2 ) {
 		EVAL_AND_CHECK( "erase", args[ 2 ], res_loc );
 	}
-	Env::SetVar( res_loc, ( * vec )[ index ] );
-	vec->erase( vec->begin() + index );
+	Env::SetVar( res_loc, * item_loc );
+	vec->erase( item_loc );
 	return OK;
 }
 

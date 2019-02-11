@@ -9,6 +9,7 @@ builds.add_cxx_flags( "-O2", "-fPIC" )
 
 use_lib( filesystem )
 use_lib( sfml_audio )
+use_lib( sfml_network )
 use_lib( pthread )
 use_lib( dl )
 
@@ -29,6 +30,7 @@ builds( lib, dynamic ) {
 	build( math, "src/Modules/math.cpp" )
 	build( list, "src/Modules/list.cpp" )
 	build( audio, "src/Modules/audio.cpp" )
+	build( net, "src/Modules/net.cpp" )
 	build( project, "src/Modules/project.cpp" )
 	build( builds, "src/Modules/builds.cpp, src/Modules/builds/cxx.cpp, src/Modules/builds/c.cpp" )
 }

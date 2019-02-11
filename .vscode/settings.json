@@ -73,6 +73,8 @@
 		"future": "cpp",
 		"__errc": "cpp",
 		"__node_handle": "cpp",
-		"filesystem": "cpp"
+		"filesystem": "cpp",
+		"list": "cpp",
+		"map": "cpp"
 	}
 }
