@@ -123,7 +123,7 @@ void Parser::LoopStmt::Disp( const bool has_next ) const
 	IO::out( true ) << " args:\n";
 
 	IO::out.IncTab( true );
-	for( int i = 0; i < m_args.size(); ++i ) {
+	for( size_t i = 0; i < m_args.size(); ++i ) {
 		IO::out( i != m_args.size() - 1 ) << " \"" << m_args[ i ] << "\"\n";
 	}
 	IO::out.DecTab();

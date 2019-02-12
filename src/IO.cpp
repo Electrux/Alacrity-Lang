@@ -21,7 +21,7 @@ IO::Out::Out() : m_tabs( 0 )
 
 void IO::Out::Tab( const bool has_next ) const
 {
-	for( int i = 0; i < m_tabs.size(); ++i ) {
+	for( size_t i = 0; i < m_tabs.size(); ++i ) {
 		if( i == m_tabs.size() - 1 ) {
 			if( has_next ) std::cout << "  ├─";
 			else std::cout << "  └─";
@@ -106,7 +106,7 @@ void IO::Out::IncTab( const bool draw )
 
 void IO::Out::DecTab( const int tabs )
 {
-	if( m_tabs.size() < tabs ) return;
+	if( ( int )m_tabs.size() < tabs ) return;
 	for( int i = 0; i < tabs; ++i ) {
 		m_tabs.pop_back();
 	}

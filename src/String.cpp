@@ -88,7 +88,7 @@ int Str::Eval( const std::string & str, std::string & op )
 						std::cout << "Str::Eval error: Command: " << source << " failed!\n";
 						break;
 					}
-					if( out.size() <= item_loc ) {
+					if( ( int )out.size() <= item_loc ) {
 						std::cout << "Str::Eval error: The result of command: " << source << " contained only: " << out.size()
 							<< " lines, but the given item location is: " << item_loc << "\n";
 						res = IDX_OUT_BOUNDS;

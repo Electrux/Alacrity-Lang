@@ -172,7 +172,7 @@ void Parser::CondStmt::Disp( const bool has_next ) const
 	IO::out.IncTab( has_next );
 	IO::out( has_next ) << " Conditional at <" << this << ">:\n";
 
-	for( int i = 0; i < m_conds.size(); ++i ) {
+	for( size_t i = 0; i < m_conds.size(); ++i ) {
 		bool next = i != m_conds.size() - 1;
 		IO::out.IncTab( next );
 		if( i == 0 ) {
@@ -182,7 +182,7 @@ void Parser::CondStmt::Disp( const bool has_next ) const
 		} else {
 			IO::out( next ) << " Else:\n";
 		}
-		for( int j = 0; j < m_conds[ i ].ops.size(); ++j ) {
+		for( size_t j = 0; j < m_conds[ i ].ops.size(); ++j ) {
 			m_conds[ i ].ops[ j ].Disp( true );
 		}
 		m_conds[ i ].block->Disp( false );

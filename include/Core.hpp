@@ -20,7 +20,7 @@ namespace Core
 template< typename T >
 int LocInVec( const std::vector< T > & vec, const T & element )
 {
-	for( int i = 0; i < vec.size(); ++i ) {
+	for( size_t i = 0; i < vec.size(); ++i ) {
 		if( vec[ i ] == element ) return i;
 	}
 	return -1;

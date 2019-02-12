@@ -29,7 +29,7 @@ int Interpreter::Conditional( const Parser::CondStmt * conds, const size_t depth
 
 	int block_loc = -1;
 
-	for( int i = 0; i < conds->GetConds().size(); ++i ) {
+	for( size_t i = 0; i < conds->GetConds().size(); ++i ) {
 		auto & cond = conds->GetConds()[ i ];
 		res = EvalConditions( cond, depth, internal_display_enabled );
 		if( res < 0 ) {
@@ -70,7 +70,7 @@ static int EvalConditions( const Parser::Cond & cond, const size_t depth, const 
 
 	bool result = false;
 	int res = OK;
-	for( int i = 0; i < cond.ops.size(); ) {
+	for( size_t i = 0; i < cond.ops.size(); ) {
 		auto & o = cond.ops[ i ];
 		//IO::colout << "\tEvaluating: " << o.lhs << " " << o.oper << " " << o.rhs << "\n";
 		std::string outl, outr;
@@ -131,7 +131,7 @@ static int EvalConditions( const Parser::Cond & cond, const size_t depth, const 
 		// if so, just throw the result accordingly
 		// using this, we can save a lot of time by not evaluating
 		// unnecessary operation strings
-		int tmp_i = i;
+		size_t tmp_i = i;
 		if( result ) {
 			// if result == true, skip all the next OR operations
 			while( cond.ops[ ++tmp_i ].type == Parser::OR );
