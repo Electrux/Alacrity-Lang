@@ -94,8 +94,7 @@ std::variant< int, Parser::ParseTree > Parser::ParseTokens( const LexSymVec & to
 	}
 	int err_val = 0;
 	std::string err;
-	int err_col = -1, err_line = -1;
-	int loc = 0;
+	size_t loc = 0;
 	auto block_var = BlockStmt::Parse( tokens, loc, {} );
 	if( std::holds_alternative< int >( block_var ) ) {
 		err_val = std::get< int >( block_var );

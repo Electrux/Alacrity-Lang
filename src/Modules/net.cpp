@@ -238,7 +238,6 @@ AL_FUNC_FIX_ARG( send, 2, false, false )
 	EVAL_AND_CHECK( "send", args[ 1 ], data );
 	sf::Packet pack;
 	pack << data;
-	int ctr = 0;
 	if( sock->send( pack ) == sf::Socket::Done ) {
 		Env::Reset( "RESULT" );
 	} else {

@@ -32,11 +32,11 @@ struct FnInfo
 static_assert( fn_min_args >= 0 && ( fn_max_args > fn_min_args || fn_max_args == -1 ),	\
 	"Min args must be >= zero and not equal to Max args, or Max must be == -1 " );	\
 extern "C" {										\
-	FnInfo f_inf_##fn_name = { .name = #fn_name,					\
-				.min_args = fn_min_args,				\
-				.max_args = fn_max_args,				\
-				.persist_env = fn_persist_env,				\
-				.used_block = fn_used_block };				\
+	FnInfo f_inf_##fn_name = { #fn_name,						\
+				fn_min_args,						\
+				fn_max_args,						\
+				fn_persist_env,						\
+				fn_used_block };					\
 }											\
 extern "C" int fn_##fn_name( const std::vector< std::string > & args, const int depth,	\
 				const Parser::BlockStmt * block,			\
@@ -45,11 +45,11 @@ extern "C" int fn_##fn_name( const std::vector< std::string > & args, const int 
 #define AL_FUNC_FIX_ARG( fn_name, fn_arg_count, fn_persist_env, fn_used_block )		\
 static_assert( fn_arg_count >= -1, "Argument count must be >= -1" );			\
 extern "C" {										\
-	FnInfo f_inf_##fn_name = { .name = #fn_name,					\
-				.min_args = fn_arg_count,				\
-				.max_args = fn_arg_count,				\
-				.persist_env = fn_persist_env,				\
-				.used_block = fn_used_block };				\
+	FnInfo f_inf_##fn_name = { #fn_name,						\
+				fn_arg_count,						\
+				fn_arg_count,						\
+				fn_persist_env,						\
+				fn_used_block };					\
 }											\
 extern "C" int fn_##fn_name( const std::vector< std::string > & args, const int depth,	\
 				const Parser::BlockStmt * block,			\

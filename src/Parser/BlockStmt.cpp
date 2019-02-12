@@ -32,7 +32,7 @@ Parser::BlockStmt::~BlockStmt()
 	}
 }
 
-std::variant< int, std::vector< Parser::Stmt * > > Parser::BlockStmt::Parse( const LexSymVec & tokens, int & loc, std::vector< std::string > parent_funcs )
+std::variant< int, std::vector< Parser::Stmt * > > Parser::BlockStmt::Parse( const LexSymVec & tokens, size_t & loc, std::vector< std::string > parent_funcs )
 {
 	std::string err;
 	int err_line, err_col;
@@ -144,7 +144,7 @@ void Parser::BlockStmt::Disp( const bool has_next ) const
 	IO::out.IncTab( has_next );
 	IO::out( has_next ) << " Block at <" << this << ">:\n";
 
-	for( int i = 0; i < m_stmts.size(); ++i ) {
+	for( size_t i = 0; i < m_stmts.size(); ++i ) {
 		m_stmts[ i ]->Disp( i != m_stmts.size() - 1 );
 	}
 

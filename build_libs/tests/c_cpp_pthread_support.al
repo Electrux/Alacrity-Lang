@@ -1,4 +1,4 @@
-print( "{b}Checking pthread support{0} ... " )
+print( "{b}Checking for pthread support{0} ... " )
 
 if( "${LANGUAGE}" == "c++" ) {
 	tmp_cc = "${CC}"
@@ -9,7 +9,7 @@ if( "${LANGUAGE}" == "c++" ) {
 	}
 }
 
-eval( "#{${CC} c_cpp_pthread_support.c -o /tmp/a.out -lpthread 2>/dev/null}" )
+eval( "#{${CC} c_cpp_pthread_support.c -o /dev/null -lpthread 2>/dev/null}" )
 
 if( "${LANGUAGE}" == "c++" ) {
 	CC = "${tmp_cc}"
@@ -17,7 +17,6 @@ if( "${LANGUAGE}" == "c++" ) {
 }
 
 if( "${EXIT_STATUS}" == 0 ) {
-	exec( "rm /tmp/a.out" )
 	C_CPP_PTHREAD_SUPPORT = yes
 	print( "{g}yes{0}\n" )
 } else {

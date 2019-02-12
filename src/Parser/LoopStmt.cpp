@@ -30,7 +30,7 @@ Parser::LoopStmt::~LoopStmt()
 	}
 }
 
-Parser::LoopStmt * Parser::LoopStmt::Parse( const LexSymVec & tokens, int & loc, std::vector< std::string > parent_funcs, const LoopType loop_type )
+Parser::LoopStmt * Parser::LoopStmt::Parse( const LexSymVec & tokens, size_t & loc, std::vector< std::string > parent_funcs, const LoopType loop_type )
 {
 	std::vector< std::string > loop_args;
 	BlockStmt * loop_block = nullptr;
@@ -142,4 +142,4 @@ void Parser::LoopStmt::Disp( const bool has_next ) const
 
 const std::vector< std::string > & Parser::LoopStmt::GetArgs() const { return m_args; }
 const Parser::BlockStmt * Parser::LoopStmt::GetBlock() const { return m_block; }
-const Parser::LoopType Parser::LoopStmt::GetType() const { return m_loop_type; }
+Parser::LoopType Parser::LoopStmt::GetType() const { return m_loop_type; }

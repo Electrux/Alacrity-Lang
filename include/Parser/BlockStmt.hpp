@@ -25,7 +25,7 @@ class BlockStmt : public Stmt
 	explicit BlockStmt( const std::vector< Stmt * > & stmts );
 public:
 	~BlockStmt();
-	static std::variant< int, std::vector< Parser::Stmt * > > Parse( const LexSymVec & tokens, int & loc, std::vector< std::string > parent_funcs );
+	static std::variant< int, std::vector< Parser::Stmt * > > Parse( const LexSymVec & tokens, size_t & loc, std::vector< std::string > parent_funcs );
 	static BlockStmt * GenBlock( const std::vector< Stmt * > & stmts );
 
 	void Disp( const bool has_next = false ) const;

@@ -24,7 +24,7 @@ Parser::AssignStmt::AssignStmt( const std::string & var, const std::string & val
 
 Parser::AssignStmt::~AssignStmt() {}
 
-Parser::AssignStmt * Parser::AssignStmt::Parse( const LexSymVec & tokens, int & loc )
+Parser::AssignStmt * Parser::AssignStmt::Parse( const LexSymVec & tokens, size_t & loc )
 {
 	// var
 	std::string var = tokens[ loc ]->GetData(), val;

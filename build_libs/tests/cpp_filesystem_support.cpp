@@ -1,4 +1,3 @@
-#include <iostream>
 #if __FreeBSD__
 #include <experimental/filesystem>
 namespace fs = std::experimental::filesystem;

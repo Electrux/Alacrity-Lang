@@ -37,7 +37,7 @@ class FnCallStmt : public Stmt
 		const std::vector< std::string > & args, const BlockStmt * block );
 public:
 	~FnCallStmt();
-	static FnCallStmt * Parse( const LexSymVec & tokens, int & loc, std::vector< std::string > parent_funcs );
+	static FnCallStmt * Parse( const LexSymVec & tokens, size_t & loc, std::vector< std::string > parent_funcs );
 
 	void Disp( const bool has_next = false ) const;
 

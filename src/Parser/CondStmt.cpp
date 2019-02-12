@@ -62,7 +62,7 @@ Parser::CondStmt::~CondStmt()
 void Parser::CondStmt::AddBlock( const Cond & cond ) { m_conds.push_back( cond ); }
 const Parser::Cond & Parser::CondStmt::operator []( const size_t i ) const { return m_conds[ i ]; }
 
-std::variant< int, Parser::CondStmt * > Parser::CondStmt::Parse( const LexSymVec & tokens, int & loc, std::vector< std::string > parent_funcs )
+std::variant< int, Parser::CondStmt * > Parser::CondStmt::Parse( const LexSymVec & tokens, size_t & loc, std::vector< std::string > parent_funcs )
 {
 	std::string err;
 	int err_line, err_col;

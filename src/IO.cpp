@@ -229,7 +229,7 @@ const ColOut & IO::ColOut::operator<< ( const void * val ) const
 void IO::ColOut::ApplyColors( std::string & str )
 {
 	for( auto it = str.begin(); it != str.end(); ) {
-		if( * it == '{' && ( it == str.begin() || ( * ( it - 1 ) != '$' && * ( it - 1 ) != '%' && * ( it - 1 ) != '#' ) ) ) {
+		if( * it == '{' && ( it == str.begin() || ( * ( it - 1 ) != '$' && * ( it - 1 ) != '%' && * ( it - 1 ) != '#' && * ( it - 1 ) != '\\' ) ) ) {
 			it = str.erase( it );
 			if( it != str.end() && * it == '{' ) {
 				++it;

@@ -59,7 +59,7 @@ public:
 	void AddBlock( const Cond & cond );
 	const Cond & operator []( const size_t i ) const;
 
-	static std::variant< int, CondStmt * > Parse( const LexSymVec & tokens, int & loc, std::vector< std::string > parent_funcs );
+	static std::variant< int, CondStmt * > Parse( const LexSymVec & tokens, size_t & loc, std::vector< std::string > parent_funcs );
 
 	void Disp( const bool has_next = false ) const;
 

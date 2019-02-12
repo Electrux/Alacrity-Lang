@@ -33,7 +33,7 @@ Parser::FnCallStmt::~FnCallStmt()
 	}
 }
 
-Parser::FnCallStmt * Parser::FnCallStmt::Parse( const LexSymVec & tokens, int & loc, std::vector< std::string > parent_funcs )
+Parser::FnCallStmt * Parser::FnCallStmt::Parse( const LexSymVec & tokens, size_t & loc, std::vector< std::string > parent_funcs )
 {
 	GetActualFunctionName( parent_funcs, tokens[ loc ]->GetData() );
 	std::string full_name, lib_name = Core::FuncLibFile( parent_funcs[ 0 ] );
@@ -118,7 +118,7 @@ void Parser::FnCallStmt::Disp( const bool has_next ) const
 	IO::out( true ) << " args:\n";
 
 	IO::out.IncTab( true );
-	for( int i = 0; i < m_args.size(); ++i ) {
+	for( size_t i = 0; i < m_args.size(); ++i ) {
 		IO::out( i != m_args.size() - 1 ) << " \"" << m_args[ i ] << "\"\n";
 	}
 	IO::out.DecTab();
@@ -144,7 +144,7 @@ const Parser::BlockStmt * Parser::FnCallStmt::GetBlock() const { return m_block;
 
 static void GetActualFunctionName( std::vector< std::string > & parents, std::string name )
 {
-	int loc = name.find( '.' );
+	size_t loc = name.find( '.' );
 	if( loc != std::string::npos ) {
 		parents.clear();
 		while( loc != std::string::npos ) {

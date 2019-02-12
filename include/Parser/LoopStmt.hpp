@@ -38,13 +38,13 @@ class LoopStmt : public Stmt
 	explicit LoopStmt( const std::vector< std::string > & args, const BlockStmt * block, const LoopType loop_type );
 public:
 	~LoopStmt();
-	static LoopStmt * Parse( const LexSymVec & tokens, int & loc, std::vector< std::string > parent_funcs, const LoopType loop_type );
+	static LoopStmt * Parse( const LexSymVec & tokens, size_t & loc, std::vector< std::string > parent_funcs, const LoopType loop_type );
 
 	void Disp( const bool has_next = false ) const;
 
 	const std::vector< std::string > & GetArgs() const;
 	const BlockStmt * GetBlock() const;
-	const LoopType GetType() const;
+	LoopType GetType() const;
 };
 }
 

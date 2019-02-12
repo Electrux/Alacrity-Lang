@@ -28,7 +28,7 @@ class AssignStmt : public Stmt
 	explicit AssignStmt( const std::string & var, const std::string & val );
 public:
 	~AssignStmt();
-	static AssignStmt * Parse( const LexSymVec & tokens, int & loc );
+	static AssignStmt * Parse( const LexSymVec & tokens, size_t & loc );
 
 	void Disp( const bool has_next = false ) const;
 

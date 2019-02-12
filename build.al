@@ -5,7 +5,7 @@ project( "Alacrity-Lang" ) {
 	author( Electrux, "ElectruxRedsworth@gmail.com" )
 }
 
-builds.add_cxx_flags( "-O2", "-fPIC" )
+builds.add_cxx_flags( "-O2", "-fPIC", "-pedantic", "-Wall", "-Wextra", "-Wno-unused-parameter" )
 
 use_lib( filesystem )
 use_lib( sfml_audio )
