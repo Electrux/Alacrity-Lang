@@ -69,7 +69,7 @@ AL_FUNC_FIX_ARG( add, 3, false, false )
 	CHECK_VAR_NUMERIC( args[ 2 ], add_val_str );
 	size_t idx = std::stoul( idx_str );
 	int add_val = std::stoi( add_val_str );
-	if( idx >= val.size() || idx < 0 ) {
+	if( idx >= val.size() ) {
 		std::cerr << "libstring: Provided index: " << idx_str << " does not fall in the range [0, " << std::to_string( val.size() ) << "]\n";
 		return FAIL;
 	}

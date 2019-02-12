@@ -67,7 +67,7 @@ std::variant< int, Parser::CondStmt * > Parser::CondStmt::Parse( const LexSymVec
 	std::string err;
 	int err_line, err_col;
 	int err_val;
-	CondType ctype;
+	CondType ctype = IF;
 
 	std::vector< Cond > conds;
 	Cond cond_tmp;

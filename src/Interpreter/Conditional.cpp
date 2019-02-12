@@ -84,7 +84,7 @@ static int EvalConditions( const Parser::Cond & cond, const size_t depth, const 
 			if( internal_display_enabled ) IO::colout << "Conditional[" << depth << "] {r}error{0}: Failed to fetch RHS from: " << o.rhs << "\n";
 			return -1;
 		}
-		bool result_tmp;
+		bool result_tmp = false;
 		if( o.oper == Lex::LogicStrs[ Lex::EQ ] ) {
 			result_tmp = outl == outr;
 		} else if( o.oper == Lex::LogicStrs[ Lex::NE ] ) {

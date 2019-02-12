@@ -109,7 +109,7 @@ std::variant< int, std::vector< Parser::Stmt * > > Parser::BlockStmt::Parse( con
 				tokens[ loc ]->GetDetailType() == Lex::FOREACH ||
 				tokens[ loc ]->GetDetailType() == Lex::FOREACHVAR ) ) {
 			int tmp_loc = loc;
-			Parser::LoopType type;
+			Parser::LoopType type = FOR;
 			if( tokens[ loc ]->GetDetailType() == Lex::FOR ) 	type = FOR;
 			if( tokens[ loc ]->GetDetailType() == Lex::FOREACH ) 	type = FOREACH;
 			if( tokens[ loc ]->GetDetailType() == Lex::FOREACHVAR ) type = FOREACHVAR;
