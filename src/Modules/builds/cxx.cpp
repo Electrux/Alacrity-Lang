@@ -27,7 +27,7 @@ AL_FUNC_VAR_ARG( add_cxx_flags, 1, -1, false, false )
 	for( auto arg = args.begin(); arg != args.end(); ++arg ) {
 		std::string farg;
 		EVAL_AND_CHECK( "add_cxx_flags", * arg, farg );
-		if( CheckCompilerFlag( farg ) ) Env::Append( "CXX_FLAGS", farg, ' ' );
+		if( farg.size() > 0 && CheckCompilerFlag( farg ) ) Env::Append( "CXX_FLAGS", farg, ' ' );
 	}
 	return OK;
 }
@@ -64,6 +64,8 @@ AL_FUNC_VAR_ARG( add_cxx_lib_flags, 1, -1, false, false )
 
 static bool CheckCompilerFlag( const std::string & flag )
 {
+	// skip the -D flag
+	if( flag.size() > 1 && flag[ 1 ] == 'D' ) return true;
 	IO::colout << "{b}Checking if compiler supports " << flag << " {0}... ";
 	std::cout.flush();
 	std::string cmd = "echo \"#include <stdio.h>\\nint main() \\{ return 0; }\" | ${CC} " + flag + " -o /dev/null -xc++ - 2>/dev/null";
