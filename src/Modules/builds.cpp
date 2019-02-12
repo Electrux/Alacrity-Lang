@@ -192,7 +192,7 @@ AL_FUNC_VAR_ARG( build, 2, -1, false, false )
 AL_FUNC_FIX_ARG( runtests, 0, false, false )
 {
 	auto builder = Builder::Get();
-	if( builder->Tests().empty() ) return OK;
+	if( builder->Tests().empty() || Env::GetVar( "CMDS_ONLY" ) == "true" ) return OK;
 	for( auto & test : builder->Tests() ) {
 		IO::colout << "{bc}Testing{0}: {by}" << Env::GetFilePart( test ) << "{0} ... ";
 		int res = Env::Exec( test );

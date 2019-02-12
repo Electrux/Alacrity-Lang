@@ -13,10 +13,6 @@ use_lib( sfml_network )
 use_lib( pthread )
 use_lib( dl )
 
-if( "${ARGC}" > 0 && "${ARG_0}" == "cmds" || "${ARG_1}" == "cmds" ) {
-	CMDS_ONLY = true
-}
-
 builds( bin ) {
 	sources( "src/(.*)\.cpp", "-src/Modules/(.*)\.cpp" )
 	build( al, "src/main.cpp" )
