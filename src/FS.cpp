@@ -11,7 +11,7 @@
 #include <iostream>
 #include <vector>
 #include <string>
-#if __FreeBSD__
+#ifdef CXX_FS_EXPERIMENTAL
 #include <experimental/filesystem>
 namespace fs = std::experimental::filesystem;
 #else
