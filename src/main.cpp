@@ -55,7 +55,7 @@ int main( int argc, char ** argv )
 
 	/*
 	std::cout << "\nParse Tree:\n";
-	for( int i = 0; i < parse_syms.GetStmts().size(); ++i ) {
+	for( size_t i = 0; i < parse_syms.GetStmts().size(); ++i ) {
 		parse_syms.GetStmts()[ i ]->Disp( i != parse_syms.GetStmts().size() - 1 );
 	}
 	std::cout << "\n\n";

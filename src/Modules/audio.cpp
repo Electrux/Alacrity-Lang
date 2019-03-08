@@ -25,8 +25,12 @@ AL_FUNC_FIX_ARG( play, 2, false, false )
 	std::string music_addr;
 	EVAL_AND_CHECK( "play", args[ 0 ], music_addr );
 	Env::SetVar( music_addr, "0" );
-	if( !FS::LocExists( args[ 1 ] ) ) {
-		std::cerr << "libaudio: Audio file: " << args[ 1 ] << " not found\n";
+
+	std::string music_file;
+	EVAL_AND_CHECK( "play", args[ 1 ], music_file );
+
+	if( !FS::LocExists( music_file ) ) {
+		std::cerr << "libaudio: Audio file: " << music_file << " not found\n";
 		return FAIL;
 	}
 	sf::Music * m = new sf::Music();
@@ -36,8 +40,8 @@ AL_FUNC_FIX_ARG( play, 2, false, false )
 		return FAIL;
 	}
 
-	if( !m->openFromFile( args[ 1 ] ) ) {
-		std::cerr << "libaudio: Failed to open music file: " << args[ 1 ] << "\n";
+	if( !m->openFromFile( music_file ) ) {
+		std::cerr << "libaudio: Failed to open music file: " << music_file << "\n";
 		return FAIL;
 	}
 	Env::SetVar( music_addr, m_loc );
