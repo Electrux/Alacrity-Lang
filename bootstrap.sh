@@ -92,16 +92,16 @@ fi
 # Library: audio
 echo "Building libray: audio ..."
 $compiler -O2 -fPIC -std=c++17 -shared -o buildfiles/libaudio.so src/Modules/audio.cpp $buildfiles -I/usr/local/include -L/usr/local/lib -ldl -lpthread -lsfml-audio $fs
-if [[ $? != 0 ]]; then
-	exit $?
-fi
+#if [[ $? != 0 ]]; then
+#	exit $?
+#fi
 
 # Library: network
 echo "Building libray: network ..."
 $compiler -O2 -fPIC -std=c++17 -shared -o buildfiles/libnet.so src/Modules/net.cpp $buildfiles -I/usr/local/include -L/usr/local/lib -ldl -lpthread -lsfml-system -lsfml-network $fs
-if [[ $? != 0 ]]; then
-	exit $?
-fi
+#if [[ $? != 0 ]]; then
+#	exit $?
+#fi
 
 # Library: project
 echo "Building libray: project ..."
