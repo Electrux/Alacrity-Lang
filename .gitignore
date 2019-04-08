@@ -20,6 +20,7 @@ bin/
 lib/
 build/
 buildfiles/
+.vscode/ipch/
 
 # Build file on BSD #
 #####################
