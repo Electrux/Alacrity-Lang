@@ -78,16 +78,18 @@ AL_FUNC_VAR_ARG( build, 2, -1, false, false )
 	Env::SetVar( "TARGET", args[ 0 ] );
 	Env::SetVar( "BUILD_TYPE", builder->GetBuildType() );
 
+	std::string lang = Env::GetVar( "LANGUAGE" );
+
 	if( args.size() >= 3 ) {
-		if( Env::GetVar( "LANGUAGE" ) == "c++" ) 	Env::Append( "CXX_INC_DIRS", args[ 2 ], ' ' );
+		if( lang == "c++" ) 	Env::Append( "CXX_INC_DIRS", args[ 2 ], ' ' );
 		else 						Env::Append( "C_INC_DIRS", args[ 2 ], ' ' );
 	}
 	if( args.size() >= 4 ) {
-		if( Env::GetVar( "LANGUAGE" ) == "c++" ) 	Env::Append( "CXX_LIB_FLAGS", args[ 3 ], ' ' );
+		if( lang == "c++" ) 	Env::Append( "CXX_LIB_FLAGS", args[ 3 ], ' ' );
 		else 						Env::Append( "C_LIB_FLAGS", args[ 3 ], ' ' );
 	}
 	if( args.size() >= 5 ) {
-		if( Env::GetVar( "LANGUAGE" ) == "c++" ) 	Env::Append( "CXX_FLAGS", args[ 4 ], ' ' );
+		if( lang == "c++" ) 	Env::Append( "CXX_FLAGS", args[ 4 ], ' ' );
 		else 						Env::Append( "C_FLAGS", args[ 4 ], ' ' );
 	}
 
@@ -96,7 +98,7 @@ AL_FUNC_VAR_ARG( build, 2, -1, false, false )
 	std::string base_msg_str = "{m}Compiling ${LANGUAGE} object{0}: {y}buildfiles/${SRC}.o{0} ...";
 	std::string base_comp_str = "${CC} -std=${LANGUAGE}${STD_VERSION} ";
 
-	if( Env::GetVar( "LANGUAGE" ) == "c++" ) base_comp_str += "${CXX_FLAGS} ${CXX_INC_DIRS} -c ";
+	if( lang == "c++" ) base_comp_str += "${CXX_FLAGS} ${CXX_INC_DIRS} -c ";
 	else base_comp_str += "${C_FLAGS} ${C_INC_DIRS} -c ";
 
 	base_comp_str += "${SRC} -o buildfiles/${SRC}.o ";
@@ -137,7 +139,7 @@ AL_FUNC_VAR_ARG( build, 2, -1, false, false )
 
 			base_comp_str += "-std=${LANGUAGE}${STD_VERSION} ";
 
-			if( Env::GetVar( "LANGUAGE" ) == "c++" ) base_comp_str += "${CXX_FLAGS} ${CXX_INC_DIRS} ";
+			if( lang == "c++" ) base_comp_str += "${CXX_FLAGS} ${CXX_INC_DIRS} ";
 			else base_comp_str += "${C_FLAGS} ${C_INC_DIRS} ";
 
 			if( builder->GetBuildType() == "bin" || builder->GetBuildType() == "test" ) base_comp_str += "-g ";
@@ -151,7 +153,7 @@ AL_FUNC_VAR_ARG( build, 2, -1, false, false )
 				base_comp_str += "${TARGET} ";
 			}
 
-			if( Env::GetVar( "LANGUAGE" ) == "c++" ) base_comp_str += "${CXX_LIB_DIRS} ${CXX_LIB_FLAGS}";
+			if( lang == "c++" ) base_comp_str += "${CXX_LIB_DIRS} ${CXX_LIB_FLAGS}";
 			else base_comp_str += "${C_LIB_DIRS} ${C_LIB_FLAGS}";
 
 			EVAL_AND_CHECK( "build", base_comp_str, comp_str );
