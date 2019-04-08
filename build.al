@@ -5,7 +5,7 @@ project( "Alacrity-Lang" ) {
 	author( Electrux, "ElectruxRedsworth@gmail.com" )
 }
 
-builds.add_cxx_flags( "-march=native", "-O2", "-flto", "-fPIC", "-pedantic", "-Wall", "-Wextra", "-Wno-unused-parameter" )
+builds.add_flags( "-march=native", "-O2", "-flto", "-fPIC", "-pedantic", "-Wall", "-Wextra", "-Wno-unused-parameter" )
 
 use_lib( filesystem )
 use_lib( sfml_audio )
@@ -28,7 +28,7 @@ builds( lib, dynamic ) {
 	build( audio, "src/Modules/audio.cpp" )
 	build( net, "src/Modules/net.cpp" )
 	build( project, "src/Modules/project.cpp" )
-	build( builds, "src/Modules/builds.cpp, src/Modules/builds/cxx.cpp, src/Modules/builds/c.cpp" )
+	build( builds, "src/Modules/builds.cpp, src/Modules/builds/c_cxx.cpp" )
 }
 
 if( "${ARGC}" > 0 && "${ARG_0}" == "install" ) {

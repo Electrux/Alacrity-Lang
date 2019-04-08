@@ -19,13 +19,13 @@ if( "${CPP_YAML_CPP_SUPPORT}" == no ) {
 		fail( "The yaml-cpp library is not supported by your compiler!\n" )
 	}
 	if( "${OPTIONAL_VAR}" != 0 ) {
-		builds.add_c_flags( "${OPTIONAL_VAR}" )
-		builds.add_cxx_flags( "${OPTIONAL_VAR}" )
+		builds.add_flags( "${OPTIONAL_VAR}" )
+		builds.add_flags( "${OPTIONAL_VAR}" )
 	}
 }
 
 if( "${OS}" == OS_BSD ) {
-	builds.add_cxx_inc_dirs( "-I/usr/local/include" )
-	builds.add_cxx_lib_dirs( "-L/usr/local/lib" )
+	builds.add_inc_dirs( "-I/usr/local/include" )
+	builds.add_lib_dirs( "-L/usr/local/lib" )
 }
-builds.add_cxx_lib_flags( "-lyaml-cpp" )
+builds.add_lib_flags( "-lyaml-cpp" )

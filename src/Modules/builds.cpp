@@ -82,15 +82,15 @@ AL_FUNC_VAR_ARG( build, 2, -1, false, false )
 
 	if( args.size() >= 3 ) {
 		if( lang == "c++" ) 	Env::Append( "CXX_INC_DIRS", args[ 2 ], ' ' );
-		else 						Env::Append( "C_INC_DIRS", args[ 2 ], ' ' );
+		else			Env::Append( "C_INC_DIRS", args[ 2 ], ' ' );
 	}
 	if( args.size() >= 4 ) {
 		if( lang == "c++" ) 	Env::Append( "CXX_LIB_FLAGS", args[ 3 ], ' ' );
-		else 						Env::Append( "C_LIB_FLAGS", args[ 3 ], ' ' );
+		else			Env::Append( "C_LIB_FLAGS", args[ 3 ], ' ' );
 	}
 	if( args.size() >= 5 ) {
 		if( lang == "c++" ) 	Env::Append( "CXX_FLAGS", args[ 4 ], ' ' );
-		else 						Env::Append( "C_FLAGS", args[ 4 ], ' ' );
+		else			Env::Append( "C_FLAGS", args[ 4 ], ' ' );
 	}
 
 	IO::colout << "{bm}Building target{0}: {by}${TARGET}{0} {bm}of type{0}: {by}${BUILD_TYPE}{0} ...\n";
@@ -198,11 +198,7 @@ AL_FUNC_FIX_ARG( runtests, 0, false, false )
 	for( auto & test : builder->Tests() ) {
 		IO::colout << "{bc}Testing{0}: {by}" << Env::GetFilePart( test ) << "{0} ... ";
 		int res = Env::Exec( test );
-		if( res != OK ) {
-			IO::colout << "{br}Fail{0}\n";
-		} else {
-			IO::colout << "{bg}Pass{0}\n";
-		}
+		IO::colout << ( res != OK ? "{br}Fail{0}\n" : "{bg}Pass{0}\n" );
 	}
 	builder->Tests().clear();
 	return OK;

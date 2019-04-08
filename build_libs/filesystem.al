@@ -26,18 +26,18 @@ if( "${CPP_FILESYSTEM_SUPPORT}" == no ) {
 		fail( "The filesystem library is not supported by your compiler!\n" )
 	}
 	if( "${OPTIONAL_VAR}" != 0 ) {
-		builds.add_c_flags( "${OPTIONAL_VAR}" )
-		builds.add_cxx_flags( "${OPTIONAL_VAR}" )
+		builds.add_flags( "${OPTIONAL_VAR}" )
+		builds.add_flags( "${OPTIONAL_VAR}" )
 	}
-}
-
-if( "${OS}" == OS_OSX ) {
-	builds.add_cxx_inc_dirs( "-I/usr/local/opt/llvm/include" )
-	builds.add_cxx_lib_dirs( "-L/usr/local/opt/llvm/lib" )
-	builds.add_cxx_lib_flags( "-lc++fs" )
-} elif( "${OS}" == OS_LINUX ) {
-	builds.add_cxx_lib_flags( "-lstdc++fs" )
-} elif( "${OS}" == OS_BSD ) {
-	builds.add_cxx_flags( "-DCXX_FS_EXPERIMENTAL" )
-	builds.add_cxx_lib_flags( "-lc++experimental" )
+} else {
+	if( "${OS}" == OS_OSX ) {
+		builds.add_inc_dirs( "-I/usr/local/opt/llvm/include" )
+		builds.add_lib_dirs( "-L/usr/local/opt/llvm/lib" )
+		builds.add_lib_flags( "-lc++fs" )
+	} elif( "${OS}" == OS_LINUX ) {
+		builds.add_lib_flags( "-lstdc++fs" )
+	} elif( "${OS}" == OS_BSD ) {
+		builds.add_flags( "-DCXX_FS_EXPERIMENTAL" )
+		builds.add_lib_flags( "-lc++experimental" )
+	}
 }
