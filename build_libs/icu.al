@@ -2,7 +2,7 @@ if( "${CC}" == "" ) {
 	fail( "CC environment variable is not set!\n" )
 }
 
-if( "${C_CPP_DL_SUPPORT}" == "" ) {
+if( "${C_CPP_ICU_SUPPORT}" == "" ) {
 	load_file( "tests/c_cpp_icu_support" )
 }
 
