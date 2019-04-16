@@ -87,7 +87,7 @@ int Interpreter::LoopCall( const Parser::LoopStmt * loop_var, const size_t depth
 		}
 		goto finite_loop;
 	} else if( loop_var->GetType() == Parser::LoopType::FOREACHVAR ) { // args.size() will be = 2 or 3
-		std::string val = Env::GetVar( loop_var->GetArgs()[ 0 ] );
+		std::string val = Env::GetVar( loop_var->GetArgs()[ 1 ] );
 		char delim = ' ';
 		if( loop_var->GetArgs().size() > 2 && !loop_var->GetArgs()[ 2 ].empty() ) {
 			delim = loop_var->GetArgs()[ 2 ][ 0 ];
