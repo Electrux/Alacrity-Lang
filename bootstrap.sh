@@ -61,6 +61,13 @@ if [[ $? != 0 ]]; then
 	exit $?
 fi
 
+# Library: time
+echo "Building libray: time ..."
+$compiler -O2 -fPIC -std=c++17 -shared -o buildfiles/libtime.so src/Modules/time.cpp $buildfiles -I/usr/local/include -L/usr/local/lib -ldl -lpthread $fs
+if [[ $? != 0 ]]; then
+	exit $?
+fi
+
 # Library: os
 echo "Building libray: os ..."
 $compiler -O2 -fPIC -std=c++17 -shared -o buildfiles/libos.so src/Modules/os.cpp $buildfiles -I/usr/local/include -L/usr/local/lib -ldl -lpthread $fs
