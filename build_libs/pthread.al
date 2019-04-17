@@ -12,11 +12,9 @@ if( "${C_CPP_PTHREAD_SUPPORT}" == no ) {
 	}
 	if( "${OPTIONAL_VAR}" != 0 ) {
 		builds.add_flags( "${OPTIONAL_VAR}" )
-		builds.add_flags( "${OPTIONAL_VAR}" )
 	}
 }
 
 if( "${OS}" == OS_OSX || "${OS}" == OS_LINUX || "${OS}" == OS_BSD ) {
-	builds.add_lib_flags( "-lpthread" )
 	builds.add_lib_flags( "-lpthread" )
 }

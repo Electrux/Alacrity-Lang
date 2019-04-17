@@ -20,7 +20,6 @@ if( "${CPP_SFML_AUDIO_SUPPORT}" == no ) {
 	}
 	if( "${OPTIONAL_VAR}" != 0 ) {
 		builds.add_flags( "${OPTIONAL_VAR}" )
-		builds.add_flags( "${OPTIONAL_VAR}" )
 	}
 }
 

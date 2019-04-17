@@ -21,6 +21,7 @@ builds( bin ) {
 builds( lib, dynamic ) {
 	sources( "src/(.*)\.cpp", "-src/main.cpp", "-src/Modules/(.*)\.cpp" )
 	build( core, "src/Modules/core.cpp" )
+	build( time, "src/Modules/time.cpp" )
 	build( os, "src/Modules/os.cpp" )
 	build( string, "src/Modules/string.cpp" )
 	build( math, "src/Modules/math.cpp" )

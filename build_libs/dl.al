@@ -12,9 +12,7 @@ if( "${C_CPP_DL_SUPPORT}" == no ) {
 	}
 	if( "${OPTIONAL_VAR}" != 0 ) {
 		builds.add_flags( "${OPTIONAL_VAR}" )
-		builds.add_flags( "${OPTIONAL_VAR}" )
 	}
 } else {
-	builds.add_lib_flags( "-ldl" )
 	builds.add_lib_flags( "-ldl" )
 }

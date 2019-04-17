@@ -20,7 +20,6 @@ if( "${CPP_YAML_CPP_SUPPORT}" == no ) {
 	}
 	if( "${OPTIONAL_VAR}" != 0 ) {
 		builds.add_flags( "${OPTIONAL_VAR}" )
-		builds.add_flags( "${OPTIONAL_VAR}" )
 	}
 }
 
