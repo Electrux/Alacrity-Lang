@@ -119,7 +119,7 @@ fi
 
 # Library: builds
 echo "Building libray: builds ..."
-$compiler -O2 -fPIC -std=c++17 -shared -o buildfiles/libbuilds.so src/Modules/builds.cpp src/Modules/builds/cxx.cpp src/Modules/builds/c.cpp $buildfiles -I/usr/local/include -L/usr/local/lib -ldl -lpthread $fs
+$compiler -O2 -fPIC -std=c++17 -shared -o buildfiles/libbuilds.so src/Modules/builds.cpp src/Modules/builds/c_cxx.cpp $buildfiles -I/usr/local/include -L/usr/local/lib -ldl -lpthread $fs
 if [[ $? != 0 ]]; then
 	exit $?
 fi
