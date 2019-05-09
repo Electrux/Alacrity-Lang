@@ -126,14 +126,17 @@ fi
 
 # Install this
 
-mkdir -p /usr/local/share/allang_tests/
+if [[ -z "$PREFIX" ]]; then
+	PREFIX="/usr/local"
+fi
+mkdir -p "$PREFIX/share/allang_tests/"
 
 if [[ $? != 0 ]]; then
 	echo "You might wanna run this as root for installation!"
 	exit $?
 fi
 
-mkdir -p /usr/local/share/allang_libs/
+mkdir -p "$PREFIX/share/allang_libs/"
 
 cp_cmd="cp -r "
 
@@ -142,6 +145,6 @@ if [[ "$os" == 'Linux' ]]; then
 fi
 
 echo "Installing files ..."
-$cp_cmd buildfiles/al /usr/local/bin
-$cp_cmd buildfiles/lib*.so /usr/local/share/allang_libs/
-$cp_cmd build_libs/* /usr/local/share/allang_tests/
+$cp_cmd buildfiles/al "$PREFIX/bin"
+$cp_cmd buildfiles/lib*.so "$PREFIX/share/allang_libs/"
+$cp_cmd build_libs/* "$PREFIX/share/allang_tests/"

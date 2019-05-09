@@ -32,11 +32,15 @@ builds( lib, dynamic ) {
 	build( builds, "src/Modules/builds.cpp, src/Modules/builds/c_cxx.cpp" )
 }
 
+if( "${PREFIX}" == "" ) {
+	PREFIX = "/usr/local"
+}
+
 if( "${ARGC}" > 0 && "${ARG_0}" == "install" ) {
 	if( "${IS_ROOT}" == "true" || "${OS}" == OS_OSX ) {
-		install( "buildfiles/al", "/usr/local/bin" )
-		install( "buildfiles/lib*.so", "/usr/local/share/allang_libs/" )
-		install( "build_libs/*", "/usr/local/share/allang_tests/" )
+		install( "buildfiles/al", "${PREFIX}/bin" )
+		install( "buildfiles/lib*.so", "${PREFIX}/share/allang_libs/" )
+		install( "build_libs/*", "${PREFIX}/share/allang_tests/" )
 	} else {
 		print( "{r}Run as root to install the built files{0}\n" )
 	}
