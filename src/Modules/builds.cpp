@@ -109,6 +109,8 @@ AL_FUNC_VAR_ARG( build, 2, -1, false, false )
 
 	bool cmds_only = Env::GetVar( "CMDS_ONLY" ) == "true";
 
+	bool any_one_src_not_latest = false;
+
 	for( auto & src : builder->Sources() ) {
 		Env::SetVar( "SRC", src );
 		std::string comp_str, msg_str;
@@ -171,8 +173,16 @@ AL_FUNC_VAR_ARG( build, 2, -1, false, false )
 		EVAL_AND_CHECK( "build", base_msg_str, msg_str );
 		EVAL_AND_CHECK( "build", base_target_obj_str, target_obj_str );
 
+		for( auto & src : builder->Sources() ) {
+			if( !IsFileLatest( target_obj_str, "buildfiles/" + src + ".o" ) ) {
+				any_one_src_not_latest = true;
+				break;
+			}
+		}
+
 		if( cmds_only ) IO::colout << comp_str << "\n";
 		if( !cmds_only && ( cmds.size() > 0 || !IsFileLatest( target_obj_str, builder->MainSource() )
+				|| any_one_src_not_latest
 				|| !IsFileLatest( target_obj_str, Env::GetVar( "CURRENT_FILE" ) ) ) ) {
 			if( !FS::CreateDirectoriesForFile( "buildfiles/" + builder->MainSource() ) ) return FAIL;
 
