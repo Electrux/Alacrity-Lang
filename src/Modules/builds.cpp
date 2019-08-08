@@ -144,6 +144,10 @@ AL_FUNC_VAR_ARG( build, 2, -1, false, false )
 
 			if( builder->GetBuildType() == "bin" || builder->GetBuildType() == "test" ) base_comp_str += "-g ";
 
+#if __APPLE__
+			if( builder->GetLibType() == "dynamic" ) base_comp_str += "-Wl,-install_name -Wl,@rpath/lib${TARGET}.so ";
+#endif
+
 			base_comp_str += "${SRC} ${ALL_SRCS} -o buildfiles/";
 			if( builder->GetBuildType() == "lib" ) {
 				base_target_obj_str = "buildfiles/lib${TARGET}.so";
