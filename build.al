@@ -7,7 +7,6 @@ project( "Alacrity-Lang" ) {
 
 builds.add_flags( "-march=native", "-O2", "-flto", "-fPIC", "-pedantic", "-Wall", "-Wextra", "-Wno-unused-parameter" )
 
-use_lib( filesystem )
 use_lib( sfml_audio )
 use_lib( sfml_network )
 use_lib( pthread )
