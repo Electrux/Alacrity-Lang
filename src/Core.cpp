@@ -17,6 +17,9 @@
 #include "../include/DynLib.hpp"
 #include "../include/Core.hpp"
 
+#define _STRINGIZE(x) #x
+#define STRINGIFY(x) _STRINGIZE(x)
+
 std::string Core::ALLibPaths()
 {
 	return "AL_LIB_PATHS";
@@ -34,12 +37,12 @@ std::string Core::FuncLibFile( const std::string & func_name )
 
 int Core::Init( const int argc, const char ** argv )
 {
-	if( !Env::SetVar( ALLibPaths(), "/usr/local/share/allang_libs/" ) ) {
+	if( !Env::SetVar( ALLibPaths(), STRINGIFY( BUILD_PREFIX_DIR ) "/share/allang_libs/" ) ) {
 		std::cout << "Core::Init() failed: Unable to set core AL_LIB_PATHS env var!\n";
 		return ENV_SETVAR_FAILED;
 	}
 
-	if( !Env::SetVar( ALSourcePaths(), "/usr/local/share/allang_tests/" ) ) {
+	if( !Env::SetVar( ALSourcePaths(), STRINGIFY( BUILD_PREFIX_DIR ) "/share/allang_tests/" ) ) {
 		std::cout << "Core::Init() failed: Unable to set core AL_SRC_PATHS env var!\n";
 		return ENV_SETVAR_FAILED;
 	}

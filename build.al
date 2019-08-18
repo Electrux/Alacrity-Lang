@@ -5,7 +5,11 @@ project( "Alacrity-Lang" ) {
 	author( Electrux, "ElectruxRedsworth@gmail.com" )
 }
 
-builds.add_flags( "-march=native", "-O2", "-flto", "-fPIC", "-pedantic", "-Wall", "-Wextra", "-Wno-unused-parameter" )
+if( "${PREFIX}" == "" ) {
+	PREFIX = "%{pwd}"
+}
+
+builds.add_flags( "-march=native", "-O2", "-flto", "-fPIC", "-pedantic", "-Wall", "-Wextra", "-Wno-unused-parameter", "-DBUILD_PREFIX_DIR=${PREFIX}" )
 
 use_lib( sfml_audio )
 use_lib( sfml_network )
@@ -29,10 +33,6 @@ builds( lib, dynamic ) {
 	build( net, "src/Modules/net.cpp" )
 	build( project, "src/Modules/project.cpp" )
 	build( builds, "src/Modules/builds.cpp, src/Modules/builds/c_cxx.cpp" )
-}
-
-if( "${PREFIX}" == "" ) {
-	PREFIX = "/usr/local"
 }
 
 if( "${ARGC}" > 0 && "${ARG_0}" == "install" ) {

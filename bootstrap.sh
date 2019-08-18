@@ -23,6 +23,10 @@ mkdir -p "buildfiles/src/Lexer"
 mkdir -p "buildfiles/src/Modules/builds"
 mkdir -p "buildfiles/src/Parser"
 
+if [[ -z "$PREFIX" ]]; then
+	PREFIX="${PWD}"
+fi
+
 # Binary: al
 
 find src -name "*.cpp" | grep -v "Modules" | grep -v "main.cpp" | while read -r src_file; do
@@ -41,70 +45,70 @@ fi
 buildfiles=$(find buildfiles -name "*.cpp.o" | paste -sd " " -)
 
 echo "Building binary: al ..."
-$compiler -O2 -fPIC -std=c++17 -g -o buildfiles/al src/main.cpp $buildfiles -I/usr/local/include -L/usr/local/lib -ldl -lpthread
+$compiler -O2 -fPIC -std=c++17 -g -o buildfiles/al src/main.cpp $buildfiles -I/usr/local/include -L/usr/local/lib -ldl -lpthread -DBUILD_PREFIX_DIR=${PREFIX}
 if [[ $? != 0 ]]; then
 	exit $?
 fi
 
 # Library: core
 echo "Building libray: core ..."
-$compiler -O2 -fPIC -std=c++17 -shared -o buildfiles/libcore.so src/Modules/core.cpp $buildfiles -I/usr/local/include -L/usr/local/lib -ldl -lpthread
+$compiler -O2 -fPIC -std=c++17 -shared -o buildfiles/libcore.so src/Modules/core.cpp $buildfiles -I/usr/local/include -L/usr/local/lib -ldl -lpthread -DBUILD_PREFIX_DIR=${PREFIX}
 if [[ $? != 0 ]]; then
 	exit $?
 fi
 
 # Library: time
 echo "Building libray: time ..."
-$compiler -O2 -fPIC -std=c++17 -shared -o buildfiles/libtime.so src/Modules/time.cpp $buildfiles -I/usr/local/include -L/usr/local/lib -ldl -lpthread
+$compiler -O2 -fPIC -std=c++17 -shared -o buildfiles/libtime.so src/Modules/time.cpp $buildfiles -I/usr/local/include -L/usr/local/lib -ldl -lpthread -DBUILD_PREFIX_DIR=${PREFIX}
 if [[ $? != 0 ]]; then
 	exit $?
 fi
 
 # Library: os
 echo "Building libray: os ..."
-$compiler -O2 -fPIC -std=c++17 -shared -o buildfiles/libos.so src/Modules/os.cpp $buildfiles -I/usr/local/include -L/usr/local/lib -ldl -lpthread
+$compiler -O2 -fPIC -std=c++17 -shared -o buildfiles/libos.so src/Modules/os.cpp $buildfiles -I/usr/local/include -L/usr/local/lib -ldl -lpthread -DBUILD_PREFIX_DIR=${PREFIX}
 if [[ $? != 0 ]]; then
 	exit $?
 fi
 
 # Library: string
 echo "Building libray: string ..."
-$compiler -O2 -fPIC -std=c++17 -shared -o buildfiles/libstring.so src/Modules/string.cpp $buildfiles -I/usr/local/include -L/usr/local/lib -ldl -lpthread
+$compiler -O2 -fPIC -std=c++17 -shared -o buildfiles/libstring.so src/Modules/string.cpp $buildfiles -I/usr/local/include -L/usr/local/lib -ldl -lpthread -DBUILD_PREFIX_DIR=${PREFIX}
 if [[ $? != 0 ]]; then
 	exit $?
 fi
 
 # Library: math
 echo "Building libray: math ..."
-$compiler -O2 -fPIC -std=c++17 -shared -o buildfiles/libmath.so src/Modules/math.cpp $buildfiles -I/usr/local/include -L/usr/local/lib -ldl -lpthread
+$compiler -O2 -fPIC -std=c++17 -shared -o buildfiles/libmath.so src/Modules/math.cpp $buildfiles -I/usr/local/include -L/usr/local/lib -ldl -lpthread -DBUILD_PREFIX_DIR=${PREFIX}
 if [[ $? != 0 ]]; then
 	exit $?
 fi
 
 # Library: list
 echo "Building libray: list ..."
-$compiler -O2 -fPIC -std=c++17 -shared -o buildfiles/liblist.so src/Modules/list.cpp $buildfiles -I/usr/local/include -L/usr/local/lib -ldl -lpthread
+$compiler -O2 -fPIC -std=c++17 -shared -o buildfiles/liblist.so src/Modules/list.cpp $buildfiles -I/usr/local/include -L/usr/local/lib -ldl -lpthread -DBUILD_PREFIX_DIR=${PREFIX}
 if [[ $? != 0 ]]; then
 	exit $?
 fi
 
 # Library: audio
 echo "Building libray: audio ..."
-$compiler -O2 -fPIC -std=c++17 -shared -o buildfiles/libaudio.so src/Modules/audio.cpp $buildfiles -I/usr/local/include -L/usr/local/lib -ldl -lpthread -lsfml-audio
+$compiler -O2 -fPIC -std=c++17 -shared -o buildfiles/libaudio.so src/Modules/audio.cpp $buildfiles -I/usr/local/include -L/usr/local/lib -ldl -lpthread -lsfml-audio -DBUILD_PREFIX_DIR=${PREFIX}
 #if [[ $? != 0 ]]; then
 #	exit $?
 #fi
 
 # Library: network
 echo "Building libray: network ..."
-$compiler -O2 -fPIC -std=c++17 -shared -o buildfiles/libnet.so src/Modules/net.cpp $buildfiles -I/usr/local/include -L/usr/local/lib -ldl -lpthread -lsfml-system -lsfml-network
+$compiler -O2 -fPIC -std=c++17 -shared -o buildfiles/libnet.so src/Modules/net.cpp $buildfiles -I/usr/local/include -L/usr/local/lib -ldl -lpthread -lsfml-system -lsfml-network -DBUILD_PREFIX_DIR=${PREFIX}
 #if [[ $? != 0 ]]; then
 #	exit $?
 #fi
 
 # Library: project
 echo "Building libray: project ..."
-$compiler -O2 -fPIC -std=c++17 -shared -o buildfiles/libproject.so src/Modules/project.cpp $buildfiles -I/usr/local/include -L/usr/local/lib -ldl -lpthread
+$compiler -O2 -fPIC -std=c++17 -shared -o buildfiles/libproject.so src/Modules/project.cpp $buildfiles -I/usr/local/include -L/usr/local/lib -ldl -lpthread -DBUILD_PREFIX_DIR=${PREFIX}
 if [[ $? != 0 ]]; then
 	exit $?
 fi
@@ -118,9 +122,6 @@ fi
 
 # Install this
 
-if [[ -z "$PREFIX" ]]; then
-	PREFIX="/usr/local"
-fi
 mkdir -p "$PREFIX/share/allang_tests/"
 
 if [[ $? != 0 ]]; then
