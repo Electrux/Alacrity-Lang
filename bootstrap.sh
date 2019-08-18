@@ -31,7 +31,7 @@ fi
 
 find src -name "*.cpp" | grep -v "Modules" | grep -v "main.cpp" | while read -r src_file; do
 	echo "Compiling: $src_file ..."
-	$compiler -O2 -fPIC -std=c++17 -c $src_file -o buildfiles/$src_file.o -I/usr/local/include
+	$compiler -O2 -fPIC -std=c++17 -c $src_file -o buildfiles/$src_file.o -I/usr/local/include -DBUILD_PREFIX_DIR=${PREFIX}
 	if [[ $? != 0 ]]; then
 		break
 	fi
