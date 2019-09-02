@@ -138,6 +138,6 @@ if [[ "$os" == 'Linux' ]]; then
 fi
 
 echo "Installing files ..."
-$cp_cmd buildfiles/al "$PREFIX/bin"
+$cp_cmd buildfiles/al "$PREFIX/bin/"
 $cp_cmd buildfiles/lib*.so "$PREFIX/share/allang_libs/"
 $cp_cmd build_libs/* "$PREFIX/share/allang_tests/"

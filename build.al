@@ -37,7 +37,7 @@ builds( lib, dynamic ) {
 
 if( "${ARGC}" > 0 && "${ARG_0}" == "install" ) {
 	if( "${IS_ROOT}" == "true" || "${OS}" == OS_OSX ) {
-		install( "buildfiles/al", "${PREFIX}/bin" )
+		install( "buildfiles/al", "${PREFIX}/bin/" )
 		install( "buildfiles/lib*.so", "${PREFIX}/share/allang_libs/" )
 		install( "build_libs/*", "${PREFIX}/share/allang_tests/" )
 	} else {
