@@ -121,14 +121,14 @@ if [[ $? != 0 ]]; then
 fi
 
 # Install this
-
-mkdir -p "$PREFIX/share/allang_tests/"
+mkdir -p "$PREFIX/bin/"
 
 if [[ $? != 0 ]]; then
 	echo "You might wanna run this as root for installation!"
 	exit $?
 fi
 
+mkdir -p "$PREFIX/share/allang_tests/"
 mkdir -p "$PREFIX/share/allang_libs/"
 
 cp_cmd="cp -r "
